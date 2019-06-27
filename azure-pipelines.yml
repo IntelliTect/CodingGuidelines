@@ -13,20 +13,20 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
-- task: DotNetCoreCLI@2
+- task: NuGetCommand@2
   inputs:
     command: 'restore'
-    projects: '**/*.csproj'
+    restoreSolution: '**/*.sln'
     feedsToUse: 'select'
-- task: DotNetCoreCLI@2
+- task: VSBuild@1
+  displayName: 'Build'
   inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '-p:Version=$(version).$(Build.BuildId)'
+    solution: $(System.DefaultWorkingDirectory)\*.sln
+    clean: true
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '**/*.csproj'
+    projects: '**/*.sln'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
