@@ -16,17 +16,17 @@ steps:
 - task: DotNetCoreCLI@2
   inputs:
     command: 'restore'
-    projects: '$(ProjectPath)'
+    projects: '**/IntelliTectAnalyzer.csproj'
     feedsToUse: 'select'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'build'
-    projects: '$(ProjectPath)'
+    projects: '**/IntelliTectAnalyzer.csproj'
     arguments: '-p:Version=$(version).$(Build.BuildId)'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'test'
-    projects: '$(ProjectPath)'
+    projects: '**/IntelliTectAnalyzer.csproj'
 - task: DotNetCoreCLI@2
   inputs:
     command: 'pack'
