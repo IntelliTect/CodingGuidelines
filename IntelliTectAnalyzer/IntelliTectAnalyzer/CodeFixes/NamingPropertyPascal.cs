@@ -21,10 +21,7 @@ namespace IntelliTectAnalyzer.CodeFixes
     {
         private const string title = "Fix Naming Violation";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds
-        {
-            get { return ImmutableArray.Create(Analyzers.NamingPropertyPascal.DiagnosticId); }
-        }
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.NamingPropertyPascal.DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
