@@ -50,12 +50,12 @@ namespace IntelliTectAnalyzer.CodeFixes
         private async Task<Solution> MakePascalWithUnderscore(Document document, SyntaxToken declaration, CancellationToken cancellationToken)
         {
             var nameOfField = declaration.ValueText;
-            string oldName = nameOfField.StartsWith("_") ? nameOfField.Substring(1) : nameOfField;
-            var newName = "_" + char.ToUpper(oldName.First()) + oldName.Substring(1);
+            string nameWithoutUnderscore = nameOfField.TrimStart('_');
+            var newName = "_" + char.ToUpper(nameWithoutUnderscore.First()) + nameWithoutUnderscore.Substring(1);
 
-            var semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
-            var symbol = semanticModel.GetDeclaredSymbol(declaration.Parent, cancellationToken);
-            var solution = document.Project.Solution;
+            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+            ISymbol symbol = semanticModel.GetDeclaredSymbol(declaration.Parent, cancellationToken);
+            Solution solution = document.Project.Solution;
             return await Renamer.RenameSymbolAsync(solution, symbol, newName, solution.Workspace.Options, cancellationToken).ConfigureAwait(false);
         }
     }

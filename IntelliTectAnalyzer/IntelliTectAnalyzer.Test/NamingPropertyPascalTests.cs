@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -64,7 +65,7 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
-        public void PropertyNotPascalCase_CodeFix_FixNamingViolation_PropertyIsNamedCorrectly()
+        public async Task PropertyNotPascalCase_CodeFix_FixNamingViolation_PropertyIsNamedCorrectly()
         {
             var test = @"
     using System;
@@ -82,7 +83,7 @@ namespace IntelliTectAnalyzer.Tests
         }
     }";
 
-            var fixtest = @"
+            var fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -97,7 +98,7 @@ namespace IntelliTectAnalyzer.Tests
             public string MyProperty { get; set; }
         }
     }";
-            VerifyCSharpFix(test, fixtest);
+            await VerifyCSharpFix(test, fixTest);
         }
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()

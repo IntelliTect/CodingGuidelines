@@ -32,12 +32,10 @@ namespace IntelliTectAnalyzer.Analyzers
         {
             var namedTypeSymbol = context.Symbol;
 
-            if (namedTypeSymbol.Name.StartsWith("_"))
+            if (namedTypeSymbol.Name.StartsWith("_") && namedTypeSymbol.Name.Length > 1 
+                                                     && char.IsUpper(namedTypeSymbol.Name.Skip(1).First()))
             {
-                if (namedTypeSymbol.Name.Length > 1 && char.IsUpper(namedTypeSymbol.Name.Skip(1).First()))
-                {
-                    return;
-                }
+                return;
             }
 
             var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);

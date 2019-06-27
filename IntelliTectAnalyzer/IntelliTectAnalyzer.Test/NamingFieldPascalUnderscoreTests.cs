@@ -1,10 +1,11 @@
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestHelper;
 
-namespace IntelliTectAnalyzer.Test
+namespace IntelliTectAnalyzer.Tests
 {
     [TestClass]
     public class NamingFieldPascalUnderScoreTests : CodeFixVerifier
@@ -94,9 +95,41 @@ namespace IntelliTectAnalyzer.Test
 
             VerifyCSharpDiagnostic(test, expected);
         }
+        
+        [TestMethod]
+        public void FieldWithNamingViolation_FieldTwoLeadingUnderScores_Warning()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public string __myField;
+        }
+    }";
+            var expected = new DiagnosticResult
+            {
+                Id = "FieldNaming",
+                Message = "Fields should be named _PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                        new DiagnosticResultLocation("Test0.cs", 13, 27)
+                    }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
 
         [TestMethod]
-        public void FieldMissingLeadingUnderscore_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
+        public async Task FieldMissingLeadingUnderscore_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
         {
             var test = @"
     using System;
@@ -114,7 +147,7 @@ namespace IntelliTectAnalyzer.Test
         }
     }";
 
-            var fixtest = @"
+            var fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -129,11 +162,11 @@ namespace IntelliTectAnalyzer.Test
             public string _MyField;
         }
     }";
-            VerifyCSharpFix(test, fixtest);
+            await VerifyCSharpFix(test, fixTest);
         }
 
         [TestMethod]
-        public void FieldNotInPascalCase_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
+        public async Task FieldNotInPascalCase_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
         {
             var test = @"
     using System;
@@ -151,7 +184,7 @@ namespace IntelliTectAnalyzer.Test
         }
     }";
 
-            var fixtest = @"
+            var fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -166,7 +199,44 @@ namespace IntelliTectAnalyzer.Test
             public string _MyField;
         }
     }";
-            VerifyCSharpFix(test, fixtest);
+            await VerifyCSharpFix(test, fixTest);
+        }
+        
+        [TestMethod]
+        public async Task FieldTwoLeadingUnderScores_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public string __myField;
+        }
+    }";
+
+            var fixTest = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public string _MyField;
+        }
+    }";
+            await VerifyCSharpFix(test, fixTest);
         }
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
