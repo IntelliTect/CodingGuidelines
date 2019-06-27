@@ -21,7 +21,7 @@ steps:
 - task: VSBuild@1
   displayName: 'Build'
   inputs:
-    solution: $(System.DefaultWorkingDirectory)\*.sln
+    solution: '**/*.sln'
     clean: true
 - task: DotNetCoreCLI@2
   inputs:
