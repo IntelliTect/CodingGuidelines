@@ -52,7 +52,7 @@ namespace IntelliTectAnalyzer.Tests
     }";
             var expected = new DiagnosticResult
             {
-                Id = "PropertyNaming",
+                Id = "INTL0002",
                 Message = "Properties should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =

@@ -1,11 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
-using System.Threading;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace IntelliTectAnalyzer.Analyzers
@@ -13,13 +8,15 @@ namespace IntelliTectAnalyzer.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class NamingFieldPascalUnderscore : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "FieldNaming";
-        private const string Title = "IntelliTect naming violation";
-        private const string MessageFormat = "Fields should be named _PascalCase";
-        private const string Description = "Adjust naming";
-        private const string Category = "Naming";
+        public const string _DiagnosticId = "INTL0001";
+        private const string _Title = "Fields _PascalCase";
+        private const string _MessageFormat = "Fields should be named _PascalCase";
+        private const string _Description = "All fields should be in the format _PascalCase";
+        private const string _Category = "Naming";
+        private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
 
-        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description);
+        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(_DiagnosticId, _Title, _MessageFormat, 
+            _Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: _Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 

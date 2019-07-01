@@ -52,7 +52,7 @@ namespace IntelliTectAnalyzer.Tests
     }";
             var expected = new DiagnosticResult
             {
-                Id = "FieldNaming",
+                Id = "INTL0001",
                 Message = "Fields should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
@@ -84,7 +84,7 @@ namespace IntelliTectAnalyzer.Tests
     }";
             var expected = new DiagnosticResult
             {
-                Id = "FieldNaming",
+                Id = "INTL0001",
                 Message = "Fields should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
@@ -116,7 +116,7 @@ namespace IntelliTectAnalyzer.Tests
     }";
             var expected = new DiagnosticResult
             {
-                Id = "FieldNaming",
+                Id = "INTL0001",
                 Message = "Fields should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =

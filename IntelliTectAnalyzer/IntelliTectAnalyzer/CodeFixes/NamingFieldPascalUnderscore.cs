@@ -19,9 +19,9 @@ namespace IntelliTectAnalyzer.CodeFixes
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NamingFieldPascalUnderscore)), Shared]
     public class NamingFieldPascalUnderscore : CodeFixProvider
     {
-        private const string title = "Fix Naming Violation";
+        private const string title = "Fix Naming Violation: Follow _PascalCase";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.NamingFieldPascalUnderscore.DiagnosticId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.NamingFieldPascalUnderscore._DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {

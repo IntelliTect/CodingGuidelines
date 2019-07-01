@@ -19,9 +19,9 @@ namespace IntelliTectAnalyzer.CodeFixes
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NamingPropertyPascal)), Shared]
     public class NamingPropertyPascal : CodeFixProvider
     {
-        private const string title = "Fix Naming Violation";
+        private const string title = "Fix Naming Violation: Follow PascalCase";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.NamingPropertyPascal.DiagnosticId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.NamingPropertyPascal._DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
