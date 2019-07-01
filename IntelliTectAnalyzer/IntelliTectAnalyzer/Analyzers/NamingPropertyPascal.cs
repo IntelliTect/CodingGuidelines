@@ -16,7 +16,7 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
 
         private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(_DiagnosticId, _Title, _MessageFormat, 
-            _Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: _Description, helpLinkUri:_HelpLinkUri);
+            _Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: _Description,_HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
 
