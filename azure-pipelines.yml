@@ -28,13 +28,6 @@ steps:
   inputs:
     command: 'test'
     projects: '**/IntelliTectAnalyzer.Tests.csproj'
-- task: DotNetCoreCLI@2
-  displayName: 'Pack'
-  inputs:
-    command: 'pack'
-    packagesToPack: '**/IntelliTectAnalyzer.csproj'
-    versioningScheme: 'off'
-    arguments: '-p:PackageVersion=$(version) --version-suffix $(Build.BuildId)'
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
