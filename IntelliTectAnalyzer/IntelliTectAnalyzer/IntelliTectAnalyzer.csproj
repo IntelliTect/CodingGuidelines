@@ -1,20 +1,18 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard1.3</TargetFramework>
     <IncludeBuildOutput>false</IncludeBuildOutput>
-    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     <LangVersion>7.3</LangVersion>
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>IntelliTectAnalyzer</PackageId>
+    <PackageId>IntelliTect.Analyzers</PackageId>
     <Authors>IntelliTect</Authors>
     <RepositoryUrl>https://github.com/IntelliTect/CodingStandards</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>IntelliTectAnalyzer</Description>
-    <PackageReleaseNotes>Provide basic naming suggestions for field and property as proof of concept</PackageReleaseNotes>
+    <Description>Analyzer enforcing IntelliTect internal coding standards</Description>
     <Copyright>Copyright</Copyright>
     <PackageTags>IntelliTectAnalyzer, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
