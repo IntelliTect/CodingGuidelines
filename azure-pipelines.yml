@@ -7,14 +7,14 @@ trigger:
 - master
 
 variables:
-  version: '0.1.0'
+  version: '0.1.1'
 
 pool:
   vmImage: 'VS2017-Win2016'
 
 steps:
 - task: PowerShell@2
-  displayName: 'Remove Vsix project from solutioin'
+  displayName: 'Remove Vsix project from solution'
   inputs:
     targetType: 'inline'
     script: 'dotnet sln IntelliTectAnalyzer.sln remove IntelliTectAnalyzer\IntelliTectAnalyzer.Vsix\IntelliTectAnalyzer.Vsix.csproj'
