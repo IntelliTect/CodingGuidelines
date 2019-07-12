@@ -13,6 +13,12 @@ pool:
   vmImage: 'VS2017-Win2016'
 
 steps:
+- task: PowerShell@2
+  displayName: 'Remove Vsix project from solutioin'
+  inputs:
+    targetType: 'inline'
+    script: 'dotnet sln IntelliTectAnalyzer.sln remove IntelliTectAnalyzer\IntelliTectAnalyzer.Vsix\IntelliTectAnalyzer.Vsix.csproj'
+    pwsh: true
 - task: NuGetCommand@2
   inputs:
     command: 'restore'
@@ -31,6 +37,7 @@ steps:
     command: 'test'
     projects: '**/IntelliTectAnalyzer.Tests.csproj'
 - task: PowerShell@2
+  displayName: 'dotnet pack'
   inputs:
     targetType: 'inline'
     script: dotnet pack -p:Version="$(version)-ci-$(Build.BuildId)" -o $(Build.ArtifactStagingDirectory)
