@@ -7,7 +7,7 @@ trigger:
 - master
 
 variables:
-  version: '0.1.1'
+  version: '0.1.2'
 
 pool:
   vmImage: 'VS2017-Win2016'
