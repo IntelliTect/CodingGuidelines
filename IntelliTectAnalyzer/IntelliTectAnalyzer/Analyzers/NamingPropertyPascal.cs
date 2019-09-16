@@ -15,10 +15,10 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string _Category = "Naming";
         private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
 
-        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(_DiagnosticId, _Title, _MessageFormat, 
+        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(_DiagnosticId, _Title, _MessageFormat, 
             _Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: _Description,_HelpLinkUri);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -27,13 +27,19 @@ namespace IntelliTectAnalyzer.Analyzers
 
         private static void AnalyzeSymbol(SymbolAnalysisContext context)
         {
-            var namedTypeSymbol = context.Symbol;
+            ISymbol namedTypeSymbol = context.Symbol;
+
             if (char.IsUpper(namedTypeSymbol.Name.First()))
             {
                 return;
             }
 
-            var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
+            if (namedTypeSymbol is IPropertySymbol property && property.IsIndexer)
+            {
+                return;
+            }
+
+            Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
 
             context.ReportDiagnostic(diagnostic);
         }
