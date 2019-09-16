@@ -101,6 +101,29 @@ namespace IntelliTectAnalyzer.Tests
             await VerifyCSharpFix(test, fixTest);
         }
 
+        [TestMethod]
+        [Description("Issue 13")]
+        public void CustomIndexers_ShouldNotNeedToFollowingPropertyNamingScheme()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public int this[int index] => 0;
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new CodeFixes.NamingPropertyPascal();
