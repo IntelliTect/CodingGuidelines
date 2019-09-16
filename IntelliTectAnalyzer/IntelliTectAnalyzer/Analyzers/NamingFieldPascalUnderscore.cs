@@ -1,6 +1,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace IntelliTectAnalyzer.Analyzers
@@ -37,6 +38,11 @@ namespace IntelliTectAnalyzer.Analyzers
 
             if (namedTypeSymbol.Name.StartsWith("_") && namedTypeSymbol.Name.Length > 1 
                                                      && char.IsUpper(namedTypeSymbol.Name.Skip(1).First()))
+            {
+                return;
+            }
+
+            if (namedTypeSymbol is IFieldSymbol field && field.IsConst)
             {
                 return;
             }
