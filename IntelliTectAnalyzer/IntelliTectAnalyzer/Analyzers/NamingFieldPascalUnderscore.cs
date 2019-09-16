@@ -15,10 +15,10 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string _Category = "Naming";
         private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
 
-        private static DiagnosticDescriptor Rule = new DiagnosticDescriptor(_DiagnosticId, _Title, _MessageFormat, 
+        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(_DiagnosticId, _Title, _MessageFormat, 
             _Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: _Description, _HelpLinkUri);
 
-        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule);
+        public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -27,7 +27,13 @@ namespace IntelliTectAnalyzer.Analyzers
 
         private static void AnalyzeSymbol(SymbolAnalysisContext context)
         {
-            var namedTypeSymbol = context.Symbol;
+            ISymbol namedTypeSymbol = context.Symbol;
+
+            //Enum members should not be flagged
+            if (!(namedTypeSymbol.ContainingType.EnumUnderlyingType is null))
+            {
+                return;
+            }
 
             if (namedTypeSymbol.Name.StartsWith("_") && namedTypeSymbol.Name.Length > 1 
                                                      && char.IsUpper(namedTypeSymbol.Name.Skip(1).First()))
@@ -35,7 +41,7 @@ namespace IntelliTectAnalyzer.Analyzers
                 return;
             }
 
-            var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
+            var diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
 
             context.ReportDiagnostic(diagnostic);
         }

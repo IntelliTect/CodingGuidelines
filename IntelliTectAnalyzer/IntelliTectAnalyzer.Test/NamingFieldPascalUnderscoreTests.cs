@@ -239,6 +239,31 @@ namespace IntelliTectAnalyzer.Tests
             await VerifyCSharpFix(test, fixTest);
         }
 
+        [TestMethod]
+        [Description("Issue 10")]
+        public void EnumMembers_ShouldNotBeFlagged()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        public enum Foo
+        {
+            None,
+            One,
+            Two
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new CodeFixes.NamingFieldPascalUnderscore();
