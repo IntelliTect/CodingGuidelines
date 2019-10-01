@@ -264,6 +264,26 @@ namespace IntelliTectAnalyzer.Tests
             VerifyCSharpDiagnostic(test);
         }
 
+        [TestMethod]
+        [Description("Issue 11")]
+        public void ConstantField_DoesNotPromptWarning()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        public const int Foo = 42;
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new CodeFixes.NamingFieldPascalUnderscore();
