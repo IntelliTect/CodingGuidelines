@@ -345,6 +345,54 @@ namespace IntelliTectAnalyzer.Tests
 
             VerifyCSharpDiagnostic(test);
         }
+        
+        [TestMethod]
+        [Description("Issue 14")]
+        public void FieldWithNamingViolation_ClassHasGeneratedCodeAttribute_Ignored()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""16.0.0.0"")]
+        class TypeName
+        {   
+            public string _myField;
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+        
+        [TestMethod]
+        [Description("Issue 14")]
+        public void FieldWithNamingViolation_FieldHasGeneratedCodeAttribute_Ignored()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""16.0.0.0"")]
+            public string _myField;
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
