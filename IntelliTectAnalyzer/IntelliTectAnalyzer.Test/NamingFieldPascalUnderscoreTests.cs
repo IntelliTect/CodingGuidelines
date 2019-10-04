@@ -278,7 +278,69 @@ namespace IntelliTectAnalyzer.Tests
 
     namespace ConsoleApplication1
     {
-        public const int Foo = 42;
+        public class Program
+        {
+            public const int Foo = 42;
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+
+        [TestMethod]
+        [Description("Issue 15")]
+        public void GeneratedCodeInCodeBehind_DoesNotPromptWarning()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace WpfApplication
+    {
+        public class MainWindow : System.Windows.Window, System.Windows.Markup.IComponentConnector
+        {
+            [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(""Microsoft.Performance"", ""CA1823:AvoidUnusedPrivateFields"")]
+            internal System.Windows.Controls.Grid Foo;
+
+            private bool _contentLoaded;
+
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.CodeDom.Compiler.GeneratedCodeAttribute(""PresentationBuildTasks"", ""4.0.0.0"")]
+            public void InitializeComponent() {
+                if (_contentLoaded) {
+                    return;
+                }
+                _contentLoaded = true;
+                System.Uri resourceLocater = new System.Uri(""/WpfApplication;component/mainwindow.xaml"", System.UriKind.Relative);
+                
+                #line 1 ""MainWindow.xaml""
+                System.Windows.Application.LoadComponent(this, resourceLocater);
+                
+                #line default
+                #line hidden
+            }
+
+            [System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [System.CodeDom.Compiler.GeneratedCodeAttribute(""PresentationBuildTasks"", ""4.0.0.0"")]
+            [System.ComponentModel.EditorBrowsableAttribute(System.ComponentModel.EditorBrowsableState.Never)]
+            [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(""Microsoft.Design"", ""CA1033:InterfaceMethodsShouldBeCallableByChildTypes"")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(""Microsoft.Maintainability"", ""CA1502:AvoidExcessiveComplexity"")]
+            [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute(""Microsoft.Performance"", ""CA1800:DoNotCastUnnecessarily"")]
+            void System.Windows.Markup.IComponentConnector.Connect(int connectionId, object target) {
+                switch (connectionId)
+                {
+                case 1:
+                this.Foo = ((System.Windows.Controls.Grid)(target));
+                return;
+                }
+                this._contentLoaded = true;
+            }
+        }
     }";
 
             VerifyCSharpDiagnostic(test);
