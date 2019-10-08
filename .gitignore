@@ -350,6 +350,3 @@ MigrationBackup/
 
 .idea
 .DS_Store
-
-#Remove Vsix
-IntelliTectAnalyzer/IntelliTectAnalyzer.Vsix
