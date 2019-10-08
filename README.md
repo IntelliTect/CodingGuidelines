@@ -44,3 +44,30 @@ class SomeClass
     public string _MyProperty { get; set; }
 }
 ```
+
+## 00XX block - Formatting
+#### INTL0003 - Attributes on separate lines
+
+All attributes should be on separate lines and be wrapped in their own braces.
+
+**Allowed**
+```c#
+[FooClass]
+[BarClass]
+class SomeClass
+{
+    [Foo]
+    [Bar]
+    public string MyProperty { get; set; }
+}
+```
+
+**Disallowed**
+```c#
+[FooClass, BarClass]
+class SomeClass
+{
+    [Foo][Bar]
+    public string MyProperty { get; set; }
+}
+```
