@@ -17,9 +17,9 @@ namespace IntelliTectAnalyzer.CodeFixes
     [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AttributesOnSeparateLines)), Shared]
     public class AttributesOnSeparateLines : CodeFixProvider
     {
-        private const string _Title = "Fix Format Violation: Put Attributes on separate Lines";
+        private const string Title = "Fix Format Violation: Put Attributes on separate Lines";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.AttributesOnSeparateLines._DiagnosticId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.AttributesOnSeparateLines.DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {
@@ -49,9 +49,9 @@ namespace IntelliTectAnalyzer.CodeFixes
             // Register a code action that will invoke the fix.
             context.RegisterCodeFix(
                 CodeAction.Create(
-                    title: _Title,
+                    title: Title,
                     createChangedDocument: c => PutOnSeparateLine(context.Document, parentDeclaration, c),
-                    equivalenceKey: _Title),
+                    equivalenceKey: Title),
                 diagnostic);
         }
 
@@ -77,13 +77,13 @@ namespace IntelliTectAnalyzer.CodeFixes
                 .WithAdditionalAnnotations(Formatter.Annotation);
 
             // Replace the old local declaration with the new local declaration.
-            var oldRoot = await document.GetSyntaxRootAsync(cancellationToken);
+            var oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
             var newRoot = oldRoot.ReplaceNode(parentDeclaration, newNode);
 
             return document.WithSyntaxRoot(newRoot);
         }
 
-        private IEnumerable<AttributeListSyntax> GetAttributeListSyntaxes(SyntaxNode node)
+        private static IEnumerable<AttributeListSyntax> GetAttributeListSyntaxes(SyntaxNode node)
         {
             switch (node)
             {
@@ -100,7 +100,7 @@ namespace IntelliTectAnalyzer.CodeFixes
             }
         }
 
-        private SyntaxNode BuildNodeWithAttributeLists(SyntaxNode node, SyntaxList<AttributeListSyntax> attributeLists)
+        private static SyntaxNode BuildNodeWithAttributeLists(SyntaxNode node, SyntaxList<AttributeListSyntax> attributeLists)
         {
             switch (node)
             {
