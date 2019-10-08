@@ -1,3 +1,4 @@
+using System;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -85,7 +86,7 @@ namespace TestHelper
         /// <param name="language">The language of the classes represented by the source strings</param>
         /// <param name="analyzer">The analyzer to be run on the source code</param>
         /// <param name="expected">DiagnosticResults that should appear after the analyzer is run on the sources</param>
-        private void VerifyDiagnostics(string[] sources, string language, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expected)
+        private static void VerifyDiagnostics(string[] sources, string language, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expected)
         {
             var diagnostics = GetSortedDiagnostics(sources, language, analyzer);
             VerifyDiagnosticResults(diagnostics, analyzer, expected);
@@ -103,7 +104,7 @@ namespace TestHelper
         /// <param name="expectedResults">Diagnostic Results that should have appeared in the code</param>
         private static void VerifyDiagnosticResults(IEnumerable<Diagnostic> actualResults, DiagnosticAnalyzer analyzer, params DiagnosticResult[] expectedResults)
         {
-            int expectedCount = expectedResults.Count();
+            int expectedCount = expectedResults.Length;
             int actualCount = actualResults.Count();
 
             if (expectedCount != actualCount)
@@ -181,7 +182,9 @@ namespace TestHelper
         {
             var actualSpan = actual.GetLineSpan();
 
-            Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path != null && actualSpan.Path.Contains("Test0.") && expected.Path.Contains("Test.")),
+            Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path != null 
+                                                               && actualSpan.Path.Contains("Test0.", StringComparison.Ordinal) 
+                                                               && expected.Path.Contains("Test.", StringComparison.Ordinal)),
                 string.Format("Expected diagnostic to be in file \"{0}\" was actually in file \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
                     expected.Path, actualSpan.Path, FormatDiagnostics(analyzer, diagnostic)));
 
@@ -242,7 +245,7 @@ namespace TestHelper
                             Assert.IsTrue(location.IsInSource,
                                 $"Test base does not currently handle diagnostics in metadata locations. Diagnostic in metadata: {diagnostics[i]}\r\n");
 
-                            string resultMethodName = diagnostics[i].Location.SourceTree.FilePath.EndsWith(".cs") ? "GetCSharpResultAt" : "GetBasicResultAt";
+                            string resultMethodName = diagnostics[i].Location.SourceTree.FilePath.EndsWith(".cs", StringComparison.Ordinal) ? "GetCSharpResultAt" : "GetBasicResultAt";
                             var linePosition = diagnostics[i].Location.GetLineSpan().StartLinePosition;
 
                             builder.AppendFormat("{0}({1}, {2}, {3}.{4})",

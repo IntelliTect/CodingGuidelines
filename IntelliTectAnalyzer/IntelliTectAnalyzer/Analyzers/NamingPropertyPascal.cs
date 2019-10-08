@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System;
+using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -8,20 +9,25 @@ namespace IntelliTectAnalyzer.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class NamingPropertyPascal : DiagnosticAnalyzer
     {
-        public const string _DiagnosticId = "INTL0002";
-        private const string _Title = "Properties PascalCase";
-        private const string _MessageFormat = "Properties should be PascalCase";
-        private const string _Description = "All properties should be in the format PascalCase";
-        private const string _Category = "Naming";
-        private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
+        public const string DiagnosticId = "INTL0002";
+        private const string Title = "Properties PascalCase";
+        private const string MessageFormat = "Properties should be PascalCase";
+        private const string Description = "All properties should be in the format PascalCase";
+        private const string Category = "Naming";
+        private const string HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
 
-        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(_DiagnosticId, _Title, _MessageFormat, 
-            _Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: _Description,_HelpLinkUri);
+        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
+            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description,HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
         public override void Initialize(AnalysisContext context)
         {
+            if (context is null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+            
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Property);
         }
 
