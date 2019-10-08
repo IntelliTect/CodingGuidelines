@@ -7,6 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelliTectAnalyzer", "Inte
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IntelliTectAnalyzer.Tests", "IntelliTectAnalyzer\IntelliTectAnalyzer.Test\IntelliTectAnalyzer.Tests.csproj", "{2B4BFC2E-4BD4-4651-A0F4-E926EF246ADE}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AF1CA3B2-10B2-423B-ACE3-9151108AD6F4}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
