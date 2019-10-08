@@ -151,13 +151,18 @@ namespace TestHelper
 
             var projectId = ProjectId.CreateNewId(debugName: TestProjectName);
 
-            Solution solution = new AdhocWorkspace()
-                .CurrentSolution
-                .AddProject(projectId, TestProjectName, TestProjectName, language)
-                .AddMetadataReference(projectId, _CorlibReference)
-                .AddMetadataReference(projectId, _SystemCoreReference)
-                .AddMetadataReference(projectId, _CSharpSymbolsReference)
-                .AddMetadataReference(projectId, _CodeAnalysisReference);
+            Solution solution;
+
+            using (var adHockWorkspace = new AdhocWorkspace())
+            {
+                solution = adHockWorkspace
+                    .CurrentSolution
+                    .AddProject(projectId, TestProjectName, TestProjectName, language)
+                    .AddMetadataReference(projectId, _CorlibReference)
+                    .AddMetadataReference(projectId, _SystemCoreReference)
+                    .AddMetadataReference(projectId, _CSharpSymbolsReference)
+                    .AddMetadataReference(projectId, _CodeAnalysisReference);
+            }
 
             int count = 0;
             foreach (var source in sources)
