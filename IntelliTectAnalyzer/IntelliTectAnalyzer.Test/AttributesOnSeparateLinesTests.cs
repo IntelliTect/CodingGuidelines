@@ -118,7 +118,97 @@ int Prop {get;set;}
             VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(19, 13));
         }
 
-  
+        [TestMethod]
+        public void MethodAttributeLineViolation_AttributeOnSameLineAsMethodSignature_Warning()
+        {
+            var test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class Program
+    {
+        [A]static void Main()
+        {
+        }
+    }
+}";
+            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(11, 10));
+        }
+
+        [TestMethod]
+        public void ClassAttributeLineViolation_AttributeOnSameLineAsClassName_Warning()
+        {
+            var test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    [A]class Program
+    {
+        static void Main()
+        {
+        }
+    }
+}";
+            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(9, 6));
+        }
+
+        [TestMethod]
+        public void PropertyAttributeLineViolation_AttributeOnSameLineAsProperty_Warning()
+        {
+            var test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+        }
+
+        [A]int Prop {get;set;}
+    }
+}";
+            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(15, 10));
+        }
+
+        [TestMethod]
+        public void PropertyAttributeLineViolation_AttributeOnSameLineAsEnum_Warning()
+        {
+            var test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    public enum Foo
+    {
+        [A]Bar
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+        }
+    }
+}";
+            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(11, 10));
+        }
+
         [TestMethod]
         public async Task ClassAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoArgumentsOnSeparateLines()
         {

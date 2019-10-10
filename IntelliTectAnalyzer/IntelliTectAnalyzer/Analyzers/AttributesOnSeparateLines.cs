@@ -38,6 +38,7 @@ namespace IntelliTectAnalyzer.Analyzers
             if (namedTypeSymbol.GetAttributes().Any())
             {
                 IDictionary<int, AttributeData> lineDict = new Dictionary<int, AttributeData>();
+                lineDict.Add(namedTypeSymbol.Locations[0].GetLineSpan().StartLinePosition.Line, null);
                 foreach (AttributeData attribute in namedTypeSymbol.GetAttributes())
                 {
                     SyntaxReference applicationSyntaxReference = attribute.ApplicationSyntaxReference;
