@@ -1,3 +1,7 @@
+[![NuGet Status](http://img.shields.io/nuget/v/IntelliTect.Analyzers.svg?style=flat&label=IntelliTect.Analyzers)](https://www.nuget.org/packages/IntelliTect.Analyzers/)
+
+[![Build Status](https://intellitect.visualstudio.com/CodingStandards/_apis/build/status/IntelliTect.CodingStandards?branchName=master)](https://intellitect.visualstudio.com/CodingStandards/_build/latest?definitionId=76&branchName=master)
+
 # CodingStandards
 A repository to contain IntelliTect's tools for coding conventions.
 IntelliTect conventions can be found [here](https://docs.google.com/document/d/1_LEucqeAg7wtKvuI4dWS79ntEgJ2GKb-amr0k6xLS3Q/edit#heading=h.lpr8ztld62uc).
