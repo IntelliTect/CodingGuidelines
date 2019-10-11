@@ -124,6 +124,30 @@ namespace IntelliTectAnalyzer.Tests
             VerifyCSharpDiagnostic(test);
         }
 
+        [TestMethod]
+        [Description("Issue 40")]
+        public void PropertyWithNamingViolation_PropertyHasGeneratedAttribute_Ignored()
+        {
+            var test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""16.0.0.0"")]
+            public string myProperty { get; set; }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new CodeFixes.NamingPropertyPascal();

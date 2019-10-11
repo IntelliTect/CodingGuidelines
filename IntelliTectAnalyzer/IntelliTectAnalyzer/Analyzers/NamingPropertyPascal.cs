@@ -35,6 +35,12 @@ namespace IntelliTectAnalyzer.Analyzers
         {
             ISymbol namedTypeSymbol = context.Symbol;
 
+            var attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
+            if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
+            {
+                return;
+            }
+
             if (char.IsUpper(namedTypeSymbol.Name.First()))
             {
                 return;
