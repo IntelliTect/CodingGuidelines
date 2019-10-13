@@ -9,7 +9,7 @@ namespace IntelliTectAnalyzer.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class AttributesOnSeparateLines : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "INTL0003";
+        public const string DiagnosticId = "INTL0101";
         private const string Title = "Attributes separate lines";
         private const string MessageFormat = "Attributes should be on separate lines";
         private const string Description = "All attributes should be on separate lines and be wrapped in their own braces.";

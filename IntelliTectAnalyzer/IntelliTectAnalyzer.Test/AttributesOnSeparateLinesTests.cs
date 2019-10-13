@@ -309,7 +309,7 @@ namespace ConsoleApp
         {
             return new DiagnosticResult
             {
-                Id = "INTL0003",
+                Id = "INTL0101",
                 Message = "Attributes should be on separate lines",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
