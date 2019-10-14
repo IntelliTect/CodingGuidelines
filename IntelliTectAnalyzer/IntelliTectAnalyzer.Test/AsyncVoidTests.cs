@@ -52,7 +52,7 @@ namespace IntelliTectAnalyzer.Tests
     }";
             var expected = new DiagnosticResult
             {
-                Id = "INTL0004",
+                Id = "INTL0201",
                 Message = "Async methods should not return void.",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
