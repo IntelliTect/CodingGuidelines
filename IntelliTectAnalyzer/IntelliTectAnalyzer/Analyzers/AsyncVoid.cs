@@ -9,7 +9,7 @@ namespace IntelliTectAnalyzer.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class AsyncVoid : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "INTL0004";
+        public const string DiagnosticId = "INTL0201";
         private const string Title = "Async void methods";
         private const string MessageFormat = "Async methods should not return void.";
         private const string Description = "Async methods must return either Task or Task<T>.";
