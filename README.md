@@ -49,8 +49,8 @@ class SomeClass
 }
 ```
 
-## 00XX block - Formatting
-#### INTL0003 - Attributes on separate lines
+## 01XX block - Formatting
+#### INTL0101 - Attributes on separate lines
 
 All attributes should be on separate lines and be wrapped in their own braces.
 
