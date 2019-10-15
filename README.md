@@ -75,3 +75,28 @@ class SomeClass
     public string MyProperty { get; set; }
 }
 ```
+
+
+## 03XX block - Performance
+#### INTL0301 - Favor using the method `EnumerateFiles` over the `GetFiles` method.
+
+When using the `System.IO.Directory` class, it is suggested to use the `EnumerateFiles` static method
+instead of the `GetFiles` method.  In the remarks section of the [documentation](https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefiles), it is stated that using the `EnumerateFiles` method is more efficient because you can start enumerating the collection before all the results are returned:
+
+> The EnumerateFiles and GetFiles methods differ as follows: When you use EnumerateFiles, you can start enumerating the 
+> collection of names before the whole collection is returned; when you use GetFiles, you must wait for the whole array of 
+> names to be returned before you can access the array. Therefore, when you are working with many files and directories, 
+> EnumerateFiles can be more efficient.
+> The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
+
+#### INTL0302 - Favor using the method `EnumerateDirectories` over the `GetDirectories` method.
+
+When using the `System.IO.Directory` class, it is suggested to use the `EnumerateDirectories` static method
+instead of the `GetDirectories` method.  In the remarks section of the [documentation](https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratedirectories), it is stated that using the `EnumerateDirectories ` method is more efficient because you can start enumerating the collection before all the results are returned:
+
+> The EnumerateDirectories and GetDirectories methods differ as follows: When you use EnumerateDirectories, you can start 
+> enumerating the collection of names before the whole collection is returned; when you use GetDirectories, you must wait 
+> for the whole array of names to be returned before you can access the array. Therefore, when you are working with many 
+> files and directories, EnumerateDirectories can be more efficient.
+> The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
+
