@@ -12,18 +12,18 @@ namespace IntelliTectAnalyzer.Analyzers
     public class FavorEnumeratorDirectoryCalls : DiagnosticAnalyzer
     {
         private const string Category = "Performance";
-        private const string HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
-
 
         private static readonly DiagnosticDescriptor _Rule301 = new DiagnosticDescriptor(Rule301.DiagnosticId,
             Rule301.Title,
             Rule301.MessageFormat,
-            Category, DiagnosticSeverity.Info, true, Rule301.Description, HelpLinkUri);
+            Category, DiagnosticSeverity.Info, true, Rule301.Description, 
+            Rule301.HelpMessageUri);
 
         private static readonly DiagnosticDescriptor _Rule302 = new DiagnosticDescriptor(Rule302.DiagnosticId,
             Rule302.Title,
             Rule302.MessageFormat,
-            Category, DiagnosticSeverity.Info, true, Rule302.Description, HelpLinkUri);
+            Category, DiagnosticSeverity.Info, true, Rule302.Description, 
+            Rule302.HelpMessageUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
             ImmutableArray.Create(_Rule301, _Rule302);
@@ -80,6 +80,8 @@ namespace IntelliTectAnalyzer.Analyzers
             internal const string DiagnosticId = "INTL0301";
             internal const string Title = "Favor using EnumerateFiles";
             internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method.";
+            internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Performance,
+                0301);
 
             internal const string Description =
                 "When you use EnumerateFiles, you can start enumerating the collection of names before the whole collection is returned; when you use GetFiles, you must wait for the whole array of names to be returned before you can access the array. Therefore, when you are working with many files and directories, EnumerateFiles can be more efficient.";
@@ -90,6 +92,8 @@ namespace IntelliTectAnalyzer.Analyzers
             internal const string DiagnosticId = "INTL0302";
             internal const string Title = "Favor using EnumerateDirectories";
             internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method.";
+            internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Performance,
+                0302);
 
             internal const string Description =
                 "When you use EnumerateDirectories, you can start enumerating the collection of names before the whole collection is returned; when you use GetDirectories, you must wait for the whole array of names to be returned before you can access the array. Therefore, when you are working with many files and directories, EnumerateDirectories can be more efficient.";
