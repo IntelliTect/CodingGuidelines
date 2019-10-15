@@ -33,7 +33,7 @@ namespace ConsoleApp5
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
-                    Id = "INTL0300",
+                    Id = "INTL0301",
                     Severity = DiagnosticSeverity.Info,
                     Message = "Favor using the method `EnumerateFiles` over the `GetFiles` method.",
                     Locations =
@@ -101,7 +101,7 @@ namespace ConsoleApp5
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
-                    Id = "INTL0301",
+                    Id = "INTL0302",
                     Severity = DiagnosticSeverity.Info,
                     Message = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method.",
                     Locations =

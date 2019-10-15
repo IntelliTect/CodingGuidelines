@@ -11,22 +11,22 @@ namespace IntelliTectAnalyzer.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class FavorEnumeratorDirectoryCalls : DiagnosticAnalyzer
     {
-        private const string Category = "Usage";
+        private const string Category = "Performance";
         private const string HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
 
-
-        private static readonly DiagnosticDescriptor _Rule300 = new DiagnosticDescriptor(Rule300.DiagnosticId,
-            Rule300.Title,
-            Rule300.MessageFormat,
-            Category, DiagnosticSeverity.Info, true, Rule300.Description, HelpLinkUri);
 
         private static readonly DiagnosticDescriptor _Rule301 = new DiagnosticDescriptor(Rule301.DiagnosticId,
             Rule301.Title,
             Rule301.MessageFormat,
             Category, DiagnosticSeverity.Info, true, Rule301.Description, HelpLinkUri);
 
+        private static readonly DiagnosticDescriptor _Rule302 = new DiagnosticDescriptor(Rule302.DiagnosticId,
+            Rule302.Title,
+            Rule302.MessageFormat,
+            Category, DiagnosticSeverity.Info, true, Rule302.Description, HelpLinkUri);
+
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
-            ImmutableArray.Create(_Rule300, _Rule301);
+            ImmutableArray.Create(_Rule301, _Rule302);
 
         public override void Initialize(AnalysisContext context)
         {
@@ -57,7 +57,7 @@ namespace IntelliTectAnalyzer.Analyzers
                     if (symbol.Symbol == null)
                     {
                         Location loc = memberAccess.GetLocation();
-                        context.ReportDiagnostic(Diagnostic.Create(_Rule300, loc, memberAccess.Name));
+                        context.ReportDiagnostic(Diagnostic.Create(_Rule301, loc, memberAccess.Name));
                     }
                 }
 
@@ -69,15 +69,15 @@ namespace IntelliTectAnalyzer.Analyzers
                     if (symbol.Symbol == null)
                     {
                         Location loc = memberAccess.GetLocation();
-                        context.ReportDiagnostic(Diagnostic.Create(_Rule301, loc, memberAccess.Name));
+                        context.ReportDiagnostic(Diagnostic.Create(_Rule302, loc, memberAccess.Name));
                     }
                 }
             }
         }
 
-        private static class Rule300
+        private static class Rule301
         {
-            internal const string DiagnosticId = "INTL0300";
+            internal const string DiagnosticId = "INTL0301";
             internal const string Title = "Favor using EnumerateFiles";
             internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method.";
 
@@ -85,9 +85,9 @@ namespace IntelliTectAnalyzer.Analyzers
                 "When you use EnumerateFiles, you can start enumerating the collection of names before the whole collection is returned; when you use GetFiles, you must wait for the whole array of names to be returned before you can access the array. Therefore, when you are working with many files and directories, EnumerateFiles can be more efficient.";
         }
 
-        private static class Rule301
+        private static class Rule302
         {
-            internal const string DiagnosticId = "INTL0301";
+            internal const string DiagnosticId = "INTL0302";
             internal const string Title = "Favor using EnumerateDirectories";
             internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method.";
 
