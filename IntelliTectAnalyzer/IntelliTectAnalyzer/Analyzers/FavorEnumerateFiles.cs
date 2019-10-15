@@ -3,7 +3,8 @@ using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
-using IntelliTectAnalyzer.Extensions;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IntelliTectAnalyzer.Analyzers
 {
@@ -28,33 +29,34 @@ namespace IntelliTectAnalyzer.Analyzers
         {
             if (context is null)
             {
-                throw new System.ArgumentNullException(nameof(context));
+                throw new ArgumentNullException(nameof(context));
             }
 
-            context.RegisterSymbolUsageAction(AnalyzeSymbol);
+            context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
         }
 
-        private void AnalyzeSymbol(SymbolUsageAnalysisContext context)
+        private void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
         {
-            ISymbol symbol = context.Symbol;
+            var expression = (InvocationExpressionSyntax)context.Node;
 
-            // We only want to handle a specific set of symbols
-            bool isApplicable = symbol.Kind == SymbolKind.Method;
-
-            if (!isApplicable)
+            if (!(expression.Expression is MemberAccessExpressionSyntax memberAccess)) 
                 return;
 
-            if (symbol.Locations.Any(l => l.IsInSource))
-                return;
+            var nameSyntax = (IdentifierNameSyntax)memberAccess.Expression;
 
-            if (string.Equals(symbol.Name, "IO", StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(nameSyntax.Identifier.Text, "Directory", StringComparison.CurrentCultureIgnoreCase) &&
+                memberAccess.ChildNodes().Cast<IdentifierNameSyntax>().Any(x =>
+                    string.Equals(x.Identifier.Text, "GetFiles", StringComparison.CurrentCultureIgnoreCase)))
             {
-                var location = context.GetLocation();
-
-                context.ReportDiagnostic(Diagnostic.Create(_Rule, location, symbol.ToDisplayString(SymbolDisplayFormat.CSharpShortErrorMessageFormat)));
+                // Unsure if this is the best way to determine if member was defined in the project.
+                SymbolInfo symbol = context.SemanticModel.GetSymbolInfo(nameSyntax);
+                if (symbol.Symbol == null)
+                {
+                    Location loc = memberAccess.GetLocation();
+                    context.ReportDiagnostic(Diagnostic.Create(_Rule, loc, memberAccess.Name));
+                }
             }
         }
-
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
