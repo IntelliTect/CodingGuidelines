@@ -6,7 +6,7 @@ using TestHelper;
 namespace IntelliTectAnalyzer.Tests
 {
     [TestClass]
-    public class FavorEnumerateFilesTests : CodeFixVerifier
+    public class FavorEnumeratorDirectoryCallsTests : CodeFixVerifier
     {
         [TestMethod]
         public void UsageOfDirectoryGetFiles_ProducesInfoMessage()
@@ -33,7 +33,7 @@ namespace ConsoleApp5
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
-                    Id = "INTL0200",
+                    Id = "INTL0300",
                     Severity = DiagnosticSeverity.Info,
                     Message = "Favor using the method `EnumerateFiles` over the `GetFiles` method.",
                     Locations =
@@ -71,7 +71,70 @@ namespace ConsoleApp5
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
-            return new Analyzers.FavorEnumerateFiles();
+            return new Analyzers.FavorEnumeratorDirectoryCalls();
+        }
+
+
+
+        [TestMethod]
+        public void UsageOfDirectoryGetDirectories_ProducesInfoMessage()
+        {
+            string source = @"using System;
+using System.Diagnostics;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] files = Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
+
+            foreach (string file in files)
+            {
+                Console.WriteLine($""File found: ${file}"");
+            }
+        }
+    }
+}";
+            VerifyCSharpDiagnostic(source,
+                new DiagnosticResult
+                {
+                    Id = "INTL0301",
+                    Severity = DiagnosticSeverity.Info,
+                    Message = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method.",
+                    Locations =
+                        new[] {
+                            new DiagnosticResultLocation("Test0.cs", 11, 30)
+                        }
+                });
+        }
+
+        [TestMethod]
+        public void DeclarationOfOtherDirectoryGetDirectories_ProducesNothing()
+        {
+            string source = @"using System;
+using System.Diagnostics;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    public static class Directory {
+        public static string[] GetDirectories(string path) => Array.Empty<string>();
+    }
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] files = Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
+
+        }
+    }
+}";
+            VerifyCSharpDiagnostic(source);
         }
     }
 }
