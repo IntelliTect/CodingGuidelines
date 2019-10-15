@@ -16,7 +16,7 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string MessageFormat = "Fields should be named _PascalCase";
         private const string Description = "All fields should be in the format _PascalCase";
         private const string Category = "Naming";
-        private const string HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
+        private static readonly string HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 0001);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
             Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, HelpLinkUri);

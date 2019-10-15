@@ -13,8 +13,9 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string Title = "Async void methods";
         private const string MessageFormat = "Async methods should not return void.";
         private const string Description = "Async methods must return either Task or Task<T>.";
-        private const string Category = "Design";
-        private const string HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
+        private const string Category = "Reliability";
+        private static readonly string HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Reliability, 
+            0201);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
             Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, HelpLinkUri);
