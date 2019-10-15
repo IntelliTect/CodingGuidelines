@@ -29,6 +29,8 @@ namespace IntelliTectAnalyzer.Analyzers
                 throw new ArgumentNullException(nameof(context));
             }
             
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+            context.EnableConcurrentExecution();
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Property);
         }
 
@@ -36,7 +38,7 @@ namespace IntelliTectAnalyzer.Analyzers
         {
             ISymbol namedTypeSymbol = context.Symbol;
 
-            var attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
+            ImmutableArray<AttributeData> attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
             if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
             {
                 return;
