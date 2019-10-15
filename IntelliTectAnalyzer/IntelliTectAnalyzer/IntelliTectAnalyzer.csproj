@@ -15,6 +15,7 @@
     <Copyright>Copyright</Copyright>
     <PackageTags>IntelliTectAnalyzer, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
+    <NoWarn>CA1303</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
