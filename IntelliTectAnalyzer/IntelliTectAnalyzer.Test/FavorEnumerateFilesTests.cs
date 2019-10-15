@@ -34,8 +34,39 @@ namespace ConsoleApp5
                 new DiagnosticResult
                 {
                     Id = "INTL0100",
-                    Severity = DiagnosticSeverity.Info
+                    Severity = DiagnosticSeverity.Info,
+                    Message = "Favor using the method `EnumerateFiles` over the `GetFiles` method.",
+                    Locations =
+                        new[] {
+                            new DiagnosticResultLocation("Test0.cs", 11, 30)
+                        }
                 });
+        }
+
+        [TestMethod]
+        public void DeclarationOfOtherDirectoryGetFiles_ProducesNothing()
+        {
+            string source = @"using System;
+using System.Diagnostics;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    public static class Directory {
+        public static string[] GetFiles(string path) => Array.Empty<string>();
+    }
+
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
+
+        }
+    }
+}";
+            VerifyCSharpDiagnostic(source);
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
