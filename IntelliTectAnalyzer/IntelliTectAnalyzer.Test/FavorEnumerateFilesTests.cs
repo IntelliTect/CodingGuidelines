@@ -33,7 +33,7 @@ namespace ConsoleApp5
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
-                    Id = "INTL0100",
+                    Id = "INTL0200",
                     Severity = DiagnosticSeverity.Info,
                     Message = "Favor using the method `EnumerateFiles` over the `GetFiles` method.",
                     Locations =

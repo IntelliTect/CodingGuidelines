@@ -77,8 +77,8 @@ class SomeClass
 ```
 
 
-## 01XX block - Performance Suggestions
-#### INTL0100 - Favor using the method `EnumerateFiles` over the `GetFiles` method.
+## 02XX block - Performance Suggestions
+#### INTL0200 - Favor using the method `EnumerateFiles` over the `GetFiles` method.
 
 When using the `System.IO.Directory` class, it is suggested to use the `EnumerateFiles` static method
 instead of the `GetFiles` method.  In the remarks section of the [documentation](https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratefiles), it is stated that using the `EnumerateFiles` method is more efficient because you can start enumerating the collection before all the results are returned:
@@ -89,7 +89,7 @@ instead of the `GetFiles` method.  In the remarks section of the [documentation]
 > EnumerateFiles can be more efficient.
 > The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
 
-#### INTL0101 - Favor using the method `EnumerateDirectories` over the `GetDirectories` method.
+#### INTL0201 - Favor using the method `EnumerateDirectories` over the `GetDirectories` method.
 
 When using the `System.IO.Directory` class, it is suggested to use the `EnumerateDirectories` static method
 instead of the `GetDirectories` method.  In the remarks section of the [documentation](https://docs.microsoft.com/en-us/dotnet/api/system.io.directory.enumeratedirectories), it is stated that using the `EnumerateDirectories ` method is more efficient because you can start enumerating the collection before all the results are returned:

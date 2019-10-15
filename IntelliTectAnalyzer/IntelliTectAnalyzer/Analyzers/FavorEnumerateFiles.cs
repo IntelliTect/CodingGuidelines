@@ -11,7 +11,7 @@ namespace IntelliTectAnalyzer.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class FavorEnumerateFiles : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "INTL0100";
+        public const string DiagnosticId = "INTL0200";
         private const string Title = "Favor using EnumerateFiles";
         private const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method.";
 
