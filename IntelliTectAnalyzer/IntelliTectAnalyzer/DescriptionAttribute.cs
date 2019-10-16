@@ -20,7 +20,7 @@ namespace IntelliTectAnalyzer
 
         public override bool Equals(object obj)
         {
-            if (obj == this)
+            if (ReferenceEquals(obj, this))
             {
                 return true;
             }
