@@ -3,13 +3,13 @@ namespace IntelliTectAnalyzer
     public enum AnalyzerBlock
     {
         None,
-        [Description("INTL00XX.Naming")]
+        [Description("00XX.Naming")]
         Naming,
-        [Description("INTL01XX.Formatting")]
+        [Description("01XX.Formatting")]
         Formatting,
-        [Description("INTL02XX.Reliability")]
+        [Description("02XX.Reliability")]
         Reliability,
-        [Description("INTL03XX.Performance")]
+        [Description("03XX.Performance")]
         Performance
     }
 }

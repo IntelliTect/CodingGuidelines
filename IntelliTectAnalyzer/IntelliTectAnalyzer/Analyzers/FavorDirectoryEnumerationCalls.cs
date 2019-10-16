@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace IntelliTectAnalyzer.Analyzers
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class FavorEnumeratorDirectoryCalls : DiagnosticAnalyzer
+    public class FavorDirectoryEnumerationCalls : DiagnosticAnalyzer
     {
         private const string Category = "Performance";
 
