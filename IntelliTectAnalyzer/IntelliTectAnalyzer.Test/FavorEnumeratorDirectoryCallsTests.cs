@@ -71,7 +71,7 @@ namespace ConsoleApp5
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
-            return new Analyzers.FavorEnumeratorDirectoryCalls();
+            return new Analyzers.FavorDirectoryEnumerationCalls();
         }
 
 

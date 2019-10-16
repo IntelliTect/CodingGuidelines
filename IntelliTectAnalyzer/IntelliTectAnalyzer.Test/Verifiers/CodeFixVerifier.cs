@@ -110,9 +110,8 @@ namespace TestHelper
                     newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
 
                     Assert.IsTrue(false,
-                        string.Format("Fix introduced new compiler diagnostics:\r\n{0}\r\n\r\nNew document:\r\n{1}\r\n",
-                            string.Join("\r\n", newCompilerDiagnostics.Select(d => d.ToString())),
-                            document.GetSyntaxRootAsync().Result.ToFullString()));
+                        $"Fix introduced new compiler diagnostics:{string.Join(Environment.NewLine, newCompilerDiagnostics.Select(d => d.ToString()))}" + 
+                        $"{Environment.NewLine}{Environment.NewLine}New document:{Environment.NewLine}{document.GetSyntaxRootAsync().Result.ToFullString()}{Environment.NewLine}");
                 }
 
                 //check if there are analyzer diagnostics left after the code fix
