@@ -4,7 +4,7 @@ namespace IntelliTectAnalyzer
 {
 #pragma warning disable CA1055 // Uri return values should not be strings
     
-    public static class DiagnosticUrlBuilder//https://github.com/IntelliTect/CodingStandards/wiki/03XX.Performance#intl0301
+    public static class DiagnosticUrlBuilder
     {
         private const string BaseUrl = "https://github.com/IntelliTect/CodingStandards/wiki";
 

@@ -19,7 +19,7 @@ namespace IntelliTectAnalyzer
         {
             if (value == AnalyzerBlock.None)
             {
-                throw new ArgumentException("Description Attribute must be specified!");
+                throw new ArgumentException("AnalyzerBlock must be specified", nameof(value));
             }
 
             return GetEnumAttributeValue<DescriptionAttribute>(value, x => x.Description);
