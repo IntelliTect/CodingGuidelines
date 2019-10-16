@@ -16,9 +16,9 @@ namespace IntelliTectAnalyzer
         /// <param name="analyzerBlock">Current analyzer block</param>
         /// <param name="intlCode">The intl error code</param>
         /// <returns></returns>
-        public static string GetUrl(AnalyzerBlock analyzerBlock, int intlCode)
+        public static string GetUrl(AnalyzerBlock analyzerBlock, string intlCode)
         {
-            return BaseUrl + UrlSeparatorCharacter + analyzerBlock.GetDescription() + $"#intl{intlCode}";
+            return BaseUrl + UrlSeparatorCharacter + analyzerBlock.GetDescription() + $"#{intlCode}";
         }
     }
 

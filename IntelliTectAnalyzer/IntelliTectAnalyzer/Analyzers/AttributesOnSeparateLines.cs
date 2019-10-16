@@ -15,7 +15,7 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string Description = "All attributes should be on separate lines and be wrapped in their own braces.";
         private const string Category = "Formatting";
         private static readonly string HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Formatting, 
-            0101);
+            DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat,
             Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, HelpLinkUri);

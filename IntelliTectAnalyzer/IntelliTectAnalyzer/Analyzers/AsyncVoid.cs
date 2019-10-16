@@ -15,7 +15,7 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string Description = "Async methods must return either Task or Task<T>.";
         private const string Category = "Reliability";
         private static readonly string HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Reliability, 
-            0201);
+            DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
             Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, HelpLinkUri);
