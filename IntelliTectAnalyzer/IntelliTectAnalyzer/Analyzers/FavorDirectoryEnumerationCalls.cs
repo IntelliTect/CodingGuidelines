@@ -35,6 +35,8 @@ namespace IntelliTectAnalyzer.Analyzers
                 throw new ArgumentNullException(nameof(context));
             }
 
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+            context.EnableConcurrentExecution();
             context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
         }
 

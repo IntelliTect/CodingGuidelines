@@ -10,14 +10,20 @@ variables:
   version: '0.1.3'
 
 pool:
-  vmImage: 'VS2017-Win2016'
+  vmImage: 'windows-latest'
 
 steps:
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use latest NuGet'
+
 - task: NuGetCommand@2
+  displayName: 'NuGet Restore'
   inputs:
     command: 'restore'
     restoreSolution: '**/*.sln'
     feedsToUse: 'select'
+
 - task: VSBuild@1
   displayName: 'Build'
   inputs:
@@ -25,17 +31,20 @@ steps:
     clean: true
     configuration: $(BuildConfiguration)
     msbuildArgs: '/p:Version=$(version)'
+
 - task: DotNetCoreCLI@2
   displayName: 'Test'
   inputs:
     command: 'test'
     projects: '**/IntelliTectAnalyzer.Tests.csproj'
+
 - task: PowerShell@2
   displayName: 'dotnet pack'
   inputs:
     targetType: 'inline'
     script: dotnet pack -p:Version="$(version)-ci-$(Build.BuildId)" -o $(Build.ArtifactStagingDirectory)
     pwsh: true
+
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: '$(Build.ArtifactStagingDirectory)'

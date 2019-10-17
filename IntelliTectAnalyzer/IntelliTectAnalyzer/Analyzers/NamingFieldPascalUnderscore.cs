@@ -31,6 +31,7 @@ namespace IntelliTectAnalyzer.Analyzers
                 throw new ArgumentNullException(nameof(context));
             }
             
+            context.EnableConcurrentExecution();
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Field);
         }
@@ -40,7 +41,7 @@ namespace IntelliTectAnalyzer.Analyzers
             ISymbol namedTypeSymbol = context.Symbol;
 
             // ignore GeneratedCodeAttribute on field and first containing type
-            var attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
+            ImmutableArray<AttributeData> attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
             if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
             {
                 return;
