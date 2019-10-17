@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.2</TargetFramework>
-    <RuntimeFrameworkVersion>2.2.6</RuntimeFrameworkVersion>
+    <RuntimeFrameworkVersion>2.2.3</RuntimeFrameworkVersion>
       <LangVersion>7.3</LangVersion>
     <NoWarn>CA2007,CA1815,CA1303,CA1707,CA1305</NoWarn>
   </PropertyGroup>
