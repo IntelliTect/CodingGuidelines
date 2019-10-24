@@ -1,8 +1,10 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
-	],
-	"settings": {}
+    "folders": [{
+        "path": "."
+    }],
+    "settings": {
+        "editor.renderWhitespace": "boundary",
+        "editor.tabSize": 4,
+        "editor.insertSpaces": true
+    }
 }
