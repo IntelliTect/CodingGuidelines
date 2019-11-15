@@ -136,5 +136,30 @@ namespace ConsoleApp5
 }";
             VerifyCSharpDiagnostic(source);
         }
+
+        [TestMethod]
+        [Description("Issue 53")]
+        public void Diagnostic_HandlesMemberAccess()
+        {
+            string source = @"
+using System;
+
+namespace Namespace
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            int selection;
+            if (!int.TryParse(Console.ReadLine(), out selection))
+            {
+                selection = 0;
+            }
+        }
+    }
+}
+";
+            VerifyCSharpDiagnostic(source);
+        }
     }
 }
