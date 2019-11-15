@@ -16,13 +16,13 @@ namespace IntelliTectAnalyzer.Analyzers
         private static readonly DiagnosticDescriptor _Rule301 = new DiagnosticDescriptor(Rule301.DiagnosticId,
             Rule301.Title,
             Rule301.MessageFormat,
-            Category, DiagnosticSeverity.Info, true, Rule301.Description, 
+            Category, DiagnosticSeverity.Info, true, Rule301.Description,
             Rule301.HelpMessageUri);
 
         private static readonly DiagnosticDescriptor _Rule302 = new DiagnosticDescriptor(Rule302.DiagnosticId,
             Rule302.Title,
             Rule302.MessageFormat,
-            Category, DiagnosticSeverity.Info, true, Rule302.Description, 
+            Category, DiagnosticSeverity.Info, true, Rule302.Description,
             Rule302.HelpMessageUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics =>
@@ -45,9 +45,14 @@ namespace IntelliTectAnalyzer.Analyzers
             var expression = (InvocationExpressionSyntax)context.Node;
 
             if (!(expression.Expression is MemberAccessExpressionSyntax memberAccess))
+            {
                 return;
+            }
 
-            var nameSyntax = (IdentifierNameSyntax)memberAccess.Expression;
+            if (!(memberAccess.Expression is IdentifierNameSyntax nameSyntax))
+            {
+                return;
+            }
 
             if (string.Equals(nameSyntax.Identifier.Text, "Directory", StringComparison.CurrentCultureIgnoreCase))
             {
