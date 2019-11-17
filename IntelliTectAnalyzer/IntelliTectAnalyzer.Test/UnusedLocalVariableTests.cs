@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
@@ -88,7 +89,7 @@ namespace ConsoleApplication1
             var expected = new DiagnosticResult
             {
                 Id = Analyzers.UnusedLocalVariable.DiagnosticId,
-                Message = "Local variables should be used",
+                Message = "Local variable 'foo' should be used", 
                 Severity = DiagnosticSeverity.Info,
                 Locations = new[]
                 {
@@ -100,45 +101,19 @@ namespace ConsoleApplication1
         }
 
         [TestMethod]
-        public async Task UnusedLocalVariable_CodeFix_RemovedUnusedLocalVariable_RemovesVariable()
+        public void Descriptor_ContainsExpectedValues()
         {
-            string test = @"
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
+            DiagnosticAnalyzer analyzer = GetCSharpDiagnosticAnalyzer();
+            DiagnosticDescriptor diagnostic = analyzer.SupportedDiagnostics.Single();
 
-    namespace ConsoleApplication1
-    {
-        class TypeName
-        {   
-            public void Foo()
-            {
-                var foo = new object();
-            }
-        }
-    }";
-
-            string fixTest = @"
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
-
-    namespace ConsoleApplication1
-    {
-        class TypeName
-        {   
-            public void Foo()
-            {
-            }
-        }
-    }";
-            await VerifyCSharpFix(test, fixTest);
+            Assert.AreEqual("INTL0303", diagnostic.Id);
+            Assert.AreEqual("Local variable unused", diagnostic.Title);
+            Assert.AreEqual("Local variable '{0}' should be used", diagnostic.MessageFormat);
+            Assert.AreEqual("Flow", diagnostic.Category);
+            Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
+            Assert.AreEqual(true, diagnostic.IsEnabledByDefault);
+            Assert.AreEqual("All local variables should be accessed", diagnostic.Description);
+            Assert.AreEqual("https://github.com/IntelliTect/CodingStandards", diagnostic.HelpLinkUri);
         }
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()

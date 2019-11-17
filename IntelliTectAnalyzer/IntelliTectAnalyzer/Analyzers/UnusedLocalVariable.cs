@@ -13,8 +13,8 @@ namespace IntelliTectAnalyzer.Analyzers
     {
         public const string DiagnosticId = "INTL0303";
         private const string _Title = "Local variable unused";
-        private const string _MessageFormat = "Local variables should be used";
-        private const string _Description = "All local variables should be used accessed";
+        private const string _MessageFormat = "Local variable '{0}' should be used";
+        private const string _Description = "All local variables should be accessed";
         private const string _Category = "Flow";
         private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
 
@@ -47,7 +47,7 @@ namespace IntelliTectAnalyzer.Analyzers
 
                 foreach (ISymbol unusedVar in unused)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(_Rule, unusedVar.Locations.First()));
+                    context.ReportDiagnostic(Diagnostic.Create(_Rule, unusedVar.Locations.First(), unusedVar.Name));
                 }
             }
         }
