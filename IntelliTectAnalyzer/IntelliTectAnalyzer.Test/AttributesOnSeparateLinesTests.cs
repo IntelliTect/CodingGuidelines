@@ -13,7 +13,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void ProperlySetAttributes_TwoAttributesOnMethod_NoDiagnosticInformationReturned()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -41,7 +41,7 @@ namespace ConsoleApp
         [TestMethod]
         public void MethodAttributeLineViolation_TwoAttributesOnSameLine_Warning()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -67,7 +67,7 @@ namespace ConsoleApp
         [TestMethod]
         public void ClassAttributeLineViolation_TwoAttributesOnSameLine_Warning()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -93,7 +93,7 @@ namespace ConsoleApp
         [TestMethod]
         public void PropertyAttributeLineViolation_TwoAttributesOnSameLine_Warning()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -121,7 +121,7 @@ int Prop {get;set;}
         [TestMethod]
         public void MethodAttributeLineViolation_AttributeOnSameLineAsMethodSignature_Warning()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -142,7 +142,7 @@ namespace ConsoleApp
         [TestMethod]
         public void ClassAttributeLineViolation_AttributeOnSameLineAsClassName_Warning()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -163,7 +163,7 @@ namespace ConsoleApp
         [TestMethod]
         public void PropertyAttributeLineViolation_AttributeOnSameLineAsProperty_Warning()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -186,7 +186,7 @@ namespace ConsoleApp
         [TestMethod]
         public void PropertyAttributeLineViolation_AttributeOnSameLineAsEnum_Warning()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -212,7 +212,7 @@ namespace ConsoleApp
         [TestMethod]
         public async Task ClassAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoArgumentsOnSeparateLines()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -233,7 +233,7 @@ namespace ConsoleApp
     }
 }";
 
-            var fixTest = @"using System;
+            string fixTest = @"using System;
 
 namespace ConsoleApp
 {
@@ -260,7 +260,7 @@ namespace ConsoleApp
         [TestMethod]
         public async Task ClassAttributeListLineViolation_CodeFix_TwoAttributesOnSameLine_TwoArgumentsOnSeparateLines()
         {
-            var test = @"using System;
+            string test = @"using System;
 
 namespace ConsoleApp
 {
@@ -281,7 +281,7 @@ namespace ConsoleApp
     }
 }";
 
-            var fixTest = @"using System;
+            string fixTest = @"using System;
 
 namespace ConsoleApp
 {
