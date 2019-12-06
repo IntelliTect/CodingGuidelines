@@ -13,7 +13,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void ProperlyNamedField_UnderScorePascalCaseFieldAndProperty_NoDiagnosticInformationReturned()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -35,7 +35,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void FieldWithNamingViolation_FieldMissingLeadingUnderscore_Warning()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -67,7 +67,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void FieldWithNamingViolation_FieldNotInPascalCase_Warning()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -99,7 +99,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void FieldWithNamingViolation_FieldTwoLeadingUnderScores_Warning()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -131,7 +131,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public async Task FieldMissingLeadingUnderscore_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -147,7 +147,7 @@ namespace IntelliTectAnalyzer.Tests
         }
     }";
 
-            var fixTest = @"
+            string fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -168,7 +168,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public async Task FieldNotInPascalCase_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -184,7 +184,7 @@ namespace IntelliTectAnalyzer.Tests
         }
     }";
 
-            var fixTest = @"
+            string fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -205,7 +205,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public async Task FieldTwoLeadingUnderScores_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -221,7 +221,7 @@ namespace IntelliTectAnalyzer.Tests
         }
     }";
 
-            var fixTest = @"
+            string fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -243,7 +243,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 10")]
         public void EnumMembers_ShouldNotBeFlagged()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -268,7 +268,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 11")]
         public void ConstantField_DoesNotPromptWarning()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -292,7 +292,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 15")]
         public void GeneratedCodeInCodeBehind_DoesNotPromptWarning()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -350,7 +350,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 14")]
         public void FieldWithNamingViolation_ClassHasGeneratedCodeAttribute_Ignored()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -374,7 +374,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 14")]
         public void FieldWithNamingViolation_FieldHasGeneratedCodeAttribute_Ignored()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;

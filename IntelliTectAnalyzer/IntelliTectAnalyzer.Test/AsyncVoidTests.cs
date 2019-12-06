@@ -13,7 +13,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void AsyncTaskMethod_NoDiagnosticInformationReturned()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -35,7 +35,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void AsyncVoidMethod_Warning()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -67,7 +67,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public async Task AsyncVoidMethod_CodeFix_ChangesReturnTypeToTask()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -83,7 +83,7 @@ namespace IntelliTectAnalyzer.Tests
         }
     }";
 
-            var fixTest = @"
+            string fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;

@@ -13,7 +13,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void ProperlyNamedProperty_PascalCasedProperty_NoDiagnosticInformationReturned()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -35,7 +35,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public void PropertyWithNamingViolation_PropertyNotPascalCase_Warning()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -67,7 +67,7 @@ namespace IntelliTectAnalyzer.Tests
         [TestMethod]
         public async Task PropertyNotPascalCase_CodeFix_FixNamingViolation_PropertyIsNamedCorrectly()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -83,7 +83,7 @@ namespace IntelliTectAnalyzer.Tests
         }
     }";
 
-            var fixTest = @"
+            string fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -105,7 +105,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 13")]
         public void CustomIndexers_ShouldNotNeedToFollowingPropertyNamingScheme()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -128,7 +128,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 40")]
         public void PropertyWithNamingViolation_PropertyHasGeneratedAttribute_Ignored()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -152,7 +152,7 @@ namespace IntelliTectAnalyzer.Tests
         [Description("Issue 40")]
         public void PropertyWithNamingViolation_ClassHasGeneratedAttribute_Ignored()
         {
-            var test = @"
+            string test = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
