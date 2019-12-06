@@ -75,10 +75,10 @@ namespace TestHelper
         /// <param name="allowNewCompilerDiagnostics">A bool controlling whether or not the test will fail if the CodeFix introduces other warnings after being applied</param>
         private static async Task VerifyFix(string language, DiagnosticAnalyzer analyzer, CodeFixProvider codeFixProvider, string oldSource, string newSource, int? codeFixIndex, bool allowNewCompilerDiagnostics)
         {
-            var document = CreateDocument(oldSource, language);
-            var analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, new[] { document });
-            var compilerDiagnostics = GetCompilerDiagnostics(document);
-            var attempts = analyzerDiagnostics.Length;
+            Document document = CreateDocument(oldSource, language);
+            Diagnostic[] analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, new[] { document });
+            IEnumerable<Diagnostic> compilerDiagnostics = GetCompilerDiagnostics(document);
+            int attempts = analyzerDiagnostics.Length;
 
             for (int i = 0; i < attempts; ++i)
             {
@@ -100,7 +100,7 @@ namespace TestHelper
                 document = await ApplyFix(document, actions.ElementAt(0));
                 analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, new[] { document });
 
-                var newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
+                IEnumerable<Diagnostic> newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
 
                 //check if applying the code fix introduced any new compiler diagnostics
                 if (!allowNewCompilerDiagnostics && newCompilerDiagnostics.Any())
@@ -122,8 +122,10 @@ namespace TestHelper
             }
 
             //after applying all of the code fixes, compare the resulting string to the inputted one
-            var actual = GetStringFromDocument(document);
-            Assert.AreEqual<string>(newSource.Replace("\r",""), actual.Replace("\r", ""));
+            string actual = GetStringFromDocument(document);
+            Assert.AreEqual<string>(
+                newSource?.Replace("\r","",StringComparison.InvariantCulture), 
+                actual?.Replace("\r", "", StringComparison.InvariantCulture));
         }
     }
 }
