@@ -1,0 +1,5 @@
+*       text=auto
+*.cs    text diff=csharp
+*.md    text
+*.yml   text
+*.props text eol=crlf
