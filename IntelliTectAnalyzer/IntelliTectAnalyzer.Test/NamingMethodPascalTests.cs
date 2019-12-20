@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -8,10 +9,10 @@ using TestHelper;
 namespace IntelliTectAnalyzer.Tests
 {
     [TestClass]
-    public class NamingPropertyPascalTests : CodeFixVerifier
+    public class NamingMethodPascalTests : CodeFixVerifier
     {
         [TestMethod]
-        public void ProperlyNamedProperty_PascalCasedProperty_NoDiagnosticInformationReturned()
+        public void ProperlyNamedLocalMethod_PascalCasedMethod_NoDiagnosticInformationReturned()
         {
             string test = @"
     using System;
@@ -25,7 +26,16 @@ namespace IntelliTectAnalyzer.Tests
     {
         class TypeName
         {   
-            public string MyProperty { get; set; }
+            public string MyMethod() 
+            {
+                localMethod();
+
+                void localMethod() {
+
+                }
+
+                return string.Empty;
+            } 
         }
     }";
 
@@ -33,7 +43,7 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
-        public void PropertyWithNamingViolation_PropertyNotPascalCase_Warning()
+        public void ProperlyNamedMethod_PascalCasedMethod_NoDiagnosticInformationReturned()
         {
             string test = @"
     using System;
@@ -47,13 +57,41 @@ namespace IntelliTectAnalyzer.Tests
     {
         class TypeName
         {   
-            public string myProperty { get; set; }
+            public string MyMethod() 
+            {
+                return string.Empty;
+            } 
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        public void MethodWithNamingViolation_MethodNotPascalCase_Warning()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public string myMethod() 
+            {
+                return string.Empty;
+            } 
         }
     }";
             var expected = new DiagnosticResult
             {
-                Id = "INTL0002",
-                Message = "Properties should be PascalCase",
+                Id = "INTL0003",
+                Message = "Methods should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -65,7 +103,7 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
-        public void PropertyWithUnderScoreAsFirstChar_PropertyNotPascalCase_Warning()
+        public void MethodWithUnderScoreAsFirstChar_MethodNotPascalCase_Warning()
         {
             string test = @"
     using System;
@@ -79,13 +117,16 @@ namespace IntelliTectAnalyzer.Tests
     {
         class TypeName
         {   
-            public string _MyProperty { get; set; }
+            public string _MyMethod() 
+            {
+                return string.Empty;
+            } 
         }
     }";
             var expected = new DiagnosticResult
             {
-                Id = "INTL0002",
-                Message = "Properties should be PascalCase",
+                Id = "INTL0003",
+                Message = "Methods should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -182,7 +223,7 @@ namespace IntelliTectAnalyzer.Tests
 
         [TestMethod]
         [Description("Issue 40")]
-        public void PropertyWithNamingViolation_ClassHasGeneratedAttribute_Ignored()
+        public void MethodWithNamingViolation_ClassHasGeneratedAttribute_Ignored()
         {
             string test = @"
     using System;
@@ -197,7 +238,11 @@ namespace IntelliTectAnalyzer.Tests
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""16.0.0.0"")]
         class TypeName
         {   
-            public string myProperty { get; set; }
+            public string myMethod()
+            {
+                return string.Empty();
+
+            } 
         }
     }";
 
@@ -206,12 +251,12 @@ namespace IntelliTectAnalyzer.Tests
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
-            return new CodeFixes.NamingPropertyPascal();
+            throw new NotImplementedException();
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
-            return new Analyzers.NamingPropertyPascal();
+            return new Analyzers.NamingMethodPascal();
         }
     }
 }
