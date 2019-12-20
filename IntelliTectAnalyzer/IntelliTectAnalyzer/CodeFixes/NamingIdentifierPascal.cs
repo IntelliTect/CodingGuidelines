@@ -16,12 +16,12 @@ using IntelliTectAnalyzer.Analyzers;
 
 namespace IntelliTectAnalyzer.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NamingPropertyPascal)), Shared]
-    public class NamingPropertyPascal : CodeFixProvider
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(NamingIdentifierPascal)), Shared]
+    public class NamingIdentifierPascal : CodeFixProvider
     {
         private const string Title = "Fix Naming Violation: Follow PascalCase";
 
-        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.NamingPropertyPascal.DiagnosticId);
+        public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(Analyzers.NamingPropertyPascal.DiagnosticId, Analyzers.NamingMethodPascal.DiagnosticId);
 
         public sealed override FixAllProvider GetFixAllProvider()
         {

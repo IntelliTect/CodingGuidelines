@@ -206,7 +206,7 @@ namespace IntelliTectAnalyzer.Tests
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
-            return new CodeFixes.NamingPropertyPascal();
+            return new CodeFixes.NamingIdentifierPascal();
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

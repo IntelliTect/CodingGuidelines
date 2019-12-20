@@ -12,7 +12,7 @@ namespace IntelliTectAnalyzer.Tests
     public class NamingMethodPascalTests : CodeFixVerifier
     {
         [TestMethod]
-        public void ProperlyNamedLocalMethod_PascalCasedMethod_NoDiagnosticInformationReturned()
+        public void LocalMethodWithLowerCaseFirstChar_MethodNotPascalCase_Warning()
         {
             string test = @"
     using System;
@@ -28,18 +28,29 @@ namespace IntelliTectAnalyzer.Tests
         {   
             public string MyMethod() 
             {
-                localMethod();
+                var output = localMethod();
 
-                void localMethod() {
-
+                string localMethod() {
+                    return string.Empty;
                 }
 
-                return string.Empty;
+                return output;
             } 
         }
     }";
 
-            VerifyCSharpDiagnostic(test);
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0003",
+                Message = "Methods should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                            new DiagnosticResultLocation("Test0.cs", 17, 24)
+                        }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
         }
 
         [TestMethod]
@@ -138,7 +149,7 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
-        public async Task PropertyNotPascalCase_CodeFix_FixNamingViolation_PropertyIsNamedCorrectly()
+        public async Task MethodNotPascalCase_CodeFix_FixNamingViolation_MethodIsNamedCorrectly()
         {
             string test = @"
     using System;
@@ -152,7 +163,10 @@ namespace IntelliTectAnalyzer.Tests
     {
         class TypeName
         {   
-            public string myProperty { get; set; }
+            public string myMethod() 
+            {
+                return string.Empty;
+            }
         }
     }";
 
@@ -168,15 +182,17 @@ namespace IntelliTectAnalyzer.Tests
     {
         class TypeName
         {   
-            public string MyProperty { get; set; }
+            public string MyMethod() 
+            {
+                return string.Empty;
+            }
         }
     }";
             await VerifyCSharpFix(test, fixTest);
         }
 
         [TestMethod]
-        [Description("Issue 13")]
-        public void CustomIndexers_ShouldNotNeedToFollowingPropertyNamingScheme()
+        public async Task MethodNotPascalCase_CodeFix_FixNamingViolation_LocalFunctionIsNamedCorrectly()
         {
             string test = @"
     using System;
@@ -190,18 +206,20 @@ namespace IntelliTectAnalyzer.Tests
     {
         class TypeName
         {   
-            public int this[int index] => 0;
+            public string getEmpty() {
+
+                var output = localFunction();
+
+                string localFunction() {
+                    return string.Empty();
+                }
+
+                return output;
+            }
         }
     }";
 
-            VerifyCSharpDiagnostic(test);
-        }
-
-        [TestMethod]
-        [Description("Issue 40")]
-        public void PropertyWithNamingViolation_PropertyHasGeneratedAttribute_Ignored()
-        {
-            string test = @"
+            string fixTest = @"
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -213,45 +231,25 @@ namespace IntelliTectAnalyzer.Tests
     {
         class TypeName
         {   
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""16.0.0.0"")]
-            public string myProperty { get; set; }
+            public string GetEmpty() {
+
+                var output = LocalFunction();
+
+                string LocalFunction() {
+                    return string.Empty();
+                }
+
+                return output;
+            }
         }
     }";
-
-            VerifyCSharpDiagnostic(test);
+            await VerifyCSharpFix(test, fixTest);
         }
 
-        [TestMethod]
-        [Description("Issue 40")]
-        public void MethodWithNamingViolation_ClassHasGeneratedAttribute_Ignored()
-        {
-            string test = @"
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
-
-    namespace ConsoleApplication1
-    {
-        [global::System.CodeDom.Compiler.GeneratedCodeAttribute(""System.Resources.Tools.StronglyTypedResourceBuilder"", ""16.0.0.0"")]
-        class TypeName
-        {   
-            public string myMethod()
-            {
-                return string.Empty();
-
-            } 
-        }
-    }";
-
-            VerifyCSharpDiagnostic(test);
-        }
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
-            throw new NotImplementedException();
+            return new CodeFixes.NamingIdentifierPascal();
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

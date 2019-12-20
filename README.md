@@ -52,6 +52,47 @@ class SomeClass
 }
 ```
 
+
+#### INTL0003 - Methods PascalCase
+
+Methods, including local functions, should be PascalCase
+
+**Allowed**
+```c#
+class SomeClass
+{
+    public string GetEmpty() {
+
+        var output = LocalFunction();
+
+        string LocalFunction() {
+            return string.Empty();
+        }
+
+        return output;
+    }
+}
+```
+
+**Disallowed**
+```c#
+class SomeClass
+{
+    public string getEmpty() {
+
+        var output = localFunction();
+
+        string localFunction() {
+            return string.Empty();
+        }
+
+        return output;
+    }
+}
+```
+
+
+
 ## 01XX block - Formatting
 #### INTL0101 - Attributes on separate lines
 

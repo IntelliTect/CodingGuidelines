@@ -3,6 +3,8 @@ using System;
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace IntelliTectAnalyzer.Analyzers
@@ -33,6 +35,21 @@ namespace IntelliTectAnalyzer.Analyzers
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Method);
+            context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.LocalFunctionStatement);
+        }
+
+        private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
+        {
+            var localFunctionStatement = (LocalFunctionStatementSyntax) context.Node;
+
+            if (char.IsUpper(localFunctionStatement.Identifier.Text.First()))
+            {
+                return;
+            } 
+
+            Diagnostic diagnostic = Diagnostic.Create(_Rule, localFunctionStatement.Identifier.GetLocation(), localFunctionStatement.Identifier.Text);
+
+            context.ReportDiagnostic(diagnostic);
         }
 
         private static void AnalyzeSymbol(SymbolAnalysisContext context)
