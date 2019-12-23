@@ -2,6 +2,10 @@
 title: Design Standards
 ---
 
+Coding Standards
+================
+* [C#]({{ site.baseurl }}{% link coding/csharp.md %})
+
 Design Standards
 ================
 
