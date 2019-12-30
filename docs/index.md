@@ -5,7 +5,7 @@ title: Design Standards
 Design Standards
 ================
 
-* [Databases]({% link databases/index.md %})
-* [External Libraries]({% link external_libraries/index.md %})
-* [APIs]({% link apis/index.md %})
-* [Security]({% link security/index.md %})
+* [Databases]({{ site.baseurl }}{% link databases/index.md %})
+* [External Libraries]({{ site.baseurl }}{% link external_libraries/index.md %})
+* [APIs]({{ site.baseurl }}{% link apis/index.md %})
+* [Security]({{ site.baseurl }}{% link security/index.md %})
