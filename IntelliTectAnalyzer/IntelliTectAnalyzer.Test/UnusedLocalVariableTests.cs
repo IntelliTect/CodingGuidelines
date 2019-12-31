@@ -116,11 +116,6 @@ namespace ConsoleApplication1
             Assert.AreEqual("https://github.com/IntelliTect/CodingStandards", diagnostic.HelpLinkUri);
         }
 
-        protected override CodeFixProvider GetCSharpCodeFixProvider()
-        {
-            return new CodeFixes.UnusedLocalVariable();
-        }
-
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
             return new Analyzers.UnusedLocalVariable();

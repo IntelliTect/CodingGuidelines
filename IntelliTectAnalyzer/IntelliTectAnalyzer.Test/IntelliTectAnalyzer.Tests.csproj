@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.0</TargetFramework>
-    <LangVersion>8.0</LangVersion>
     <NoWarn>CA2007,CA1815,CA1303,CA1707,CA1305</NoWarn>
   </PropertyGroup>
 
