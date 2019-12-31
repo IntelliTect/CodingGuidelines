@@ -6,6 +6,9 @@
 A repository to contain IntelliTect's tools for coding conventions.
 IntelliTect conventions can be found [here](https://docs.google.com/document/d/1_LEucqeAg7wtKvuI4dWS79ntEgJ2GKb-amr0k6xLS3Q/edit#heading=h.lpr8ztld62uc).
 
+# Design Standards
+A separate GitHub pages site for design standards also exists in this repository under the `docs` folder.  To read it, visit [https://intellitect.github.io/CodingStandards/](https://intellitect.github.io/CodingStandards/).
+
 ## 00XX block - Naming
 #### INTL0001 - Fields _PascalCase
 
@@ -48,6 +51,47 @@ class SomeClass
     public string _MyProperty { get; set; }
 }
 ```
+
+
+#### INTL0003 - Methods PascalCase
+
+Methods, including local functions, should be PascalCase
+
+**Allowed**
+```c#
+class SomeClass
+{
+    public string GetEmpty() {
+
+        var output = LocalFunction();
+
+        string LocalFunction() {
+            return string.Empty();
+        }
+
+        return output;
+    }
+}
+```
+
+**Disallowed**
+```c#
+class SomeClass
+{
+    public string getEmpty() {
+
+        var output = localFunction();
+
+        string localFunction() {
+            return string.Empty();
+        }
+
+        return output;
+    }
+}
+```
+
+
 
 ## 01XX block - Formatting
 #### INTL0101 - Attributes on separate lines

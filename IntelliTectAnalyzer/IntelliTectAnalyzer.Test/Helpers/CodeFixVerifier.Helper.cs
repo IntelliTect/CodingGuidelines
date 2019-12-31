@@ -24,8 +24,8 @@ namespace TestHelper
         /// <returns>A Document with the changes from the CodeAction</returns>
         private static async Task<Document> ApplyFix(Document document, CodeAction codeAction)
         {
-            var operations = await codeAction.GetOperationsAsync(CancellationToken.None);
-            var solution = operations.OfType<ApplyChangesOperation>().Single().ChangedSolution;
+            System.Collections.Immutable.ImmutableArray<CodeActionOperation> operations = await codeAction.GetOperationsAsync(CancellationToken.None);
+            Solution solution = operations.OfType<ApplyChangesOperation>().Single().ChangedSolution;
             return solution.GetDocument(document.Id);
         }
 
@@ -39,8 +39,8 @@ namespace TestHelper
         /// <returns>A list of Diagnostics that only surfaced in the code after the CodeFix was applied</returns>
         private static IEnumerable<Diagnostic> GetNewDiagnostics(IEnumerable<Diagnostic> diagnostics, IEnumerable<Diagnostic> newDiagnostics)
         {
-            var oldArray = diagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToArray();
-            var newArray = newDiagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToArray();
+            Diagnostic[] oldArray = diagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToArray();
+            Diagnostic[] newArray = newDiagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToArray();
 
             int oldIndex = 0;
             int newIndex = 0;
@@ -76,8 +76,8 @@ namespace TestHelper
         /// <returns>A string containing the syntax of the Document after formatting</returns>
         private static string GetStringFromDocument(Document document)
         {
-            var simplifiedDoc = Simplifier.ReduceAsync(document, Simplifier.Annotation).Result;
-            var root = simplifiedDoc.GetSyntaxRootAsync().Result;
+            Document simplifiedDoc = Simplifier.ReduceAsync(document, Simplifier.Annotation).Result;
+            SyntaxNode root = simplifiedDoc.GetSyntaxRootAsync().Result;
             root = Formatter.Format(root, Formatter.Annotation, simplifiedDoc.Project.Solution.Workspace);
             return root.GetText().ToString();
         }

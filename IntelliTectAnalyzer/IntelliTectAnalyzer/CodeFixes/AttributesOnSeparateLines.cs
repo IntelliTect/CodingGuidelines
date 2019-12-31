@@ -28,23 +28,23 @@ namespace IntelliTectAnalyzer.CodeFixes
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
-            var diagnostic = context.Diagnostics.First();
-            var diagnosticSpan = diagnostic.Location.SourceSpan;
+            Diagnostic diagnostic = context.Diagnostics.First();
+            Microsoft.CodeAnalysis.Text.TextSpan diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the type declaration identified by the diagnostic.
-            var declaration = root.FindToken(diagnosticSpan.Start);
+            SyntaxToken declaration = root.FindToken(diagnosticSpan.Start);
 
             // Find the enclosing AttributeList
-            var attributeList = declaration.Parent;
+            SyntaxNode attributeList = declaration.Parent;
             while (attributeList.Kind() != SyntaxKind.AttributeList)
             {
                 attributeList = attributeList.Parent;
             }
 
             // Get the class, method or property adjacent to the AttributeList
-            var parentDeclaration = attributeList.Parent;
+            SyntaxNode parentDeclaration = attributeList.Parent;
 
             // Register a code action that will invoke the fix.
             context.RegisterCodeFix(
@@ -77,8 +77,8 @@ namespace IntelliTectAnalyzer.CodeFixes
                 .WithAdditionalAnnotations(Formatter.Annotation);
 
             // Replace the old local declaration with the new local declaration.
-            var oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
-            var newRoot = oldRoot.ReplaceNode(parentDeclaration, newNode);
+            SyntaxNode oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+            SyntaxNode newRoot = oldRoot.ReplaceNode(parentDeclaration, newNode);
 
             return document.WithSyntaxRoot(newRoot);
         }
