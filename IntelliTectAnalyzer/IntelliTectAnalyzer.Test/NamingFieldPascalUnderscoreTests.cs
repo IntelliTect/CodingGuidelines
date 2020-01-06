@@ -33,6 +33,30 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
+        [Description("Issue 70")]
+        public void FieldWithNamingViolation_InNativeMethodsClass_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class NativeMethods
+        {   
+            public string myfield;
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+
+        [TestMethod]
         public void FieldWithNamingViolation_FieldMissingLeadingUnderscore_Warning()
         {
             string test = @"

@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Immutable;
-using System.Diagnostics.Contracts;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace IntelliTectAnalyzer.Analyzers
@@ -49,6 +47,11 @@ namespace IntelliTectAnalyzer.Analyzers
             
             //Enum members should not be flagged
             if (!(namedTypeSymbol.ContainingType.EnumUnderlyingType is null))
+            {
+                return;
+            }
+
+            if (namedTypeSymbol.ContainingType.IsNativeMethodsClass())
             {
                 return;
             }

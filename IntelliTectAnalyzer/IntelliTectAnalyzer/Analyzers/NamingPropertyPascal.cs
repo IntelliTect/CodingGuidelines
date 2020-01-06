@@ -49,6 +49,11 @@ namespace IntelliTectAnalyzer.Analyzers
                 return;
             }
 
+            if (namedTypeSymbol.ContainingType.IsNativeMethodsClass())
+            {
+                return;
+            }
+
             if (namedTypeSymbol is IPropertySymbol property && property.IsIndexer)
             {
                 return;

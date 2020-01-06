@@ -79,6 +79,32 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
+        [Description("Issue 70")]
+        public void MethodNotPascalCase_InNativeMethodsClass_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class NativeMethods
+        {   
+            public string mymethod() 
+            {
+                return string.Empty;
+            } 
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
         public void MethodWithNamingViolation_MethodNotPascalCase_Warning()
         {
             string test = @"
@@ -245,7 +271,6 @@ namespace IntelliTectAnalyzer.Tests
     }";
             await VerifyCSharpFix(test, fixTest);
         }
-
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
