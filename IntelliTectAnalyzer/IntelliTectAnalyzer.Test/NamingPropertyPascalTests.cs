@@ -33,6 +33,29 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
+        [Description("Issue 70")]
+        public void PropertyWithNamingViolation_InNativeMethodsClass_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class NativeMethods
+        {   
+            public string myproperty { get; set; }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
         public void PropertyWithNamingViolation_PropertyNotPascalCase_Warning()
         {
             string test = @"

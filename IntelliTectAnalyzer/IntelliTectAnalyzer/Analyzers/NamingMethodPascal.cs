@@ -62,6 +62,11 @@ namespace IntelliTectAnalyzer.Analyzers
                 return;
             }
 
+            if (namedTypeSymbol.ContainingType.IsNativeMethodsClass())
+            {
+                return;
+            }
+
             if (char.IsUpper(namedTypeSymbol.Name.First()))
             {
                 return;
