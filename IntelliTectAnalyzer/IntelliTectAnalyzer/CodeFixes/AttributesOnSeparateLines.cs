@@ -14,7 +14,8 @@ using Microsoft.CodeAnalysis.Formatting;
 
 namespace IntelliTectAnalyzer.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AttributesOnSeparateLines)), Shared]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AttributesOnSeparateLines))]
+    [Shared]
     public class AttributesOnSeparateLines : CodeFixProvider
     {
         private const string Title = "Fix Format Violation: Put Attributes on separate Lines";

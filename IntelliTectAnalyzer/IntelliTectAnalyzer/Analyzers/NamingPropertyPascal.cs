@@ -14,11 +14,11 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string MessageFormat = "Properties should be PascalCase";
         private const string Description = "All properties should be in the format PascalCase";
         private const string Category = "Naming";
-        private static readonly string HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 
             DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
-            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description,HelpLinkUri);
+            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description,_HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 

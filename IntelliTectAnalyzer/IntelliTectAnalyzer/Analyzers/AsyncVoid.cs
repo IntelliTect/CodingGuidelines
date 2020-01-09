@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Immutable;
-using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -14,11 +13,11 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string MessageFormat = "Async methods should not return void.";
         private const string Description = "Async methods must return either Task or Task<T>.";
         private const string Category = "Reliability";
-        private static readonly string HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Reliability, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Reliability,
             DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
-            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, HelpLinkUri);
+            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
