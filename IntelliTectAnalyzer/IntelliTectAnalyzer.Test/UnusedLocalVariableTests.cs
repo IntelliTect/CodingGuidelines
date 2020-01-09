@@ -63,6 +63,36 @@ namespace ConsoleApplication1
             VerifyCSharpDiagnostic(test);
         }
 
+
+        [TestMethod]
+        [Description("77")]
+        public void ExpressionBodiedMembers_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+
+namespace SecretSanta.Api
+{
+    public static class Program
+    {
+        public static void Main(string[] args)
+        {
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        public static IHostBuilder CreateHostBuilder(string[] args) =>
+            Host.CreateDefaultBuilder(args)
+                .ConfigureWebHostDefaults(webBuilder =>
+                {
+                    webBuilder.UseStartup<Startup>();
+                });
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
         [TestMethod]
         public void UnusedLocalVariable_NoDiagnosticInformationReturned()
         {

@@ -37,7 +37,7 @@ namespace IntelliTectAnalyzer.Analyzers
 
         private static void AnalyzeMethod(SyntaxNodeAnalysisContext context)
         {
-            if (context.Node is MethodDeclarationSyntax method)
+            if (context.Node is MethodDeclarationSyntax method && method.Body != null)
             {
                 DataFlowAnalysis dataFlow = context.SemanticModel.AnalyzeDataFlow(method.Body);
 
