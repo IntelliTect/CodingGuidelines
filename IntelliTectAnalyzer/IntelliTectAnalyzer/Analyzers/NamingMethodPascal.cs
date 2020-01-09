@@ -17,11 +17,11 @@ namespace IntelliTectAnalyzer.Analyzers
         private const string MessageFormat = "Methods should be PascalCase";
         private const string Description = "All methods should be in the format PascalCase";
         private const string Category = "Naming";
-        private static readonly string HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 
             DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
-            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description,HelpLinkUri);
+            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description,_HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
@@ -56,8 +56,7 @@ namespace IntelliTectAnalyzer.Analyzers
         {
             ISymbol namedTypeSymbol = context.Symbol;
 
-            ImmutableArray<AttributeData> attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
-            if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
+            if (!namedTypeSymbol.CanBeReferencedByName)
             {
                 return;
             }
@@ -68,6 +67,12 @@ namespace IntelliTectAnalyzer.Analyzers
             }
 
             if (char.IsUpper(namedTypeSymbol.Name.First()))
+            {
+                return;
+            }
+
+            ImmutableArray<AttributeData> attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
+            if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
             {
                 return;
             }

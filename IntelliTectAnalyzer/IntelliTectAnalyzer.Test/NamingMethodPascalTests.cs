@@ -79,6 +79,29 @@ namespace IntelliTectAnalyzer.Tests
         }
 
         [TestMethod]
+        public void AutoProperty_PascalCasedMethod_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public int Number { get; set; }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+
+        [TestMethod]
         [Description("Issue 70")]
         public void MethodNotPascalCase_InNativeMethodsClass_NoDiagnosticInformationReturned()
         {

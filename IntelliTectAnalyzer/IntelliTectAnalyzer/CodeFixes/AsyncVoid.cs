@@ -4,15 +4,15 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Rename;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace IntelliTectAnalyzer.CodeFixes
 {
-    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AsyncVoid)), Shared]
+    [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(AsyncVoid))]
+    [Shared]
     public class AsyncVoid : CodeFixProvider
     {
         private const string Title = "Fix Design Violation: Follow AsyncVoid";
