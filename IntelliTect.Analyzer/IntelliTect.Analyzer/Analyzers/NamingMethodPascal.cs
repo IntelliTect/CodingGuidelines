@@ -14,7 +14,7 @@ namespace IntelliTect.Analyzer.Analyzers
     {
         public const string DiagnosticId = "INTL0003";
         private const string Title = "Methods PascalCase";
-        private const string MessageFormat = "Methods should be PascalCase";
+        private const string MessageFormat = "Method '{0}' should be PascalCase";
         private const string Description = "All methods should be in the format PascalCase";
         private const string Category = "Naming";
         private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 

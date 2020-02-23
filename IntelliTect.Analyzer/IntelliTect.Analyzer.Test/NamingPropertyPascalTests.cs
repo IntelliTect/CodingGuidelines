@@ -76,7 +76,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0002",
-                Message = "Properties should be PascalCase",
+                Message = "Property 'myProperty' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -108,7 +108,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0002",
-                Message = "Properties should be PascalCase",
+                Message = "Property '_MyProperty' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {

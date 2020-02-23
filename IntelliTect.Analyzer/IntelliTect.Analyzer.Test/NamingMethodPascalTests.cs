@@ -41,7 +41,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0003",
-                Message = "Methods should be PascalCase",
+                Message = "Method 'localMethod' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -150,7 +150,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0003",
-                Message = "Methods should be PascalCase",
+                Message = "Method 'myMethod' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -185,7 +185,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0003",
-                Message = "Methods should be PascalCase",
+                Message = "Method '_MyMethod' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {

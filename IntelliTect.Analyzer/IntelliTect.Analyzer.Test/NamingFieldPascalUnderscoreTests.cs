@@ -77,7 +77,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0001",
-                Message = "Fields should be named _PascalCase",
+                Message = "Field 'MyField' should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -109,7 +109,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0001",
-                Message = "Fields should be named _PascalCase",
+                Message = "Field '_myField' should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
@@ -141,7 +141,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0001",
-                Message = "Fields should be named _PascalCase",
+                Message = "Field '__myField' should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {
