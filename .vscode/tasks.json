@@ -6,7 +6,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/IntelliTectAnalyzer.sln",
+                "${workspaceFolder}/IntelliTect.Analyzer.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -18,7 +18,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/IntelliTectAnalyzer.sln",
+                "${workspaceFolder}/IntelliTect.Analyzer.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -31,7 +31,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/IntelliTectAnalyzer.sln",
+                "${workspaceFolder}/IntelliTect.Analyzer.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -43,7 +43,7 @@
             "type": "process",
             "args": [
                 "test",
-                "${workspaceFolder}/IntelliTectAnalyzer.sln",
+                "${workspaceFolder}/IntelliTect.Analyzer.sln",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],

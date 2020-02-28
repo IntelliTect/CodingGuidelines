@@ -10,9 +10,9 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/IntelliTectAnalyzer/IntelliTectAnalyzer.Test/bin/Debug/netcoreapp2.2/IntelliTectAnalyzer.Tests.dll",
+            "program": "${workspaceFolder}/IntelliTect.Analyzer/IntelliTect.Analyzer.Test/bin/Debug/netcoreapp2.2/IntelliTect.Analyzer.Tests.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/IntelliTectAnalyzer/IntelliTectAnalyzer.Test",
+            "cwd": "${workspaceFolder}/IntelliTect.Analyzer/IntelliTect.Analyzer.Test",
             // For more information about the 'console' field, see https://aka.ms/VSCode-CS-LaunchJson-Console
             "console": "internalConsole",
             "stopAtEntry": false
