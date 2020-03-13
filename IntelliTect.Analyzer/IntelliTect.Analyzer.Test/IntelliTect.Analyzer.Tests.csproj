@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <NoWarn>CA2007,CA1815,CA1303,CA1707,CA1305</NoWarn>
   </PropertyGroup>
 
