@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelliTect.Analyzer.Naming;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -44,17 +45,17 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (char.IsUpper(namedTypeSymbol.Name.First()))
-            {
-                return;
-            }
-
             if (namedTypeSymbol.ContainingType.IsNativeMethodsClass())
             {
                 return;
             }
 
             if (namedTypeSymbol is IPropertySymbol property && property.IsIndexer)
+            {
+                return;
+            }
+
+            if (Casing.IsPascalCase(namedTypeSymbol.Name))
             {
                 return;
             }

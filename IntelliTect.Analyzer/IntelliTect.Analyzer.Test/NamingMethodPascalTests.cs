@@ -322,6 +322,45 @@ namespace AspNetCore
             VerifyCSharpDiagnostic(test);
         }
 
+
+        [TestMethod]
+        [Description("Issue 80")]
+        public void MethodWithNamingViolation_MethodWithUnderscore_Warning()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public string My_Method() 
+            {
+                return string.Empty;
+            } 
+        }
+    }";
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0003",
+                Message = "Method 'My_Method' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                            new DiagnosticResultLocation("Test0.cs", 13, 27)
+                        }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new CodeFixes.NamingIdentifierPascal();

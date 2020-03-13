@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelliTect.Analyzer.Naming;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -57,7 +58,7 @@ namespace IntelliTect.Analyzer.Analyzers
             }
 
             if (namedTypeSymbol.Name.StartsWith("_", StringComparison.Ordinal) && namedTypeSymbol.Name.Length > 1 
-                                                     && char.IsUpper(namedTypeSymbol.Name.Skip(1).First()))
+                                                     && Casing.IsPascalCase(namedTypeSymbol.Name.Skip(1)))
             {
                 return;
             }

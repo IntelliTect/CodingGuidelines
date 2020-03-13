@@ -55,7 +55,6 @@ namespace IntelliTect.Analyzer.Tests
             VerifyCSharpDiagnostic(test);
         }
 
-
         [TestMethod]
         public void FieldWithNamingViolation_FieldMissingLeadingUnderscore_Warning()
         {
@@ -417,6 +416,41 @@ namespace IntelliTect.Analyzer.Tests
 
             VerifyCSharpDiagnostic(test);
         }
+
+
+        [TestMethod]
+        [Description("Issue 80")]
+        public void FieldWithNamingViolation_FieldContainsUnderscore_Warning()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public string _My_Field;
+        }
+    }";
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0001",
+                Message = "Field '_My_Field' should be named _PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                            new DiagnosticResultLocation("Test0.cs", 13, 27)
+                        }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {

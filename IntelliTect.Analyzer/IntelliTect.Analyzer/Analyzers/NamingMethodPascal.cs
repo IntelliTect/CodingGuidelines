@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Immutable;
 using System.Linq;
+using IntelliTect.Analyzer.Naming;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -66,7 +67,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (char.IsUpper(namedTypeSymbol.Name.First()))
+            if (Casing.IsPascalCase(namedTypeSymbol.Name))
             {
                 return;
             }
