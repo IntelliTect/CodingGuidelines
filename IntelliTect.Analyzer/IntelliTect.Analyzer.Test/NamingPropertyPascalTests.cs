@@ -265,6 +265,40 @@ namespace AspNetCore
             VerifyCSharpDiagnostic(test);
         }
 
+        [TestMethod]
+        [Description("Issue 80")]
+        public void PropertyWithNamingViolation_PropertyContainsUnderscore_Warning()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {   
+            public string My_Property { get; set; }
+        }
+    }";
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0002",
+                Message = "Property 'My_Property' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                            new DiagnosticResultLocation("Test0.cs", 13, 27)
+                        }
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new CodeFixes.NamingIdentifierPascal();
