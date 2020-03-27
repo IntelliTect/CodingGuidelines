@@ -99,7 +99,6 @@ namespace IntelliTect.Analyzer.Tests
             VerifyCSharpDiagnostic(test);
         }
 
-
         [TestMethod]
         [Description("Issue 70")]
         public void MethodNotPascalCase_InNativeMethodsClass_NoDiagnosticInformationReturned()
@@ -322,7 +321,6 @@ namespace AspNetCore
             VerifyCSharpDiagnostic(test);
         }
 
-
         [TestMethod]
         [Description("Issue 80")]
         public void MethodWithNamingViolation_MethodWithUnderscore_Warning()
@@ -359,6 +357,81 @@ namespace AspNetCore
             VerifyCSharpDiagnostic(test, expected);
         }
 
+        [TestMethod]
+        [Description("Issue 100")]
+        public void ExplicitlyImplementedMethod_PascalCasedMethod_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        public interface IInterface
+        {
+            public void Foo();
+        }
+
+        public class TypeName : IInterface
+        {
+            void IInterface.Foo() { }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        [Description("Issue 100")]
+        public void ExplicitlyImplementedMethod_MethodNotPascalCase_Warnings()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        public interface IInterface
+        {
+            public void foo();
+        }
+
+        public class TypeName : IInterface
+        {
+            void IInterface.foo() { }
+        }
+    }";
+
+            var expected1 = new DiagnosticResult
+            {
+                Id = "INTL0003",
+                Message = "Method 'foo' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                        new DiagnosticResultLocation("Test0.cs", 13, 25)
+                    }
+            };
+            var expected2 = new DiagnosticResult
+            {
+                Id = "INTL0003",
+                Message = "Method 'foo' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                        new DiagnosticResultLocation("Test0.cs", 18, 29)
+                    }
+            };
+            VerifyCSharpDiagnostic(test, expected1, expected2);
+        }
 
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()

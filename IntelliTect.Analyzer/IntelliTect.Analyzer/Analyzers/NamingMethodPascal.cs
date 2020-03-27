@@ -18,11 +18,11 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string MessageFormat = "Method '{0}' should be PascalCase";
         private const string Description = "All methods should be in the format PascalCase";
         private const string Category = "Naming";
-        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming,
             DiagnosticId);
 
-        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
-            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description,_HelpLinkUri);
+        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat,
+            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
@@ -32,7 +32,7 @@ namespace IntelliTect.Analyzer.Analyzers
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            
+
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Method);
@@ -41,12 +41,12 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
         {
-            var localFunctionStatement = (LocalFunctionStatementSyntax) context.Node;
+            var localFunctionStatement = (LocalFunctionStatementSyntax)context.Node;
 
-            if (char.IsUpper(localFunctionStatement.Identifier.Text.First()))
+            if (Casing.IsPascalCase(localFunctionStatement.Identifier.Text))
             {
                 return;
-            } 
+            }
 
             Diagnostic diagnostic = Diagnostic.Create(_Rule, localFunctionStatement.Identifier.GetLocation(), localFunctionStatement.Identifier.Text);
 
@@ -55,19 +55,29 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static void AnalyzeSymbol(SymbolAnalysisContext context)
         {
-            ISymbol namedTypeSymbol = context.Symbol;
-
-            if (!namedTypeSymbol.CanBeReferencedByName)
-            {
-                return;
-            }
+            var namedTypeSymbol = (IMethodSymbol)context.Symbol;
 
             if (namedTypeSymbol.ContainingType.IsNativeMethodsClass())
             {
                 return;
             }
 
-            if (Casing.IsPascalCase(namedTypeSymbol.Name))
+            string name;
+            switch (namedTypeSymbol.MethodKind)
+            {
+                case MethodKind.DeclareMethod:
+                case MethodKind.LocalFunction:
+                case MethodKind.Ordinary:
+                case MethodKind.ReducedExtension:
+                    name = namedTypeSymbol.Name;
+                    break;
+                case MethodKind.ExplicitInterfaceImplementation:
+                    name = namedTypeSymbol.ExplicitInterfaceImplementations.First().Name;
+                    break;
+                default: return;
+            }
+
+            if (Casing.IsPascalCase(name))
             {
                 return;
             }
@@ -78,7 +88,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
+            Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], name);
 
             context.ReportDiagnostic(diagnostic);
         }
