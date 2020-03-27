@@ -298,6 +298,81 @@ namespace AspNetCore
             VerifyCSharpDiagnostic(test, expected);
         }
 
+        [TestMethod]
+        [Description("Issue 100")]
+        public void ExplicitlyImplementedProperty_PascalCasedProperty_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        public interface IInterface
+        {
+            public string Foo { get; }
+        }
+
+        public class TypeName : IInterface
+        {
+            string IInterface.Foo { get; }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        [Description("Issue 100")]
+        public void ExplicitlyImplementedProperty_PropertyNotPascalCase_Warnings()
+        {
+            string test = @"
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
+    using System.Threading.Tasks;
+    using System.Diagnostics;
+
+    namespace ConsoleApplication1
+    {
+        public interface IInterface
+        {
+            public string foo { get; }
+        }
+
+        public class TypeName : IInterface
+        {
+            string IInterface.foo { get; }
+        }
+    }";
+            var expected1 = new DiagnosticResult
+            {
+                Id = "INTL0002",
+                Message = "Property 'foo' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                        new DiagnosticResultLocation("Test0.cs", 13, 27)
+                    }
+            };
+            var expected2 = new DiagnosticResult
+            {
+                Id = "INTL0002",
+                Message = "Property 'foo' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    new[] {
+                        new DiagnosticResultLocation("Test0.cs", 18, 31)
+                    }
+            };
+
+            VerifyCSharpDiagnostic(test, expected1, expected2);
+        }
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {

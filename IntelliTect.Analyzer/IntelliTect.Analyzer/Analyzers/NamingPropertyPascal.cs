@@ -37,7 +37,7 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static void AnalyzeSymbol(SymbolAnalysisContext context)
         {
-            ISymbol namedTypeSymbol = context.Symbol;
+            var namedTypeSymbol = (IPropertySymbol)context.Symbol;
 
             ImmutableArray<AttributeData> attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
             if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
@@ -50,17 +50,20 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (namedTypeSymbol is IPropertySymbol property && property.IsIndexer)
+            if (namedTypeSymbol.IsIndexer)
             {
                 return;
             }
 
-            if (Casing.IsPascalCase(namedTypeSymbol.Name))
+            string name = namedTypeSymbol.ExplicitInterfaceImplementations.FirstOrDefault()?.Name ??
+                          namedTypeSymbol.Name;
+
+            if (Casing.IsPascalCase(name))
             {
                 return;
             }
 
-            Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
+            Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], name);
 
             context.ReportDiagnostic(diagnostic);
         }
