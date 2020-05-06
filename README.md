@@ -3,7 +3,7 @@
 [![Build Status](https://intellitect.visualstudio.com/CodingStandards/_apis/build/status/IntelliTect.CodingStandards?branchName=master)](https://intellitect.visualstudio.com/CodingStandards/_build/latest?definitionId=76&branchName=master)
 
 # CodingStandards / Design Standards
-A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingStandards/](https://intellitect.github.io/CodingStandards/)
+A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingStandards/)
 
 ## 00XX block - Naming
 #### INTL0001 - Fields _PascalCase
