@@ -10,7 +10,7 @@
     <Authors>IntelliTect</Authors>
     <RepositoryUrl>https://github.com/IntelliTect/CodingGuidelines</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>Analyzer enforcing IntelliTect internal coding standards</Description>
+    <Description>Analyzer aiding the implementation of IntelliTect internal coding guidelines</Description>
     <Copyright>Copyright</Copyright>
     <PackageTags>IntelliTect.Analyzer, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
