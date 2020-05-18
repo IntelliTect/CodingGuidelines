@@ -12,8 +12,8 @@ namespace IntelliTect.Analyzer
         /// <summary>
         /// Get the full diagnostic help url
         /// </summary>
-        /// <param name="title">intl analyzer title</param>
-        /// <param name="diagnosticId">The intl error code</param>
+        /// <param name="title">IntelliTect analyzer title</param>
+        /// <param name="diagnosticId">The IntelliTect error code</param>
         /// <returns>Full url linking to wiki </returns>
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static string GetUrl(string title, string diagnosticId)
@@ -26,7 +26,7 @@ namespace IntelliTect.Analyzer
             Regex hyphenateRegex = new Regex(@"\s");
             string hyphenatedTitle = hyphenateRegex.Replace(title, "-");
 
-            return BaseUrl + $"#{diagnosticId.ToLower()}" + $"---{hyphenatedTitle.ToLower()}";
+            return BaseUrl + $"#{diagnosticId.ToLowerInvariant()}" + $"---{hyphenatedTitle.ToLowerInvariant()}";
         }
     }
 
