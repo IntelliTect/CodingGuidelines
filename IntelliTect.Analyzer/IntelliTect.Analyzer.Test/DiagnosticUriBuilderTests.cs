@@ -7,15 +7,15 @@ namespace IntelliTect.Analyzer.Tests
     public class DiagnosticUriBuilderTests
     {
         [TestMethod]
-        [DataRow(AnalyzerBlock.Naming, "intl0001",
-            "https://github.com/IntelliTect/CodingStandards/wiki/00XX.Naming#intl0001")]
-        [DataRow(AnalyzerBlock.Performance, "intl0301",
-            "https://github.com/IntelliTect/CodingStandards/wiki/03XX.Performance#intl0301")]
-        public void GetUrl_GivenBlock00XXCode_ProperlyBuildsUrl(AnalyzerBlock analyzerBlock, string code,
-            string expected)
+        [DataRow("Fields _PascalCase", "intl0001",
+            "https://github.com/IntelliTect/CodingGuidelines#intl0001---fields-_pascalcase")]
+        [DataRow("Async void methods", "INTL0201",
+            "https://github.com/IntelliTect/CodingGuidelines#intl0201---async-void-methods")]
+        public void GetUrl_GivenBlock00XXCode_ProperlyBuildsUrl(string title, string diagnosticId,
+             string expected)
         {
-            string actual = DiagnosticUrlBuilder.GetUrl(analyzerBlock, code);
-            
+            string actual = DiagnosticUrlBuilder.GetUrl(title, diagnosticId);
+
             Assert.IsTrue(string.Equals(expected, actual, StringComparison.OrdinalIgnoreCase),
                 $"'{expected}' does not equal '{actual}'");
         }

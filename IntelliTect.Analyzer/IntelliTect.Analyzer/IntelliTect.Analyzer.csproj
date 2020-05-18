@@ -8,7 +8,7 @@
   <PropertyGroup>
     <PackageId>IntelliTect.Analyzers</PackageId>
     <Authors>IntelliTect</Authors>
-    <RepositoryUrl>https://github.com/IntelliTect/CodingStandards</RepositoryUrl>
+    <RepositoryUrl>https://github.com/IntelliTect/CodingGuidelines</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Analyzer enforcing IntelliTect internal coding standards</Description>
     <Copyright>Copyright</Copyright>

@@ -1,8 +1,8 @@
 [![NuGet Status](http://img.shields.io/nuget/v/IntelliTect.Analyzers.svg?style=flat&label=IntelliTect.Analyzers)](https://www.nuget.org/packages/IntelliTect.Analyzers/)
 
-[![Build Status](https://intellitect.visualstudio.com/CodingStandards/_apis/build/status/IntelliTect.CodingStandards?branchName=master)](https://intellitect.visualstudio.com/CodingStandards/_build/latest?definitionId=76&branchName=master)
+[![Build Status](https://intellitect.visualstudio.com/CodingGuidelines/_apis/build/status/IntelliTect.CodingGuidelines?branchName=master)](https://intellitect.visualstudio.com/CodingGuidelines/_build/latest?definitionId=76&branchName=master)
 
-# CodingStandards / Design Standards
+# CodingGuidelines / Design Guidelines
 A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingGuidelines/)
 
 ## 00XX block - Naming
