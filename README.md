@@ -1,6 +1,6 @@
 [![NuGet Status](http://img.shields.io/nuget/v/IntelliTect.Analyzers.svg?style=flat&label=IntelliTect.Analyzers)](https://www.nuget.org/packages/IntelliTect.Analyzers/)
 
-[![Build Status](https://intellitect.visualstudio.com/CodingGuidelines/_apis/build/status/IntelliTect.CodingGuidelines?branchName=master)](https://intellitect.visualstudio.com/CodingGuidelines/_build/latest?definitionId=76&branchName=master)
+[![Build Status](https://intellitect.visualstudio.com/CodingStandards/_apis/build/status/IntelliTect.CodingStandards?branchName=master)](https://intellitect.visualstudio.com/CodingStandards/_build/latest?definitionId=76&branchName=master)
 
 # CodingGuidelines / Design Guidelines
 A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingGuidelines/)
@@ -139,4 +139,3 @@ instead of the `GetDirectories` method.  In the remarks section of the [document
 > for the whole array of names to be returned before you can access the array. Therefore, when you are working with many 
 > files and directories, EnumerateDirectories can be more efficient.
 > The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
-
