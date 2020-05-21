@@ -216,6 +216,39 @@ namespace ConsoleApplication1
             VerifyCSharpDiagnostic(test);
         }
 
+        [TestMethod]
+        public void LambdaMethodWithNamedVar_ReturnsDiagnosticInformation()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(t => true);
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+            var result = new DiagnosticResult
+            {
+                Id = "INTL0303",
+                Message = "Local variable 't' should be used",
+                Severity = DiagnosticSeverity.Info,
+                Locations =
+                    new[] {
+                            new DiagnosticResultLocation("Test0.cs", 10, 17)
+                        }
+            };
+            VerifyCSharpDiagnostic(test, result);
+        }
+
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
             return new Analyzers.UnusedLocalVariable();
