@@ -140,8 +140,113 @@ namespace ConsoleApplication1
             Assert.AreEqual("Flow", diagnostic.Category);
             Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
             Assert.AreEqual(true, diagnostic.IsEnabledByDefault);
-            Assert.AreEqual("All local variables should be accessed", diagnostic.Description);
+            Assert.AreEqual("All local variables should be accessed, or named with underscores to indicate they are unused", diagnostic.Description);
             Assert.AreEqual("https://github.com/IntelliTect/CodingGuidelines", diagnostic.HelpLinkUri);
+        }
+
+        [TestMethod]
+        public void LambdaExpressionWithDiscard_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(_ => { return true; });
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        public void LambdaExpressionWithTwoDiscards_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(__ => { return true; });
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        public void LambdaMethodWithDiscard_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(_ => true);
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        public void LambdaMethodWithNamedVar_ReturnsDiagnosticInformation()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(t => true);
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+            var result = new DiagnosticResult
+            {
+                Id = "INTL0303",
+                Message = "Local variable 't' should be used",
+                Severity = DiagnosticSeverity.Info,
+                Locations =
+                    new[] {
+                            new DiagnosticResultLocation("Test0.cs", 10, 17)
+                        }
+            };
+            VerifyCSharpDiagnostic(test, result);
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
