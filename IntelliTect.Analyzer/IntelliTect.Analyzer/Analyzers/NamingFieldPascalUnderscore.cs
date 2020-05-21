@@ -15,7 +15,7 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string MessageFormat = "Field '{0}' should be named _PascalCase";
         private const string Description = "All fields should be in the format _PascalCase";
         private const string Category = "Naming";
-        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Naming, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title, 
             DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 

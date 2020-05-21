@@ -34,7 +34,7 @@ steps:
   inputs:
     solution: '**/*.sln'
     clean: true
-    configuration: $(BuildConfiguration)
+    configuration: 'Release'
     msbuildArgs: '/p:Version=$(version)'
 
 - task: DotNetCoreCLI@2

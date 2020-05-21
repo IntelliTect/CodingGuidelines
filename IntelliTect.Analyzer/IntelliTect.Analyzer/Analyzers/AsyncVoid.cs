@@ -13,7 +13,7 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string MessageFormat = "Async methods should not return void.";
         private const string Description = "Async methods must return either Task or Task<T>.";
         private const string Category = "Reliability";
-        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(AnalyzerBlock.Reliability,
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title,
             DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
