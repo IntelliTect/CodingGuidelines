@@ -2,7 +2,7 @@
 
 [![Build Status](https://intellitect.visualstudio.com/CodingStandards/_apis/build/status/IntelliTect.CodingStandards?branchName=master)](https://intellitect.visualstudio.com/CodingStandards/_build/latest?definitionId=76&branchName=master)
 
-# CodingStandards / Design Standards
+# Coding Guidelines / Design Guidelines
 A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingGuidelines/)
 
 ## 00XX block - Naming
@@ -139,4 +139,3 @@ instead of the `GetDirectories` method.  In the remarks section of the [document
 > for the whole array of names to be returned before you can access the array. Therefore, when you are working with many 
 > files and directories, EnumerateDirectories can be more efficient.
 > The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
-

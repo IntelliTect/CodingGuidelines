@@ -16,7 +16,7 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string _MessageFormat = "Local variable '{0}' should be used";
         private const string _Description = "All local variables should be accessed";
         private const string _Category = "Flow";
-        private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingStandards";
+        private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingGuidelines";
 
         private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, _Title, _MessageFormat,
             _Category, DiagnosticSeverity.Info, isEnabledByDefault: true, description: _Description, _HelpLinkUri);

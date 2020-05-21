@@ -141,7 +141,7 @@ namespace ConsoleApplication1
             Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
             Assert.AreEqual(true, diagnostic.IsEnabledByDefault);
             Assert.AreEqual("All local variables should be accessed", diagnostic.Description);
-            Assert.AreEqual("https://github.com/IntelliTect/CodingStandards", diagnostic.HelpLinkUri);
+            Assert.AreEqual("https://github.com/IntelliTect/CodingGuidelines", diagnostic.HelpLinkUri);
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
