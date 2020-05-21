@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -140,8 +141,80 @@ namespace ConsoleApplication1
             Assert.AreEqual("Flow", diagnostic.Category);
             Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
             Assert.AreEqual(true, diagnostic.IsEnabledByDefault);
-            Assert.AreEqual("All local variables should be accessed", diagnostic.Description);
+            Assert.AreEqual("All local variables should be accessed, or named with underscores to indicate they are unused", diagnostic.Description);
             Assert.AreEqual("https://github.com/IntelliTect/CodingStandards", diagnostic.HelpLinkUri);
+        }
+
+        [TestMethod]
+        public void LambdaExpressionWithDiscard_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(_ => { return true; });
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        public void LambdaExpressionWithTwoDiscards_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(__ => { return true; });
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        public void LambdaMethodWithDiscard_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+using System;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {   
+        public void Foo()
+        {
+            Bar(_ => true);
+            bool Bar(Func<bool, bool> func)
+            {
+                return func(true);
+            }
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
