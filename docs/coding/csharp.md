@@ -121,7 +121,7 @@ See http://msdn.microsoft.com/en-us/library/dd465121.aspx for more detail around
 - :x: DO NOT: Create a new exception type if the exception would not be handled differently than an existing Framework exception – throw the existing framework exception instead.
 - :heavy_check_mark: DO: Use try-finally for clean up work and avoid using try-catch.
 - :heavy_check_mark: CONSIDER: Wrapping specific exceptions thrown from the lower layer in a more appropriate exception if the lower-layer exception does not make sense in the context of the higher-layer operation.
-- :no_entry: AVOID Catching and wrapping in nonspecific exceptions.
+- :no_entry: AVOID: Catching and wrapping in nonspecific exceptions.
 - :x: DO NOT: Throw System.Exception, System.SystemException, or System.NullReferenceException. Throw the existing framework exception instead, such as System.InvalidOperationException. 
 AVOID: Catching System.Exception or System.SystemException except in top-level exception handlers.
 - :x: DO NOT: Throw or derive from System.ApplicationException.
