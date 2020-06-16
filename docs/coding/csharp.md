@@ -115,7 +115,7 @@ See http://msdn.microsoft.com/en-us/library/dd465121.aspx for more detail around
 - :x: DO NOT: Use exceptions for normal flow of control.
 - :x: DO NOT: Have public members that can either throw or not based on some option.
 - :x: DO NOT: Have public members that return exceptions as return value or an out parameter.
-- :no_entry: AVOID Explicitly throwing exceptions from finally blocks. (Implicitly thrown exceptions resulting from calling methods that throw are acceptable.)
+- :no_entry: AVOID: Explicitly throwing exceptions from finally blocks. (Implicitly thrown exceptions resulting from calling methods that throw are acceptable.)
 - :x: DO NOT: Create or throw custom exception types that callers are not expected to handle. Throw one of the existing Framework exceptions instead. 
 - :heavy_check_mark: CONSIDER: Creating and throwing custom exceptions if you have a unique program error that cannot be communicated using an existing framework exceptions
 - :x: DO NOT: Create a new exception type if the exception would not be handled differently than an existing Framework exception – throw the existing framework exception instead.
