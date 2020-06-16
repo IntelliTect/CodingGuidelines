@@ -70,7 +70,7 @@ Exception: MVVM situations where the property setter is being used for input val
 - :heavy_check_mark: DO: Use read-only properties (C# 6.0) in favor of read-only fields
 
 ### Regions
-- :no_entry: AVOID Using regions that do not add value.
+- :no_entry: AVOID: Using regions that do not add value.
 - :heavy_check_mark: CONSIDER: Using regions around interface implementations
 - :heavy_check_mark: DO: Provide a name for all regions (specify text after #region)
 
