@@ -99,7 +99,7 @@ See http://msdn.microsoft.com/en-us/library/dd465121.aspx for more detail around
 
 ### Methods
 - :x: DO NOT: Return null from a method with a return type of IEnumerable<T>.
-- :no_entry: AVOID Null checks on IEnumerable<T> return values.
+- :no_entry: AVOID: Null checks on IEnumerable<T> return values.
 - :x: DO NOT: Return null from a method with a return type Task<T>.
 
 ### Exceptions
