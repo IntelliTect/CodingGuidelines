@@ -38,7 +38,7 @@ This largely removes the need for readonly fields in favor of properties.
 - :no_entry: AVOID: var in cases where the the type of var is not obvious. Common exceptions would be constructors and generic method calls where it is clear the generic type is the return value.
 
 ### Abbreviations
-- :no_entry: AVOID Abbreviations unless project approved or generally accepted and documented.
+- :no_entry: AVOID: Abbreviations unless project approved or generally accepted and documented.
 - :heavy_check_mark: DO: If an object property name fully or partially uses a two letter abbreviation, it will be all uppercase; if it is three letters it will be mixed.
 
 ### Tests
