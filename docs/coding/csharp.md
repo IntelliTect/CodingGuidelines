@@ -60,7 +60,7 @@ This largely removes the need for readonly fields in favor of properties.
 - :heavy_check_mark: DO: Put a single class per file unless varying arity, code is generated, creating nested classes, or there is a needed  “buddy class” to add DataAnnotations.
 - :heavy_check_mark: DO: Give source files the name of the class in the file
 - :heavy_check_mark: DO: Group members into sections based on type (Constants, Constructors, Fields and Properties, Methods, Interface implementations). Static members should be grouped with their respective instance members. (e.g. static methods grouped with instance methods)
-- :no_entry: AVOID Lines longer than 150 characters
+- :no_entry: AVOID: Lines longer than 150 characters
 - :heavy_check_mark: CONSIDER: Group members in a file by their member type. For examples, keep all properties together, all methods together, constructors/finalizers together.
 
 ### Properties
