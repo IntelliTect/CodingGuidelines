@@ -109,7 +109,7 @@ See http://msdn.microsoft.com/en-us/library/dd465121.aspx for more detail around
 - :x: DO NOT: Over catch exceptions. Exceptions should often be allowed to propagate up the call stack. Use exception filters to avoid catching exceptions that you cannot handle.
 - :heavy_check_mark: DO: In a catch statement that throws an exception, throw the original (using throw;)  or wrapped exception if the exception type is not appropriate to re-throw  (throw new Exception(exception)). This maintains the stack location of the original error.
 - :no_entry: AVOID: Defining custom exception classes.
-- :no_entry: AVOID Returning error codes.  Exceptions are the primary means of reporting errors in frameworks.
+- :no_entry: AVOID: Returning error codes.  Exceptions are the primary means of reporting errors in frameworks.
 - :heavy_check_mark: CONSIDER: terminating the process by calling System.Environment.FailFast if code encounters a situation where it is unsafe for further execution.
 - :no_entry: AVOID Creating APIs that when called can result in a system failure.  If such a failure can occur, call Environment.FailFast when the system failure occurs instead.
 - :x: DO NOT: Use exceptions for normal flow of control.
