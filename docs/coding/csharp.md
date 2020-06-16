@@ -128,7 +128,7 @@ AVOID: Catching System.Exception or System.SystemException except in top-level e
 - :heavy_check_mark: DO: Throw an InvalidOperationException if the object is not in a valid state.
 - :heavy_check_mark: DO: Throw ArgumentException or one of its subtypes (ArgumentNullException) if bad arguments are passed to a member.  Prefer the most derived exception type, if applicable. Set the parameter name of the bad argument that was passed. 
 - :x: DO NOT: Explicitly throw ComException, ExecutionEngineException, or SEHException.
-- :no_entry: AVOID Deep exception hierarchies.
+- :no_entry: AVOID: Deep exception hierarchies.
 - :heavy_check_mark: DO: Make exceptions runtime serializable.
 - :heavy_check_mark: DO: Provide exception constructors for default, string message, and Exception inner.
 - :heavy_check_mark: CONSIDER: Providing exception properties for programmatic access to extra information relevant to the exception.
