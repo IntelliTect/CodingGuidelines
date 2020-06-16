@@ -29,7 +29,7 @@
 - :heavy_check_mark: DO: Prefix fields (if they are indeed needed) with underscore and then use ‘PascalCasing’ and wrap them with a property (even if the end result is private).
 Exception: Unless you need to pass a member value by ref, and it cannot be a local variable. Example: Maintaining an internal reference count using Interlocked.
 This largely removes the need for readonly fields in favor of properties.
-- :no_entry: AVOID Hungarian notation
+- :no_entry: AVOID: Hungarian notation
 - :no_entry: AVOID incorporating the data type into the name.
 - :heavy_check_mark: DO: Use C# alias types rather than their System namespace counterparts (ie. ‘int’ instead of ‘System.Int32’)
 - :heavy_check_mark: DO: Use plural names for collections
