@@ -1,0 +1,248 @@
+Ch01_fa67753,DO favor clarity over brevity when naming identifiers.
+Ch01_674fe1e,DO NOT use abbreviations or contractions within identifier names.
+Ch01_024aa0c,"DO NOT use any acronyms unless they are widely accepted, and even then use them consistently."
+Ch01_18f8f3d,"DO capitalize both characters in two-character acronyms, except for the first word of a camelCased identifier."
+Ch01_4724506,"DO capitalize only the first character in acronyms with three or more characters, except for the first word of a camelCased identifier."
+Ch01_3dc2561,DO NOT capitalize any of the characters in acronyms at the beginning of a camelCased identifier.
+Ch01_0f60ed8,"DO NOT use Hungarian notation (that is, do not encode the type of a variable in its name)."
+Ch01_bc3eba9,DO name classes with nouns or noun phrases.
+Ch01_bca741e,DO use PascalCasing for all class names.
+Ch01_84e650d,DO use camelCasing for local variable names.
+Ch01_8d54a4a,DO NOT use comments unless they describe something that is not obvious to someone other than the developer who wrote the code.
+Ch01_aaa5d64,DO favor writing clearer code over entering comments to clarify a complicated algorithm.
+Ch02_d77deaa,"DO use the C# keyword rather than the BCL name when specifying a data type (e.g., string rather than String)."
+Ch02_2153e4b,DO favor consistency rather than variety within your code.
+Ch02_0733544,"DO use uppercase literal suffixes (e.g., 1.618033988749895M)."
+Ch02_fe45082,DO rely on System.WriteLine() and System.Environment.NewLine rather than \n to accommodate Windows-specific operating system idiosyncrasies with the same code that runs on Linux and iOS.
+Ch03_8eb9d3b,AVOID using implicitly typed local variables unless the data type of the assigned value is obvious.
+Ch03_2e95ca6,DO use camelCasing for variable declarations using tuple syntax. 
+Ch03_60bedde,CONSIDER using PascalCasing for all tuple item names.
+Ch03_a4c15ba,CONSIDER checking for null before accessing an array rather than assuming there is an array instance.
+Ch03_f89b8c6,CONSIDER checking the array length before indexing into an array rather than assuming the length.
+Ch03_465c4a9,CONSIDER using the index from end operator (^) rather than Length - 1 with C# 8.0 or higher.
+Ch04_1931647,"DO use parentheses to make code more readable, particularly if the operator precedence is not clear to the casual reader."
+Ch04_eb56132,DO favor composite formatting over use of the addition operator for concatenating strings when localization is a possibility.
+Ch04_a2acbe5,AVOID binary floating-point types when exact decimal arithmetic is required; use the decimal floating-point type instead.
+Ch04_fb61e76,"AVOID using equality conditionals with binary floating-point types. Either subtract the two values and see if their difference is less than a tolerance, or  use the decimal type."
+Ch04_6c13edc,AVOID confusing usage of the increment and decrement operators.
+Ch04_5cd786a,"DO be cautious when porting code between C, C++, and C# that uses increment and decrement operators; C and C++ implementations need not follow the same rules as C#."
+Ch04_80e4248,"DO NOT use a constant for any value that can possibly change over time. The value of pi and the number of protons in an atom of gold are constants; the price of gold, the name of your company, and the version number of your program can change."
+Ch04_448befa,"AVOID omitting braces, except for the simplest of single-line if statements."
+Ch04_9d2f0b0,CONSIDER using an if-else statement instead of an overly complicated conditional expression.
+Ch04_288d5d4,CONSIDER refactoring the method to make the control flow easier to understand if you find yourself writing for loops with complex conditionals and multiple loop variables.
+Ch04_df99fc7,DO use the for loop when the number of loop iterations is known in advance and the “counter” that gives the number of iterations executed is needed in the loop.
+Ch04_5d47a01,DO use the while loop when the number of loop iterations is not known in advance and a counter is not needed.
+Ch04_db9a418,"DO NOT use continue as the jump statement that exits a switch section. This is legal when the switch is inside a loop, but it is easy to become confused about the meaning of break in a later switch section."
+Ch04_60c970b,AVOID using goto.
+Ch05_8bc40bb,DO give methods names that are verbs or verb phrases.
+Ch05_252e2b8,DO use PascalCasing for namespace names.
+Ch05_a1b9f98,CONSIDER organizing the directory hierarchy for source code files to match the namespace hierarchy.
+Ch05_eda9d9d,DO use camelCasing for parameter names.
+Ch05_e6a28dd,DO use parameter arrays when a method can handle any number—including zero—of additional arguments.
+Ch05_9d8e357,DO provide good defaults for all parameters where possible.
+Ch05_15c4fc4,DO provide simple method overloads that have a small number of required parameters.
+Ch05_2f3be3e,CONSIDER organizing overloads from the simplest to the most complex.
+Ch05_058d8b7,"DO treat parameter names as part of the API, and avoid changing the names if version compatibility between APIs is important."
+Ch05_d24d3d8,AVOID explicitly throwing exceptions from finally blocks. (Implicitly thrown exceptions resulting from method calls are acceptable.)
+Ch05_17c64fa,DO favor try/finally and avoid using try/catch for cleanup code.
+Ch05_6a584e4,"DO throw exceptions that describe which exceptional circumstance occurred, and if possible, how to prevent it."
+Ch05_23c1a36,AVOID general catch blocks and replace them with a catch of System.Exception.
+Ch05_70d749f,AVOID catching exceptions for which the appropriate action is unknown. It is better to let an exception go unhandled than to handle it incorrectly.
+Ch05_2c3af94,"AVOID catching and logging an exception before rethrowing it. Instead, allow the exception to escape until it can be handled appropriately."
+Ch05_61b3882,DO prefer using an empty throw when catching and rethrowing an exception so as to preserve the call stack.
+Ch05_b049d9c,DO report execution failures by throwing exceptions rather than returning error codes.
+Ch05_7ff8661,DO NOT have public members that return exceptions as return values or an out parameter. Throw exceptions to indicate errors; do not use them as return values to indicate errors.
+Ch05_18c798c,"DO NOT use exceptions for handling normal, expected conditions; use them for exceptional, unexpected conditions."
+Ch06_d10adca,DO NOT place more than one class in a single source file.
+Ch06_0ed5276,DO name the source file with the name of the public type it contains.
+Ch06_e69b9e0,DO use properties for simple access to simple data with simple computations.
+Ch06_eba49e4,AVOID throwing exceptions from property getters.
+Ch06_9397f65,DO preserve the original property value if the property throws an exception.
+Ch06_055accc,DO favor automatically implemented properties over properties with simple backing fields when no additional logic is required.
+Ch06_7cab06e,"CONSIDER using the same casing on a property’s backing field as that used in the property, distinguishing the backing field with an “_” prefix. Do not, however, use two underscores; identifiers beginning with two underscores are reserved for the use of t"
+Ch06_788a58b,"DO name properties using a noun, noun phrase, or adjective."
+Ch06_5973d26,CONSIDER giving a property the same name as its type.
+Ch06_55e85dc,AVOID naming fields with camelCase.
+Ch06_914113d,"DO favor prefixing Boolean properties with “Is,” “Can,” or “Has,” when that practice adds value."
+Ch06_767d331,DO declare all instance fields as private (and expose them via a property).
+Ch06_cae474c,DO name properties with PascalCase.
+Ch06_c3b60fb,DO favor automatically implemented properties over fields.
+Ch06_6ac1f1f,DO favor automatically implemented properties over using fully expanded ones if there is no additional implementation logic.
+Ch06_cc0570a,"AVOID accessing the backing field of a property outside the property, even from within the containing class."
+Ch06_9154422,"DO use nameof(value) (which resolves to “value”) for the paramName argument when creating ArgumentException() or ArgumentNullException() type exceptions (value"" is the implicit name of the parameter on property setters)."""
+Ch06_a84c12f,DO create read-only properties if the property value should not be changed.
+Ch06_d3c9589,DO create read-only automatically implemented properties in C# 6.0 (or later) rather than read-only properties with a backing field if the property value should not be changed.
+Ch06_a95c434,DO apply appropriate accessibility modifiers on implementations of getters and setters on all properties.
+Ch06_91ed3bb,DO NOT provide set-only properties or properties with the setter having broader accessibility than the getter.
+Ch06_a0f225d,"DO provide sensible defaults for all properties, ensuring that defaults do not result in a security hole or significantly inefficient code."
+Ch06_d60e8e4,"DO allow properties to be set in any order, even if this results in a temporarily invalid object state."
+Ch06_f889ac9,DO use the same name for constructor parameters (camelCase) and properties (PascalCase) if the constructor parameters are used to simply set the property.
+Ch06_8f85e0d,DO provide constructor optional parameters and/or convenience constructor overloads that initialize properties with good defaults.
+Ch06_c874374,"DO allow properties to be set in any order, even if this results in a temporarily invalid object state."
+Ch06_000b368,"DO implement non-nullable read/write reference fully implemented properties with a nullable backing field, a null-forgiveness operator when returning the field from the getter, and non-null validation in the property setter."
+Ch06_255b1d8,DO assign non-nullable reference-type properties before instantiation completes.
+Ch06_ee0093e,DO implement non-nullable reference-type automatically implemented properties as read-only.
+Ch06_dd75475,DO use a nullable check for all reference-type properties and fields that are not initialized before instantiation completes.
+Ch06_7fc9a01,CONSIDER initializing static fields inline rather than explicitly using static constructors or declaration assigned values.
+Ch06_b296d64,"AVOID frivolously defining extension methods, especially on types you don’t own."
+Ch06_c851981,DO use constant fields for values that will never change.
+Ch06_af00ea1,AVOID constant fields for values that will change over time.
+Ch06_c249c9e,DO favor read-only automatically implemented properties in C# 6.0 (or later) over read-only fields.
+Ch06_d0b801d,DO use public static readonly modified fields for predefined object instances prior to C# 6.0.
+Ch06_bd3abf6,AVOID changing a public readonly modified field in pre-C# 6.0 to a read-only automatically implemented property in C# 6.0 (or later) if version API compatibility is required.
+Ch06_833d6cb,AVOID publicly exposed nested types. The only exception is if the declaration of such a type is unlikely or pertains to an advanced customization scenario.
+Ch08_91047cd,DO use PascalCasing and an “I” prefix for interface names.
+Ch08_fa99bb5,DO NOT add abstract members to an interface that has already been published.
+Ch08_3c928d3,CONSIDER using extension methods or an additional interface in place of default interface members when adding methods to a published interface.
+Ch08_8ba81e7,DO use extension methods when the interface providing the polymorphic behavior is not under your control.
+Ch08_b8414b8,DO use an additional interface when properties are necessary for extending polymorphic behavior for framework support prior to .NET Core 3.0.
+Ch08_4fa7bc3,CONSIDER interfaces over abstract classes for polymorphic behavior starting with in C# 8.0/.NET Core 3.0 and abstract classes prior to C# 8.0.
+Ch08_a809cac,CONSIDER defining an interface if you need to support its functionality on types that already inherit from some other type.
+Ch08_f2bfb39,AVOID using “marker” interfaces with no members; use attributes instead.
+Ch09_907e356,AVOID creating value types that consume more than 16 bytes of memory.
+Ch09_7ffcf7c,DO make value types immutable.
+Ch09_a0c5fb5,DO ensure that the default value of a struct is valid; encapsulation cannot prevent obtaining the default “all zero” value of a struct.
+Ch09_f8ff9c5,"DO override the equality operators (Equals(), ==, and !=) and GetHashCode() on value types if equality is meaningful. (Also consider implementing the IEquatable<T> interface.)"
+Ch09_7926e34,AVOID mutable value types.
+Ch09_39959f7,CONSIDER using the default 32-bit integer type as the underlying type of an enum. Use a smaller type only if you must do so for interoperability; use a larger type only if you are creating a flags enum with more than 32 flags.
+Ch09_8e0df53,"CONSIDER adding new members to existing enums, but keep in mind the compatibility risk."
+Ch09_948435c,"AVOID creating enums that represent an “incomplete” set of values, such as product version numbers."
+Ch09_e58a37a,AVOID creating “reserved for future use” values in an enum.
+Ch09_56e3511,AVOID enums that contain a single value.
+Ch09_084dc7e,"DO provide a value of 0 (none) for simple enums, knowing that 0 will be the default value when no explicit initialization is provided."
+Ch09_2520f44,AVOID direct enum/string conversions where the string must be localized into the user’s language.
+Ch09_43c9c84,DO use the FlagsAttribute to mark enums that contain flags.
+Ch09_7c07904,DO provide a None value equal to 0 for all flag enums.
+Ch09_827f8ac,AVOID creating flag enums where the zero value has a meaning other than “no flags are set.”
+Ch09_9e506b3,CONSIDER providing special values for commonly used combinations of flags.
+Ch09_f056c5a,DO NOT include “sentinel” values (such as a value called Maximum); such values can be confusing to the user.
+Ch09_5d8b32c,DO use powers of 2 to ensure that all flag combinations are represented uniquely.
+Ch09_14bf8c0,"DO NOT define a struct unless it logically represents a single value, consumes 16 bytes or less of storage, is immutable, and is infrequently boxed."
+Ch10_7661f0c,DO override ToString() whenever useful developer-oriented diagnostic strings can be returned.
+Ch10_b125c4e,CONSIDER trying to keep the string returned from ToString() short.
+Ch10_a98f6db,DO NOT return an empty string or null from ToString().
+Ch10_0b65a4d,DO NOT throw exceptions or make observable side effects (change the object state) from ToString().
+Ch10_c638106,"DO provide an overloaded ToString(string format) or implement IFormattable if the return value requires formatting or is culture-sensitive (e.g., DateTime)."
+Ch10_a41d70f,CONSIDER returning a unique string from ToString() so as to identify the object instance.
+Ch10_749ad2d,"DO implement GetHashCode(), Equals(), the == operator, and the != operator together—not one of these without the other three."
+Ch10_136942b,"DO use the same algorithm when implementing Equals(), ==, and !=."
+Ch10_5429af2,"DO NOT throw exceptions from implementations of GetHashCode(), Equals(), ==, and !=."
+Ch10_7826428,AVOID overriding the equality-related members on mutable reference types or if the implementation would be significantly slower with such overriding.
+Ch10_9cf0c87,DO implement all the equality-related methods when implementing IEquitable.
+Ch10_b8593fd,AVOID using the equality comparison operator (==) from within the implementation of the == operator overload.
+Ch10_d8d1076,DO NOT provide an implicit conversion operator if the conversion is lossy.
+Ch10_28104b3,DO NOT throw exceptions from implicit conversions.
+Ch10_ba9f7e8,DO prefix namespace names with a company name to prevent namespaces from different companies having the same name.
+Ch10_2c093db,"DO use a stable, version-independent product name at the second level of a namespace name."
+Ch10_27e68dd,DO NOT define types without placing them into a namespace.
+Ch10_33ecc69,CONSIDER creating a folder structure that matches the namespace hierarchy.
+Ch10_c7bb898,"DO provide XML comments on public APIs when they provide more context than the API signature alone. This includes member descriptions, parameter descriptions, and examples of calling the API."
+Ch10_171b873,DO implement the dispose pattern on objects with resources that are scarce or expensive.
+Ch10_6d5f8a9,DO implement IDisposable to support possible deterministic finalization on classes with finalizers.
+Ch10_b8dfdee,DO implement finalizer methods only on objects with resources that don't have finalizers but still require cleanup.
+Ch10_a5d592f,"DO refactor a finalization method to call the same code as IDisposable, perhaps simply by calling the Dispose() method."
+Ch10_b6bd319,DO NOT throw exceptions from finalizer methods.
+Ch10_0cefa84,CONSIDER registering the finalization code with the AppDomain.ProcessExit to increase the probability that resource cleanup will execute before the process exits.
+Ch10_f1dff25,DO unregister any AppDomain.ProcessExit events during dispose.
+Ch10_6072ffe,DO call System.GC.SuppressFinalize() from Dispose() to avoid repeating resource cleanup and delaying garbage collection on an object.
+Ch10_70107cb,DO ensure that Dispose() is idempotent (it should be possible to call Dispose() multiple times).
+Ch10_ce375e1,"DO keep Dispose() simple, focusing on the resource cleanup required by finalization."
+Ch10_721d2d0,"AVOID calling Dispose() on owned objects that have a finalizer. Instead, rely on the finalization queue to clean up the instance."
+Ch10_c973d64,AVOID referencing other objects that are not being finalized during finalization.
+Ch10_379a090,DO invoke a base class’s Dispose() method when overriding Dispose().
+Ch10_6eeac15,"CONSIDER ensuring that an object becomes unusable after Dispose() is called. After an object has been disposed, methods other than Dispose() (which could potentially be called multiple times) should throw an ObjectDisposedException."
+Ch10_eb80d35,DO implement IDisposable on types that own disposable fields (or properties) and dispose of those instances.
+Ch10_9c47064,DO invoke a base class’s Dispose() method from the Dispose(bool disposing) method if one exists.
+Ch11_50d397c,"DO throw an ArgumentException or one of its subtypes if bad arguments are passed to a member. Prefer the most derived exception type (e.g., ArgumentNullException), if applicable."
+Ch11_9e46f7d,DO NOT throw a System.SystemException or an exception type that derives from it.
+Ch11_19f82ab,"DO NOT throw a System.Exception, System.NullReferenceException, or System.ApplicationException."
+Ch11_562d79e,CONSIDER terminating the process by calling System.Environment.FailFast() if the program encounters a scenario where it is unsafe to continue execution.
+Ch11_48148c5,"DO use nameof for the paramName argument passed into argument exception types that take such a parameter. Examples of such exceptions include ArgumentException, ArgumentOutOfRangeException, and ArgumentNullException."
+Ch11_459fe70,AVOID exception reporting or logging lower in the call stack.
+Ch11_38306c8,DO NOT over-catch. Exceptions should be allowed to propagate up the call stack unless it is clearly understood how to programmatically address those errors lower in the stack.
+Ch11_053fd15,CONSIDER catching a specific exception when you understand why it was thrown in a given context and can respond to the failure programmatically.
+Ch11_178723a,AVOID catching System.Exception or System.SystemException except in top-level exception handlers that perform final cleanup operations before rethrowing the exception.
+Ch11_dc686f7,DO use throw; rather than throw <exception object> inside a catch block.
+Ch11_e13bc5d,DO use exception filters to avoid rethrowing an exception from within a catch block.
+Ch11_16109eb,DO use caution when rethrowing different exceptions.
+Ch11_f344253,AVOID throwing exceptions from exception filters.
+Ch11_e579bf2,AVOID exception filters with logic that might implicitly change over time.
+Ch11_91217b6,AVOID deep exception hierarchies.
+Ch11_a83c648,DO NOT create a new exception type if the exception would not be handled differently than an existing CLR exception. Throw the existing framework exception instead.
+Ch11_e75c200,DO create a new exception type to communicate a unique program error that cannot be communicated using an existing CLR exception and that can be programmatically handled in a different way than any other existing CLR exception type.
+Ch11_7d0b05f,DO provide a parameterless constructor on all custom exception types. Also provide constructors that take a message and an inner exception.
+Ch11_72171bd,DO name an exception classes with the “Exception” suffix.
+Ch11_7309f6e,DO make exceptions runtime-serializable.
+Ch11_057c0a8,CONSIDER providing exception properties for programmatic access to extra information relevant to the exception.
+Ch11_512703a,CONSIDER wrapping specific exceptions thrown from the lower layer in a more appropriate exception if the lower-layer exception does not make sense in the context of the higher-layer operation.
+Ch11_d29c49b,DO specify the inner exception when wrapping exceptions.
+Ch11_6ff45fe,"DO target developers as the audience for exceptions, identifying both the problem and the mechanism to resolve it, where possible."
+Ch12_d63cfac,DO choose meaningful names for type parameters and prefix the name with T.
+Ch12_f7a7df9,CONSIDER indicating a constraint in the name of a type parameter.
+Ch12_26081fd,AVOID implementing multiple constructions of the same generic interface in one type.
+Ch12_63ec27c,DO place multiple generic semantically equivalent classes into a single file if they differ only by the number of generic parameters.
+Ch12_a1a1eb0,AVOID shadowing a type parameter of an outer type with an identically named type parameter of a nested type.
+Ch12_f8fe6d3,AVOID misleading the caller with generic methods that are not as type-safe as they appear.
+Ch12_7ae535f,"AVOID unsafe array covariance. Instead, CONSIDER converting the array to the read-only interface IEnumerable<T>, which can be safely converted via covariant conversions."
+Ch13_db6bb7b,CONSIDER whether the readability benefit of defining your own delegate type outweighs the convenience of using a predefined generic delegate type.
+Ch13_5f2d963,CONSIDER omitting the types from lambda formal parameter lists when the types are obvious to the reader or when they are an insignificant detail.
+Ch13_7ad5d4f,AVOID the anonymous method syntax in new code; prefer the more compact lambda expression syntax.
+Ch13_103f552,AVOID capturing loop variables in anonymous functions.
+Ch14_b2a62ce,DO check that the value of a delegate is not null before invoking it.
+Ch14_23f8f10,DO use the null-conditional operator prior to calling Invoke() starting in C# 6.0.
+Ch14_2d388a8,DO check that the value of a delegate is not null before invoking it (possibly by using the null-conditional operator in C# 6.0).
+Ch14_85ed8e8,DO pass the instance of the class as the value of the sender for nonstatic events.
+Ch14_ae089de,DO pass null as the sender for static events.
+Ch14_10fc803,DO NOT pass null as the value of the eventArgs argument.
+Ch14_542dc4a,DO use System.EventArgs or a type that derives from System.EventArgs for a TEventArgs type.
+Ch14_0814846,CONSIDER using a subclass of System.EventArgs as the event argument type (TEventArgs) unless you are sure the event will never need to carry any data.
+Ch14_66d4360,CONSIDER using System.EventHandler<T> instead of manually creating new delegate types for event handlers unless the parameter names of a custom type offer significant clarification.
+Ch15_ecf21c1,DO use System.Linq.Enumerable.Any() rather than calling patents.Count() when checking whether there are more than zero items.
+Ch15_322a2fc,DO use a collection’s Count property (if available) instead of calling the System.Linq.Enumerable.Count() method.
+Ch15_e24a391,DO NOT call an OrderBy() following a prior OrderBy() method call. Use ThenBy() to sequence items by more than one value.
+Ch16_25d5f4b,"DO use query expression syntax to make queries easier to read, particularly if they involve complex from, let, join, or group clauses."
+Ch16_7a93cc2,"CONSIDER using the standard query operators (method call form) if the query involves operations that do not have a query expression syntax, such as Count(), TakeWhile(), or Distinct()."
+Ch17_2fa7033,DO ensure that custom comparison logic produces a consistent “total order.”
+Ch17_51d3f5a,"DO NOT make any unwarranted assumptions about the order in which elements of a collection will be enumerated. If the collection is not documented as enumerating its elements in a particular order, it is not guaranteed to produce elements in any particula"
+Ch17_22f08bd,DO NOT represent an empty collection with a null reference.
+Ch17_eb87d99,CONSIDER using the Enumerable.Empty<T>() method instead.
+Ch17_94b204b,CONSIDER using nonrecursive algorithms when iterating over potentially deep data structures.
+Ch18_c57b9f2,DO apply AssemblyVersionAttribute to assemblies with public types.
+Ch18_f6ef976,CONSIDER applying AssemblyFileVersionAttribute and AssemblyCopyrightAttribute to provide additional information about the assembly.
+Ch18_9f8635e,"DO apply the following information assembly attributes: System.Reflection.AssemblyCompanyAttribute, System.Reflection.AssemblyCopyrightAttribute, System.Reflection.AssemblyDescriptionAttribute, and System.Reflection.AssemblyProductAttribute."
+Ch18_097597f,DO name custom attribute classes with the suffix Attribute.
+Ch18_437d502,DO provide get-only properties (without public setters) on attributes with required property values.
+Ch18_fe88029,DO provide constructor parameters to initialize properties on attributes with required properties. Each parameter should have the same name (albeit with different casing) as the corresponding property.
+Ch18_c521414,"AVOID providing constructor parameters to initialize attribute properties corresponding to the optional arguments (and, therefore, avoid overloading custom attribute constructors)."
+Ch18_88b8c3f,DO apply the AttributeUsageAttribute class to custom attributes.
+Ch19_6c5204b,DO NOT fall into the common error of believing that more threads always make code faster.
+Ch19_5abf72f,DO carefully measure performance when attempting to speed up processor-bound problems through multithreading.
+Ch19_97d9a96,DO NOT make an unwarranted assumption that any operation that is seemingly atomic in single-threaded code will be atomic in multithreaded code.
+Ch19_c8fcebe,DO NOT assume that all threads will observe all side effects of operations on shared memory in a consistent order.
+Ch19_94ff01d,DO ensure that code that concurrently acquires multiple locks always acquires them in the same order.
+Ch19_034fe74,"AVOID all race conditions—that is, conditions where program behavior depends on how the operating system chooses to schedule threads."
+Ch19_9711830,AVOID writing programs that produce unhandled exceptions on any thread.
+Ch19_aff6b2e,"CONSIDER registering an unhandled exception event handler for debugging, logging, and emergency shutdown purposes."
+Ch19_8b96366,DO cancel unfinished tasks rather than allowing them to run during application shutdown.
+Ch19_6e053f2,DO cancel unfinished tasks rather than allowing them to run during application shutdown.
+Ch19_f2a5068,DO inform the task factory that a newly created task is likely to be long-running so that it can manage it appropriately.
+Ch19_44cb7d4,DO use TaskCreationOptions.LongRunning sparingly.
+Ch19_fe1f04f,AVOID calling Thread.Sleep() in production code.
+Ch19_16b2610,DO use tasks and related APIs in favor of System.Theading classes such as Thread and ThreadPool.
+Ch21_9124902,DO use parallel loops when the computations performed can be easily split up into many mutually independent processor-bound computations that can be executed in any order on any thread.
+Ch22_b2bb25c,"AVOID locking on this, System.Type, or a string."
+Ch22_607ab99,"DO declare a separate, read-only synchronization variable of type object for the synchronization target."
+Ch22_a6a166e,AVOID using the MethodImplAttribute for synchronization.
+Ch22_0b2166b,DO NOT request exclusive ownership of the same two or more synchronization targets in different orders.
+Ch22_6bdd827,DO ensure that code that concurrently holds multiple locks always acquires them in the same order.
+Ch22_08a5bae,DO encapsulate mutable static data in public APIs with synchronization logic.
+Ch22_255454e,"AVOID synchronization on simple reading or writing of values no bigger than a native (pointer-size) integer, as such operations are automatically atomic."
+Ch23_8c46517,"DO create public managed wrappers around unmanaged methods that use the conventions of managed code, such as structured exception handling."
+Ch23_701f434,DO NOT unnecessarily replicate existing managed classes that already perform the function of the unmanaged API.
+Ch23_82d7b26,DO declare extern methods as private or internal.
+Ch23_f3b60a5,"DO provide public wrapper methods that use managed conventions such as structured exception handling, use of enums for special values, and so on."
+Ch23_820f1d7,DO simplify the wrapper methods by choosing default values for unnecessary parameters.
+Ch23_20f7961,DO use the SetLastErrorAttribute on Windows to turn APIs that use SetLastError error codes into methods that throw Win32Exception.
+Ch23_6c3bec6,DO extend SafeHandle or implement IDisposable and create a finalizer to ensure that unmanaged resources can be cleaned up effectively.
+Ch23_90adcd5,DO use delegate types that match the signature of the desired method when an unmanaged API requires a function pointer.
+Ch23_f0389b6,DO use ref parameters rather than pointer types when possible.
