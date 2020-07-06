@@ -39,6 +39,31 @@ namespace ConsoleApp
         }
 
         [TestMethod]
+        public void ProperlySetAttributes_SingleAttributeWithMultipleProperties_NoDiagnosticInformationReturned()
+        {
+            string test = @"using System;
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+        public string Foo { get; set; }
+        public string Bar { get; set; }
+    }
+
+    [A(Foo = ""Foo"", Bar = ""Bar"")]
+    class Program
+    {
+        [A(Foo = ""Foo"", Bar = ""Bar"")]
+        static void Main()
+        {
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
         public void MethodAttributeLineViolation_TwoAttributesOnSameLine_Warning()
         {
             string test = @"using System;
