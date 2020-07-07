@@ -65,7 +65,7 @@ namespace IntelliTect.Analyzer.CodeFixes
             {
                 attributeLists = attributeLists.Add(
                     SyntaxFactory.AttributeList(
-                        SyntaxFactory.SeparatedList<AttributeSyntax>(
+                        SyntaxFactory.SeparatedList(
                             new[] {
                                     SyntaxFactory.Attribute(
                                         attribute.Name,
@@ -86,36 +86,26 @@ namespace IntelliTect.Analyzer.CodeFixes
 
         private static IEnumerable<AttributeListSyntax> GetAttributeListSyntaxes(SyntaxNode node)
         {
-            switch (node)
+            return node switch
             {
-                case ClassDeclarationSyntax c:
-                    return c.AttributeLists;
-                case MethodDeclarationSyntax m:
-                    return m.AttributeLists;
-                case PropertyDeclarationSyntax p:
-                    return p.AttributeLists;
-                case FieldDeclarationSyntax f:
-                    return f.AttributeLists;
-                default:
-                    throw new NotImplementedException();
-            }
+                ClassDeclarationSyntax c => c.AttributeLists,
+                MethodDeclarationSyntax m => m.AttributeLists,
+                PropertyDeclarationSyntax p => p.AttributeLists,
+                FieldDeclarationSyntax f => f.AttributeLists,
+                _ => throw new NotImplementedException(),
+            };
         }
 
         private static SyntaxNode BuildNodeWithAttributeLists(SyntaxNode node, SyntaxList<AttributeListSyntax> attributeLists)
         {
-            switch (node)
+            return node switch
             {
-                case ClassDeclarationSyntax c:
-                    return c.WithAttributeLists(attributeLists);
-                case MethodDeclarationSyntax m:
-                    return m.WithAttributeLists(attributeLists);
-                case PropertyDeclarationSyntax p:
-                    return p.WithAttributeLists(attributeLists);
-                case FieldDeclarationSyntax f:
-                    return f.WithAttributeLists(attributeLists);
-                default:
-                    throw new NotImplementedException();
-            }
+                ClassDeclarationSyntax c => c.WithAttributeLists(attributeLists),
+                MethodDeclarationSyntax m => m.WithAttributeLists(attributeLists),
+                PropertyDeclarationSyntax p => p.WithAttributeLists(attributeLists),
+                FieldDeclarationSyntax f => f.WithAttributeLists(attributeLists),
+                _ => throw new NotImplementedException(),
+            };
         }
     }
 }

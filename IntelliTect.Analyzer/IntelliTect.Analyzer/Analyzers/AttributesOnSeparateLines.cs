@@ -40,26 +40,29 @@ namespace IntelliTect.Analyzer.Analyzers
 
             if (namedTypeSymbol.GetAttributes().Any())
             {
-                IDictionary<int, AttributeData> lineDict = new Dictionary<int, AttributeData>();
-                int symbolLineNo = namedTypeSymbol.Locations[0].GetLineSpan().StartLinePosition.Line;
+                IDictionary<int, AttributeData> lineDictionary = new Dictionary<int, AttributeData>();
                 foreach (AttributeData attribute in namedTypeSymbol.GetAttributes())
                 {
                     SyntaxReference applicationSyntaxReference = attribute.ApplicationSyntaxReference;
-                    Microsoft.CodeAnalysis.Text.TextSpan textspan = applicationSyntaxReference.Span;
+                    Microsoft.CodeAnalysis.Text.TextSpan textSpan = applicationSyntaxReference.Span;
                     SyntaxTree syntaxTree = applicationSyntaxReference.SyntaxTree;
-                    FileLinePositionSpan linespan = syntaxTree.GetLineSpan(textspan);
+                    FileLinePositionSpan lineSpan = syntaxTree.GetLineSpan(textSpan);
 
-                    int attributeLineNo = linespan.StartLinePosition.Line;
-                    if (lineDict.ContainsKey(attributeLineNo) || attributeLineNo == symbolLineNo)
+                    IEnumerable<int> symbolLineNumbers = namedTypeSymbol.Locations
+                        .Where(x => x.GetLineSpan().Path == lineSpan.Path)
+                        .Select(x => x.GetLineSpan().StartLinePosition.Line);
+
+                    int attributeLineNo = lineSpan.StartLinePosition.Line;
+                    if (lineDictionary.ContainsKey(attributeLineNo) || symbolLineNumbers.Contains(attributeLineNo))
                     {
-                        Location location = syntaxTree.GetLocation(textspan);
+                        Location location = syntaxTree.GetLocation(textSpan);
                         Diagnostic diagnostic = Diagnostic.Create(_Rule, location, attribute.AttributeClass.Name);
 
                         context.ReportDiagnostic(diagnostic);
                     }
                     else
                     {
-                        lineDict.Add(attributeLineNo, attribute);
+                        lineDictionary.Add(attributeLineNo, attribute);
                     }
                 }
             }
