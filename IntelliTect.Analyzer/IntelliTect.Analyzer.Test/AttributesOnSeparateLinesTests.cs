@@ -64,6 +64,66 @@ namespace ConsoleApp
         }
 
         [TestMethod]
+        public void ClassAttribute_SymbolDeclaredOnSameLineAsAttributeInPartial_NoDiagnosticInformationReturned()
+        {
+            string test = @"using System;
+namespace ConsoleApp
+{
+    [A(Foo = ""Foo"", Bar = ""Bar"")]
+    class Program
+    {
+        [A(Foo = ""Foo"", Bar = ""Bar"")]
+        static void Main()
+        {
+        }
+    }
+
+    class AAttribute : Attribute
+    {
+        public string Foo { get; set; }
+        public string Bar { get; set; }
+    }
+}";
+
+            string test2 = @"using System;
+namespace ConsoleApp
+{
+    partial class Program
+    {
+    }
+}";
+            //Testing both here because the order the files are loaded changes
+            //the order that location information from the Program symbol is returned.
+            VerifyCSharpDiagnostic(new[] { test2, test });
+            VerifyCSharpDiagnostic(new[] { test, test2 });
+        }
+
+        [TestMethod]
+        public void ClassAttribute_DeclaredOnPartialSymbolInTheSameFile_Warning()
+        {
+            string test = @"using System;
+namespace ConsoleApp
+{
+    class Program
+    {
+        [A(Foo = ""Foo"", Bar = ""Bar"")]
+        static void Main()
+        {
+        }
+    }
+
+    [A] partial class Program
+    {
+    }
+    class AAttribute : Attribute
+    {
+    }
+}";
+
+            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(12, 6));
+        }
+
+        [TestMethod]
         public void MethodAttributeLineViolation_TwoAttributesOnSameLine_Warning()
         {
             string test = @"using System;
