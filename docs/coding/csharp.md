@@ -7,7 +7,7 @@
 - :x: DO NOT: use any acronyms unless they are widely accepted, and even then use them consistently
 
 ### Casing
-- :heavy_check_mark: DO: capitalize both character in two-character acronyms, except for the first word of a camelCased identifier
+- :heavy_check_mark: DO: capitalize both characters in two-character acronyms, except for the first word of a camelCased identifier
 - :heavy_check_mark: DO: capitalize only the first character in acronyms with three or more characters, except for the first word of a camelCased identifier.
 - :x: DO NOT: capitalize any of the characters in acronyms at the beginning of a camelCased identifier.
 - :heavy_check_mark: DO: use PascalCasing for all class names.
@@ -33,7 +33,7 @@
 - :no_entry: AVOID: shadowing a type parameter of an outer type with an indentically named type parameter.
 
 ### Methods
-- :heavy_check_mark: DO: give methods names that are verbs of verb phrases.  
+- :heavy_check_mark: DO: give methods names that are verbs or verb phrases.  
 
 ### Variables and fields
 - :heavy_check_mark: DO: favor clarity over brevity when naming identifiers.
@@ -87,7 +87,6 @@
 - :heavy_check_mark: DO: name custom attribute classes with the suffix Attribute.
 - :heavy_check_mark: DO: provide get-only properties (without public setters) on attributes with required property values.
 - :heavy_check_mark: DO: provide constructor parameters to initialize properties on attributes with required properties. Each parameter should have the same name (albeit with different casing) as the corresponding property.
-- :no_entry: AVOID: providing constructor parameters to initialize attribute properties corresponding to the optional arguments (and, therefore, avoid overloading custom attribute constructors).
 - :heavy_check_mark: DO: apply the AttributeUsageAttribute class to custom attributes.
 	
 ### Branches
@@ -130,6 +129,7 @@
 - :heavy_check_mark: DO: use the FlagsAttribute to mark enums that contain flags.
 - :heavy_check_mark: DO: provide a None value equal to 0 for all flag enums.
 - :no_entry: AVOID: creating flag enums where the zero value has a meaning other than “no flags are set.”
+- :heavy_check_mark: CONSIDER: using the Enumerable.Empty<T>() method instead.
 
 ### Equality
 - :no_entry: AVOID: using equality conditionals with binary floating-point types. Either subtract the two values and see if their difference is less than a tolerance, or use the decimal type.
@@ -186,7 +186,7 @@
 - :no_entry: AVOID: publicly exposed nested types. The only exception is if the declaration of such a type is unlikely or pertains to an advanced customization scenario.
 
 ### Flags
-- :heavy_check_mark: CONSIDER: using the default 32-bit integer type as the underlying type of an enum. Use a smaller type only if you must do so for interoperability; use a larger type only if you are creating a flags enum with more than 32 flags.
+- :heavy_check_mark: CONSIDER: using the default 32-bit integer type as the underlying type of an enum. Use a smaller type only if you must do so for interoperability; use a larger type only if you are creating a flags enum with more than 32 flags.
 - :heavy_check_mark: CONSIDER: providing special values for commonly used combinations of flags.
 - :heavy_check_mark: DO: use powers of 2 to ensure that all flag combinations are represented uniquely.
 
@@ -218,7 +218,6 @@
 - :heavy_check_mark: DO: use a collection’s Count property (if available) instead of calling the System.Linq.Enumerable.Count() method.
 - :x: DO NOT: call an OrderBy() following a prior OrderBy() method call. Use ThenBy() to sequence items by more than one value.
 - :heavy_check_mark: CONSIDER: using the standard query operators (method call form) if the query involves operations that do not have a query expression syntax, such as Count(), TakeWhile(), or Distinct().
-- :heavy_check_mark: CONSIDER: using the Enumerable.Empty<T>() method instead.
 - :heavy_check_mark: DO: create public managed wrappers around unmanaged methods that use the conventions of managed code, such as structured exception handling.
 - :heavy_check_mark: DO: declare extern methods as private or internal.
 - :heavy_check_mark: DO: provide public wrapper methods that use managed conventions such as structured exception handling, use of enums for special values, and so on.
@@ -230,6 +229,8 @@
 - :heavy_check_mark: CONSIDER: organizing overloads from the simplest to the most complex.
 - :heavy_check_mark: DO: provide constructor optional parameters and/or convenience constructor overloads that initialize properties with good defaults.
 - :heavy_check_mark: DO: simplify the wrapper methods by choosing default values for unnecessary parameters.
+- :no_entry: AVOID: providing constructor parameters to initialize attribute properties corresponding to the optional arguments (and, therefore, avoid overloading custom attribute constructors).
+
 
 ### Properties
 - :heavy_check_mark: DO: use properties for simple access to simple data with simple computations.
