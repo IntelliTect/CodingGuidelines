@@ -2,7 +2,7 @@
 
 ## Naming
 
-![image](docs/images/code.jfif)
+![image](code.jfif)
 
 ### Abbreviations
 - :x: DO NOT: use abbreviations or contractions within identifier names.
