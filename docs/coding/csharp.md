@@ -2,10 +2,12 @@
 
 ## Naming
 
-![image](https://github.com/edmondsb/CodingGuidelines-New/blob/master/docs/images/code.jfif)
+
 
 ### Abbreviations
 - :x: DO NOT: use abbreviations or contractions within identifier names.
+- Example
+![image](https://github.com/edmondsb/CodingGuidelines-New/blob/master/docs/images/code.jfif)
 - :x: DO NOT: use any acronyms unless they are widely accepted, and even then use them consistently.
 
 ### Casing
