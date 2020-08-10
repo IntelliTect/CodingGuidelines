@@ -2,7 +2,7 @@
 
 ## Naming
 
-![image](docs/code.jfif)
+![image](https://github.com/edmondsb/CodingGuidelines-New/blob/master/docs/images/code.jfif)
 
 ### Abbreviations
 - :x: DO NOT: use abbreviations or contractions within identifier names.
