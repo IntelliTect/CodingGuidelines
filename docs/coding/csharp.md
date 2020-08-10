@@ -4,10 +4,10 @@
 
 ### Abbreviations
 - :x: DO NOT: use abbreviations or contractions within identifier names.
-- :x: DO NOT: use any acronyms unless they are widely accepted, and even then use them consistently
+- :x: DO NOT: use any acronyms unless they are widely accepted, and even then use them consistently.
 
 ### Casing
-- :heavy_check_mark: DO: capitalize both characters in two-character acronyms, except for the first word of a camelCased identifier
+- :heavy_check_mark: DO: capitalize both characters in two-character acronyms, except for the first word of a camelCased identifier.
 - :heavy_check_mark: DO: capitalize only the first character in acronyms with three or more characters, except for the first word of a camelCased identifier.
 - :x: DO NOT: capitalize any of the characters in acronyms at the beginning of a camelCased identifier.
 - :heavy_check_mark: DO: use PascalCasing for all class names.
@@ -17,7 +17,7 @@
 - :heavy_check_mark: CONSIDER: using PascalCasing for all tuple item names.
 - :heavy_check_mark: DO: use PascalCasing for namespace names.
 - :heavy_check_mark: DO: use camelCasing for parameter names.
-- :heavy_check_mark: CONSIDER: using the same casing on a propertyâ€™s backing field as that used in the property, distinguishing the backing field with an â€œ_â€ prefix. Do not, however, use two underscores; identifiers beginning with two underscores are reserved for the use of t
+- :heavy_check_mark: CONSIDER: using the same casing on a propertyâ€™s backing field as that used in the property, distinguishing the backing field with an â€œ_â€ prefix. Do not, however, use two underscores; identifiers beginning with two underscores are reserved for the use of t.
 - :no_entry: AVOID: naming fields with camelCase.
 - :heavy_check_mark: DO: name properties with PascalCase.
 - :heavy_check_mark: DO: use PascalCasing and an â€œIâ€ prefix for interface names.
