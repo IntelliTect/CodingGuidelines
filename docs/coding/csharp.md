@@ -2,6 +2,8 @@
 
 ## Naming
 
+![image](/docs/code.jfif)
+
 ### Abbreviations
 - :x: DO NOT: use abbreviations or contractions within identifier names.
 - :x: DO NOT: use any acronyms unless they are widely accepted, and even then use them consistently.
