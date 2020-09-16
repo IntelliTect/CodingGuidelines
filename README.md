@@ -2,6 +2,8 @@
 
 [![Build Status](https://intellitect.visualstudio.com/CodingStandards/_apis/build/status/IntelliTect.CodingStandards?branchName=master)](https://intellitect.visualstudio.com/CodingStandards/_build/latest?definitionId=76&branchName=master)
 
+[Coding Snippets Repository](https://github.com/IntelliTect/IntelliTect.Snippets)
+
 # Coding Guidelines / Design Guidelines
 A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingGuidelines/)
 
