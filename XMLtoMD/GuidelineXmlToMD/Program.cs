@@ -41,7 +41,7 @@ namespace GuidelineXmlToMD
         {
             foreach (string section in GetSections(guidelines))
             {
-                _MdWriter.WriteLineSingle("");
+                _MdWriter.WriteLine("");
                 Console.WriteLine(section);
                 _MdWriter.WriteLine(section, format: MdFormat.Heading2,style: MdStyle.BoldItalic);
 

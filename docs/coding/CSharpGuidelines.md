@@ -44,7 +44,8 @@
 
 
 
-  
+
+
 ## ***Coding***
 
 
@@ -307,7 +308,8 @@
 
 
 
-  
+
+
 ## ***Layout***
 
 
@@ -352,7 +354,8 @@
 - :heavy_check_mark: DO use parentheses to make code more readable, particularly if the operator precedence is not clear to the casual reader.
 - :no_entry: AVOID omitting braces, except for the simplest of single-line if statements.
 
-  
+
+
 ## ***Naming***
 
 ### Abbreviations
