@@ -22,6 +22,7 @@ namespace GuidelineXmlToMD
             _MdWriter = new MdWriter(match.Value + @"\\docs\\coding\\CSharpGuidelines.md");
 
             PrintSections(guidelines);
+            _MdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
             _MdWriter.WriteLine("");
             PrintGuidelinesBySection(guidelines);
 
@@ -42,7 +43,7 @@ namespace GuidelineXmlToMD
             {
                 Console.WriteLine(section);
                 _MdWriter.WriteLine(section, format: MdFormat.Heading2);
-                
+
 
 
                 IEnumerable<Guideline> guidelinesInSections = (from guideline in guidelines
@@ -59,22 +60,16 @@ namespace GuidelineXmlToMD
                     if (guidelinesInSubsection.Count() > 0)
                     {
                         Console.WriteLine($"     { subsection}");
-                        _MdWriter.WriteLine(subsection, format: MdFormat.Heading3, numNewLines:1);
+                        _MdWriter.WriteLine(subsection, format: MdFormat.Heading3, numNewLines: 1);
 
                         foreach (Guideline guideline in guidelinesInSubsection)
                         {
-                            _MdWriter.WriteUnorderedListItem(GetGuidelineEmoji(guideline)+" "+guideline.Text.Trim('"'), listIndent: 0);
+                            _MdWriter.WriteUnorderedListItem(GetGuidelineEmoji(guideline) + " " + guideline.Text.Trim('"'), listIndent: 0);
                         }
                     }
-
-                    _MdWriter.WriteLine("", numNewLines:1);
-
-
+                    _MdWriter.WriteLine("", numNewLines: 1);
 
                 }
-
-
-
             }
         }
 
@@ -84,7 +79,7 @@ namespace GuidelineXmlToMD
             switch (guideline.Severity)
             {
                 case "AVOID":
-                    emoji= ":no_entry:";
+                    emoji = ":no_entry:";
                     break;
                 case "DO NOT":
                     emoji = ":x:";
@@ -112,9 +107,9 @@ namespace GuidelineXmlToMD
             foreach (string section in sections)
             {
                 Console.WriteLine(section);
-                
+
                 _MdWriter.WriteUnorderedListItem(section, format: MdFormat.InternalLink, listIndent: 0);
-                
+
 
                 subSections = (from guideline in guidelines
                                where string.Equals(guideline.Section, section)
