@@ -63,7 +63,7 @@ namespace GuidelineXmlToMD
 
                         foreach (Guideline guideline in guidelinesInSubsection)
                         {
-                            _MdWriter.WriteUnorderedListItem(guideline.Text.Trim('"'), listIndent: 0);
+                            _MdWriter.WriteUnorderedListItem(GetGuidelineEmoji(guideline)+" "+guideline.Text.Trim('"'), listIndent: 0);
                         }
                     }
 
@@ -76,6 +76,30 @@ namespace GuidelineXmlToMD
 
 
             }
+        }
+
+        private static string GetGuidelineEmoji(Guideline guideline)
+        {
+            string emoji = "";
+            switch (guideline.Severity)
+            {
+                case "AVOID":
+                    emoji= ":no_entry:";
+                    break;
+                case "DO NOT":
+                    emoji = ":x:";
+                    break;
+                case "DO":
+                    emoji = ":heavy_check_mark:";
+                    break;
+                case "CONSIDER":
+                    emoji = ":grey_question:";
+                    break;
+
+                default:
+                    break;
+            }
+            return emoji;
         }
 
         private static void PrintSections(ICollection<Guideline> guidelines)
