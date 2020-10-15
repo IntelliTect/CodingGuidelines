@@ -22,6 +22,7 @@ namespace GuidelineXmlToMD
             _MdWriter = new MdWriter(match.Value + @"\\docs\\coding\\CSharpGuidelines.md");
 
             PrintSections(guidelines);
+            _MdWriter.WriteLine("");
             PrintGuidelinesBySection(guidelines);
 
             _MdWriter.Close();
@@ -36,23 +37,24 @@ namespace GuidelineXmlToMD
         }
 
         private static void PrintGuidelinesBySection(ICollection<Guideline> guidelines)
-        { 
-             foreach (string section in GetSections(guidelines))
+        {
+            foreach (string section in GetSections(guidelines))
             {
                 Console.WriteLine(section);
                 _MdWriter.WriteLine(section, format: MdFormat.Heading2);
+                _MdWriter.WriteLine("");
 
 
                 IEnumerable<Guideline> guidelinesInSections = (from guideline in guidelines
-                                            where string.Equals(guideline.Section, section)
-                                            select guideline);
+                                                               where string.Equals(guideline.Section, section)
+                                                               select guideline);
 
                 foreach (string subsection in GetSubSections(guidelines))
-                {   
+                {
 
-                        IEnumerable<Guideline> guidelinesInSubsection = (from guideline in guidelinesInSections
-                                                                         where string.Equals(guideline.Subsection, subsection)
-                                                    select guideline);
+                    IEnumerable<Guideline> guidelinesInSubsection = (from guideline in guidelinesInSections
+                                                                     where string.Equals(guideline.Subsection, subsection)
+                                                                     select guideline);
 
                     if (guidelinesInSubsection.Count() > 0)
                     {
@@ -66,11 +68,11 @@ namespace GuidelineXmlToMD
                     }
 
 
-                    
+
 
                 }
 
-                
+
 
             }
         }
@@ -86,9 +88,10 @@ namespace GuidelineXmlToMD
             {
                 Console.WriteLine(section);
                 _MdWriter.WriteUnorderedListItem(section, format: MdFormat.InternalLink, listIndent: 0);
+                _MdWriter.WriteLine("");
                 subSections = (from guideline in guidelines
-                                   where string.Equals(guideline.Section, section)
-                                   select guideline.Subsection).Distinct().OrderBy(x => x).ToList();
+                               where string.Equals(guideline.Section, section)
+                               select guideline.Subsection).Distinct().OrderBy(x => x).ToList();
 
                 foreach (string subsection in subSections)
                 {
@@ -96,18 +99,19 @@ namespace GuidelineXmlToMD
                     _MdWriter.WriteUnorderedListItem(subsection, format: MdFormat.InternalLink, listIndent: 1);
                 }
 
-                
+
 
             }
 
-           
+
 
         }
 
-        public static List<string> GetSections(ICollection<Guideline> guidelines) {
+        public static List<string> GetSections(ICollection<Guideline> guidelines)
+        {
 
             List<string> sections = (from guideline in guidelines
-                        select guideline.Section).Distinct().OrderBy(x => x).ToList();
+                                     select guideline.Section).Distinct().OrderBy(x => x).ToList();
             return sections;
         }
 
@@ -115,7 +119,7 @@ namespace GuidelineXmlToMD
         {
 
             List<string> subSections = (from guideline in guidelines
-                                     select guideline.Subsection).Distinct().OrderBy(x => x).ToList();
+                                        select guideline.Subsection).Distinct().OrderBy(x => x).ToList();
             return subSections;
         }
 

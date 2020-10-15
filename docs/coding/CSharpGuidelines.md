@@ -2,6 +2,8 @@
 
 - [Coding](#coding)
 
+
+
      - [Arrays](#arrays)
 
      - [Assemblies](#assemblies)
@@ -52,6 +54,8 @@
 
 - [Layout](#layout)
 
+
+
      - [Comments](#comments)
 
      - [Files](#files)
@@ -59,6 +63,8 @@
      - [Whitespace](#whitespace)
 
 - [Naming](#naming)
+
+
 
      - [Abbreviations](#abbreviations)
 
@@ -74,7 +80,11 @@
 
      - [Variables and fields](#variables and fields)
 
+
+
 ## Coding
+
+
 
 ### Arrays
 
@@ -536,6 +546,8 @@
 
 ## Layout
 
+
+
 ### Comments
 
 - DO NOT use comments unless they describe something that is not obvious to someone other than the developer who wrote the code.
@@ -559,6 +571,8 @@
 - AVOID omitting braces, except for the simplest of single-line if statements.
 
 ## Naming
+
+
 
 ### Abbreviations
 
