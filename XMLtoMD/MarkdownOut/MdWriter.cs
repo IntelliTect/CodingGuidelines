@@ -78,9 +78,9 @@ namespace MarkdownOut {
         /// newlines will not parsed as line breaks by Markdown parsers.
         /// </param>
         public void WriteLine(object output, MdStyle style = MdStyle.None,
-                              MdFormat format = MdFormat.None, bool useMdLineBreaks = true) {
+                              MdFormat format = MdFormat.None, bool useMdLineBreaks = true, int numNewLines = 2) {
             string text = MdText.StyleAndFormat(output, style, format);
-            stream.Write(MdText.Cleanse(text, useMdLineBreaks) + MdText.ParagraphBreak);
+            stream.Write(MdText.Cleanse(text, useMdLineBreaks) + MakeParagraphLineBreak(numNewLines));
         }
 
         /// <summary>
@@ -119,12 +119,25 @@ namespace MarkdownOut {
         /// <param name="format">The optional Markdown format to apply.</param>
         /// </param>
         public void WriteUnorderedListItem(object output, int listIndent = 0,
-                                           MdStyle style = MdStyle.None, MdFormat format = MdFormat.None) {
+                                           MdStyle style = MdStyle.None, MdFormat format = MdFormat.None, int numNewLines=1) {
             string text = MdText.Format(output, format);
             text = MdText.StyleAndFormat(text, style, MdFormat.UnorderedListItem);
             text = MdText.Indent(text, listIndent);
-            stream.Write(MdText.Cleanse(text, true) + MdText.ParagraphBreak);
+            stream.Write(MdText.Cleanse(text, true)
+                + MakeParagraphLineBreak(numNewLines));
         }
+
+        private string MakeParagraphLineBreak(int numNewLines)
+        {
+            string breaks = "";
+            for (int i = 0; i < numNewLines; i++)
+            {
+                breaks = breaks + MdText.ParagraphBreakOneLine;
+            }
+            return breaks;
+        }
+
+
 
         /// <summary>
         /// Writes the provided output to the file using the <see cref="MdFormat.OrderedListItem"/>

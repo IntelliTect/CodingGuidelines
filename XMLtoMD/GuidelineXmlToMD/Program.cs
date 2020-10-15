@@ -42,7 +42,7 @@ namespace GuidelineXmlToMD
             {
                 Console.WriteLine(section);
                 _MdWriter.WriteLine(section, format: MdFormat.Heading2);
-                _MdWriter.WriteLine("");
+                
 
 
                 IEnumerable<Guideline> guidelinesInSections = (from guideline in guidelines
@@ -59,7 +59,7 @@ namespace GuidelineXmlToMD
                     if (guidelinesInSubsection.Count() > 0)
                     {
                         Console.WriteLine($"     { subsection}");
-                        _MdWriter.WriteLine(subsection, format: MdFormat.Heading3);
+                        _MdWriter.WriteLine(subsection, format: MdFormat.Heading3, numNewLines:1);
 
                         foreach (Guideline guideline in guidelinesInSubsection)
                         {
@@ -67,6 +67,7 @@ namespace GuidelineXmlToMD
                         }
                     }
 
+                    _MdWriter.WriteLine("", numNewLines:1);
 
 
 
@@ -87,8 +88,10 @@ namespace GuidelineXmlToMD
             foreach (string section in sections)
             {
                 Console.WriteLine(section);
+                
                 _MdWriter.WriteUnorderedListItem(section, format: MdFormat.InternalLink, listIndent: 0);
-                _MdWriter.WriteLine("");
+                
+
                 subSections = (from guideline in guidelines
                                where string.Equals(guideline.Section, section)
                                select guideline.Subsection).Distinct().OrderBy(x => x).ToList();
@@ -98,6 +101,7 @@ namespace GuidelineXmlToMD
                     Console.WriteLine($"     { subsection}");
                     _MdWriter.WriteUnorderedListItem(subsection, format: MdFormat.InternalLink, listIndent: 1);
                 }
+                _MdWriter.WriteLine("", numNewLines: 1);
 
 
 

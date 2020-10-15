@@ -22,6 +22,10 @@ namespace MarkdownOut {
         /// The Markdown paragraph break string (two newlines).
         /// </summary>
         public static readonly string ParagraphBreak = "\r\n\r\n";
+        /// <summary>
+        /// The Markdown paragraph break string (two newlines).
+        /// </summary>
+        public static readonly string ParagraphBreakOneLine = "\r\n";
 
         /// <summary>
         /// The Markdown italic string to be wrapped around a string of text.
@@ -150,7 +154,7 @@ namespace MarkdownOut {
 
         public static string removeInvalidMDLinkCharacters(object text)
         {
-            return Regex.Replace(text.ToString(), "[\\/]", "");
+            return Regex.Replace(text.ToString(), "[^A-Za-z]", "");
         }
 
         /// <summary>
