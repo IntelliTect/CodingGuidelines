@@ -20,7 +20,7 @@ namespace GuidelineXmlToMD
             string guidelineXmlLocation = match.Value + @$"{slash}docs{slash}Guidelines(8th Edition).xml";
 
             ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(guidelineXmlLocation);
-            _MdWriter = new MdWriter(match.Value + @$"{slash}docs{slash}coding{slash}CSharpGuidelines.md");
+            _MdWriter = new MdWriter(match.Value + @$"{slash}docs{slash}coding{slash}csharp.md");
 
             PrintSections(guidelines);
             _MdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
