@@ -25,6 +25,8 @@ jobs:
       run: ./XMLtoMD/GuidelineXmlToMD/bin/Release/netcoreapp3.1/GuidelineXmlToMD
     - name: Create commit
       run: |
+          git config user.name '${{ github.actor }}'
+          git config user.email '${{ github.actor }}@users.noreply.github.com'
           git add -A
           git commit -m "new coding guidelines MD File created"
     - name: Create Pull Request
