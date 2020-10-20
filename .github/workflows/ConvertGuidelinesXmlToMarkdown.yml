@@ -17,7 +17,9 @@ jobs:
     #  uses: mudlabs/simple-diff@v1.0.0
     #  with:
     #    path: ./docs/Guidelines(8th Edition).xml
-    #- run: exit 1
+    #- run: |
+    #    exit 1
+    #    echo "xml file wasn't modified, action stopped"
     #  if: steps.diff.outputs.modified != true
       
     - name: Setup .NET Core
