@@ -23,6 +23,10 @@ jobs:
       run: dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj
     - name: create md
       run: ./XMLtoMD/GuidelineXmlToMD/bin/Release/netcoreapp3.1/GuidelineXmlToMD
+    - name: Create commit
+      run: |
+          git add -A
+          git commit -m "new coding guidelines MD File created"
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
@@ -32,7 +36,7 @@ jobs:
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         signoff: false
-        branch: twofingerrightclick-patch-1
+        branch: master
         delete-branch: false
         title: '[Example] Update report'
         body: |
