@@ -32,7 +32,7 @@ jobs:
         committer: GitHub <noreply@github.com>
         author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
         signoff: false
-        branch: example-patches
+        branch: master
         delete-branch: false
         title: '[Example] Update report'
         body: |
@@ -42,10 +42,7 @@ jobs:
 
             [1]: https://github.com/peter-evans/create-pull-request
         labels: |
-            report
             automated pr
-        assignees: peter-evans
-        reviewers: peter-evans
         team-reviewers: |
             owners
             maintainers
