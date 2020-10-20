@@ -14,12 +14,13 @@ namespace GuidelineXmlToMD
         static MarkdownOut.MdWriter _MdWriter;
         static void Main(string[] args)
         {
+            char slash = Path.DirectorySeparatorChar;
             Console.WriteLine(AssemblyDirectory);
-            Match match = Regex.Match(AssemblyDirectory, @".*CodingGuidelines");
-            string guidelineXmlLocation = match.Value + @"\\docs\\Guidelines(8th Edition).xml";
+            Match match = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
+            string guidelineXmlLocation = match.Value + @$"{slash}docs{slash}Guidelines(8th Edition).xml";
 
             ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(guidelineXmlLocation);
-            _MdWriter = new MdWriter(match.Value + @"\\docs\\coding\\CSharpGuidelines.md");
+            _MdWriter = new MdWriter(match.Value + @$"{slash}docs{slash}coding{slash}CSharpGuidelines.md");
 
             PrintSections(guidelines);
             _MdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
