@@ -36,8 +36,7 @@ jobs:
           git config user.email '${{ github.actor }}@users.noreply.github.com'
           git add -A
           git commit -m "new coding guidelines MD File created"
-    - name: push to GuidelinesMD branch
-    - run: git push origin CodingGuidelinesMDUpdate -f        
+          git push origin CodingGuidelinesMDUpdate -f    
     - name: Create Pull Request
       id: cpr
       uses: peter-evans/create-pull-request@v3
