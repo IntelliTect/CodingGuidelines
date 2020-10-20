@@ -20,7 +20,7 @@ jobs:
     - name: Install dependencies
       run: dotnet restore
     - name: restore_compile_run
-      run: dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.sln
+      run: dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj
     - name: create md
       run: ./XMLtoMD/GuidelineXmlToMD/bin/Release/netcoreapp3.1/GuidelineXmlToMD
     - name: Create Pull Request
