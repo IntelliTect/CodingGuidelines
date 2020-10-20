@@ -3,9 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GuidelineXmlToMD", "GuidelineXmlToMD.csproj", "{D9C7CC15-01DB-46FE-922A-6EB41CE1759B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MarkdownOut", "..\MarkdownOut\MarkdownOut.csproj", "{FCAD1B53-2C32-4790-96B8-98AAE7027637}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GuidelineXmlToMD", "GuidelineXmlToMD.csproj", "{D9C7CC15-01DB-46FE-922A-6EB41CE1759B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +15,6 @@ Global
 		{D9C7CC15-01DB-46FE-922A-6EB41CE1759B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D9C7CC15-01DB-46FE-922A-6EB41CE1759B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D9C7CC15-01DB-46FE-922A-6EB41CE1759B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FCAD1B53-2C32-4790-96B8-98AAE7027637}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FCAD1B53-2C32-4790-96B8-98AAE7027637}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FCAD1B53-2C32-4790-96B8-98AAE7027637}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FCAD1B53-2C32-4790-96B8-98AAE7027637}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
