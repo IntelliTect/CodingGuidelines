@@ -17,7 +17,7 @@ namespace GuidelineXmlToMD
 
         public override int GetHashCode()
         {
-            return Subsection.GetHashCode();
+            return Key.GetHashCode();
         }
 
         public override bool Equals(object obj)
