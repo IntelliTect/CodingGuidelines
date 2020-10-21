@@ -5,14 +5,15 @@ on:
     branches: 
       - '*'
       - '!master'
-
+      
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    
+    env:
+      XmlFileName: Guidelines(8th Edition).xml
+    
     steps:
-    - env: 
-        XmlFileName: Guidelines(8th Edition).xml
     - uses: actions/checkout@v2
     - name: Check if coding guidelines xml was changed
       id: diff
