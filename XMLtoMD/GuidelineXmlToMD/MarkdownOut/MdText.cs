@@ -113,7 +113,7 @@ namespace MarkdownOut {
         public static string Style(object text, MdStyle style) {
             string wrap;
             switch (style) {
-                case MdStyle.None: wrap = String.Empty; break;
+                case MdStyle.None: wrap = string.Empty; break;
                 case MdStyle.Italic: wrap = ItalicWrap; break;
                 case MdStyle.Bold: wrap = BoldWrap; break;
                 case MdStyle.BoldItalic: wrap = ItalicWrap + BoldWrap; break;
@@ -136,7 +136,7 @@ namespace MarkdownOut {
         public static string Format(object text, MdFormat format) {
             string prefix;
             switch (format) {
-                case MdFormat.None: prefix = String.Empty; break;
+                case MdFormat.None: prefix = string.Empty; break;
                 case MdFormat.Heading1: prefix = Heading1Prefix; break;
                 case MdFormat.Heading2: prefix = Heading2Prefix; break;
                 case MdFormat.Heading3: prefix = Heading3Prefix; break;

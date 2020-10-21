@@ -17,7 +17,7 @@ namespace GuidelineXmlToMD
         public const string _Comments = "comments";
 
 
-        static public ICollection<Guideline> ReadExisitingGuidelinesFile(string pathToExistingGuidelinesXml)
+        public static ICollection<Guideline> ReadExisitingGuidelinesFile(string pathToExistingGuidelinesXml)
         {
 
             XDocument previousGuidelines = XDocument.Load(pathToExistingGuidelinesXml);
