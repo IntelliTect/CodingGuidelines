@@ -22,7 +22,7 @@ jobs:
       #with:
       #  path: ${{ github.workspace }}/docs/${{ env.XmlFileName }}
     - name: check output of git dif
-    - run: |
+      run: |
         exit 1
         echo "xml file wasn't modified, action stopped"
       if: steps.diff.outputs.modified != 1
