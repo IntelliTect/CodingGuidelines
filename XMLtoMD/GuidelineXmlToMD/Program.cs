@@ -22,6 +22,7 @@ namespace GuidelineXmlToMD
             ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(guidelineXmlLocation);
             _MdWriter = new MdWriter(match.Value + @$"{slash}docs{slash}coding{slash}csharp.md");
 
+            _MdWriter.WriteLine("C# Guidelines", format: MdFormat.Heading1);
             PrintSections(guidelines);
             _MdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
             _MdWriter.WriteLine("");
