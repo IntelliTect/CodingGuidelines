@@ -19,7 +19,7 @@ jobs:
       id: diff
       uses: mudlabs/simple-diff@v1.0.0
       with:
-        path: ${{ github.ref }}/docs/Guidelines(8th Edition).xml
+        path: ${{ github.ref }}CodingGuidelines/docs/Guidelines(8th Edition).xml
     - run: |
         exit 1
         echo "xml file wasn't modified, action stopped"
