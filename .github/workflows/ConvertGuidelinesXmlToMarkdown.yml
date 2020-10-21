@@ -23,7 +23,7 @@ jobs:
       #  path: ${{ github.workspace }}/docs/${{ env.XmlFileName }}
     - name: check output of git diff
       run: |
-        exit 0
+        ::exit::neutral
         echo "xml file wasn't modified, action stopped"
       if: steps.diff.outputs.modified != 1
       
@@ -37,7 +37,7 @@ jobs:
       run: dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj
     
     - name: create md
-      run: ./XMLtoMD/GuidelineXmlToMD/bin/Release/netcoreapp3.1/GuidelineXmlToMD ${{ env.XmlFileName }}
+      run: ./XMLtoMD/GuidelineXmlToMD/bin/Release/netcoreapp3.1/GuidelineXmlToMD "${{ env.XmlFileName }}"
     
     - name: Create commit and push to CodingGuideLinesMDUpdate
       run: |
