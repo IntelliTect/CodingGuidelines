@@ -20,12 +20,23 @@
         /// The selectively styled string. If <paramref name="str"/> does not contain any
         /// occurrences of <paramref name="substring"/>, it is returned unchanged.
         /// </returns>
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Globalization", "CA1303:Do not pass literals as localized parameters", Justification = "<Pending>")]
         public static string StyleSubstring(this string str, string substring, MdStyle style,
                                             bool firstOnly = false) {
-            if (!firstOnly) {
-                return str.Replace(substring, MdText.Style(substring, style));
+            if (string.IsNullOrEmpty(str))
+            {
+                throw new System.ArgumentException("cannot stylize empty string", nameof(str));
             }
-            int pos = str.IndexOf(substring);
+
+            if (string.IsNullOrEmpty(substring))
+            {
+                throw new System.ArgumentException("cannot stylize empty string", nameof(str));
+            }
+
+            if (!firstOnly) {
+                return str?.Replace(substring, MdText.Style(substring, style), System.StringComparison.Ordinal);
+            }
+            int pos = str.IndexOf(substring, System.StringComparison.Ordinal);
             if (pos < 0) {
                 return str;
             }

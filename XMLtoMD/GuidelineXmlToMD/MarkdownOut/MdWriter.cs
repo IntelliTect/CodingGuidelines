@@ -1,14 +1,16 @@
 ﻿using System;
 using System.IO;
 
-namespace MarkdownOut {
+namespace MarkdownOut // by https://github.com/rob-williams/MarkdownOut
+{
 
     /// <summary>
     /// A wrapper around <see cref="StreamWriter"/> used to write Markdown text to a file.
     /// </summary>
     public class MdWriter : IDisposable {
 
-        private StreamWriter stream;
+        private StreamWriter _Stream;
+        private bool _IsDisposed;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MdWriter"/> class, opening a stream to the
@@ -20,7 +22,7 @@ namespace MarkdownOut {
         /// overwritten.
         /// </param>
         public MdWriter(string path, bool append = false) {
-            stream = new StreamWriter(path, append);
+            _Stream = new StreamWriter(path, append);
         }
 
         #region IDisposable
@@ -29,24 +31,32 @@ namespace MarkdownOut {
         /// Performs application-defined tasks associated with freeing, releasing, or resetting
         /// unmanaged resources.
         /// </summary>
-        public void Dispose() {
-            if (stream != null) {
-                stream.Dispose();
-                stream = null;
-            }
+        // Dispose() calls Dispose(true)
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
+
+        // The bulk of the clean-up code is implemented in Dispose(bool)
+        protected virtual void Dispose(bool disposing)
+        {
+            if (_IsDisposed) return;
+
+            if (disposing)
+            {
+                // free managed resources
+                _Stream.Dispose();
+            }
+
+            // free native resources if there are any.
+        
+            _IsDisposed = true;
+        }
+
 
         #endregion
 
-        /// <summary>
-        /// Closes the stream to the output file.
-        /// </summary>
-        public void Close() {
-            if (stream != null) {
-                stream.Close();
-                stream = null;
-            }
-        }
 
         /// <summary>
         /// Writes the provided output to the file.
@@ -62,7 +72,7 @@ namespace MarkdownOut {
         public void Write(object output, MdStyle style = MdStyle.None,
                           MdFormat format = MdFormat.None, bool useMdLineBreaks = true) {
             string text = MdText.StyleAndFormat(output, style, format);
-            stream.Write(MdText.Cleanse(text, useMdLineBreaks));
+            _Stream.Write(MdText.Cleanse(text, useMdLineBreaks));
         }
 
         /// <summary>
@@ -80,7 +90,7 @@ namespace MarkdownOut {
         public void WriteLine(object output, MdStyle style = MdStyle.None,
                               MdFormat format = MdFormat.None, bool useMdLineBreaks = true, int numNewLines = 2) {
             string text = MdText.StyleAndFormat(output, style, format);
-            stream.Write(MdText.Cleanse(text, useMdLineBreaks) + MakeParagraphLineBreak(numNewLines));
+            _Stream.Write(MdText.Cleanse(text, useMdLineBreaks) + MakeParagraphLineBreak(numNewLines));
         }
 
         /// <summary>
@@ -101,7 +111,7 @@ namespace MarkdownOut {
         public void WriteLineSingle(object output, MdStyle style = MdStyle.None,
                                     MdFormat format = MdFormat.None, bool useMdLineBreaks = true) {
             string text = MdText.StyleAndFormat(output, style, format);
-            stream.Write(MdText.Cleanse(text, useMdLineBreaks) + MdText.LineBreak);
+            _Stream.Write(MdText.Cleanse(text, useMdLineBreaks) + MdText.LineBreak);
         }
 
         /// <summary>
@@ -123,11 +133,11 @@ namespace MarkdownOut {
             string text = MdText.Format(output, format);
             text = MdText.StyleAndFormat(text, style, MdFormat.UnorderedListItem);
             text = MdText.Indent(text, listIndent);
-            stream.Write(MdText.Cleanse(text, true)
+            _Stream.Write(MdText.Cleanse(text, true)
                 + MakeParagraphLineBreak(numNewLines));
         }
 
-        private string MakeParagraphLineBreak(int numNewLines)
+        private static string MakeParagraphLineBreak(int numNewLines)
         {
             string breaks = "";
             for (int i = 0; i < numNewLines; i++)
@@ -161,7 +171,7 @@ namespace MarkdownOut {
                 text = itemNumber + text.Substring(1);
             }
             text = MdText.Indent(text, listIndent);
-            stream.Write(MdText.Cleanse(text, true) + MdText.ParagraphBreak);
+            _Stream.Write(MdText.Cleanse(text, true) + MdText.ParagraphBreak);
         }
     }
 }

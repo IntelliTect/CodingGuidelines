@@ -14,22 +14,33 @@ namespace GuidelineXmlToMD
         static MarkdownOut.MdWriter _MdWriter;
         static void Main(string[] args)
         {
-            char slash = Path.DirectorySeparatorChar;
-            Console.WriteLine(AssemblyDirectory);
-            Match match = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
-            string guidelineXmlLocation = match.Value + @$"{slash}docs{slash}Guidelines(8th Edition).xml";
+            string xmlFileName = "Guidelines(8th Edition).xml";
+            if (args.Length != 0) {  //check for input fileName
+                if (Regex.Match(AssemblyDirectory, @$"*.xml").Success) {
+                    xmlFileName = args[0];
+                }
+            }
 
-            ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(guidelineXmlLocation);
-            _MdWriter = new MdWriter(match.Value + @$"{slash}docs{slash}coding{slash}csharp.md");
+            Match repoRefFolder = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
 
-            _MdWriter.WriteLine("C# Guidelines", format: MdFormat.Heading1);
-            PrintSections(guidelines);
-            _MdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
-            _MdWriter.WriteLine("");
-            PrintGuidelinesBySection(guidelines);
+            string[] xmlFilePath = { repoRefFolder.Value, "docs", xmlFileName};
+            ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(Path.Combine(xmlFilePath));
+            
+            
+            string mdFileName = "csharp.md";
+            string[] mdFilePath = { repoRefFolder.Value, "docs", "coding", mdFileName};
 
-            _MdWriter.Close();
-            _MdWriter.Dispose();
+            using (_MdWriter = new MdWriter(Path.Combine(mdFilePath)))
+            {
+
+
+                _MdWriter.WriteLine("C# Guidelines", format: MdFormat.Heading1);
+                PrintSections(guidelines);
+                _MdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
+                _MdWriter.WriteLine("");
+                PrintGuidelinesBySection(guidelines);
+            }
+        
 
 
 
@@ -50,17 +61,17 @@ namespace GuidelineXmlToMD
 
 
                 IEnumerable<Guideline> guidelinesInSections = (from guideline in guidelines
-                                                               where string.Equals(guideline.Section, section)
+                                                               where string.Equals(guideline.Section, section, StringComparison.OrdinalIgnoreCase)
                                                                select guideline);
 
                 foreach (string subsection in GetSubSections(guidelines))
                 {
 
                     IEnumerable<Guideline> guidelinesInSubsection = (from guideline in guidelinesInSections
-                                                                     where string.Equals(guideline.Subsection, subsection)
+                                                                     where string.Equals(guideline.Subsection, subsection, StringComparison.OrdinalIgnoreCase)
                                                                      select guideline);
 
-                    if (guidelinesInSubsection.Count() > 0)
+                    if (guidelinesInSubsection.Any())
                     {
                         Console.WriteLine($"     { subsection}");
                         _MdWriter.WriteLine(subsection, format: MdFormat.Heading3, numNewLines: 1);
@@ -115,7 +126,7 @@ namespace GuidelineXmlToMD
 
 
                 subSections = (from guideline in guidelines
-                               where string.Equals(guideline.Section, section)
+                               where string.Equals(guideline.Section, section, System.StringComparison.OrdinalIgnoreCase)
                                select guideline.Subsection).Distinct().OrderBy(x => x).ToList();
 
                 foreach (string subsection in subSections)

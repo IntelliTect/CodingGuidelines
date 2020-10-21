@@ -13,7 +13,7 @@ namespace GuidelineXmlToMD
         public string Section { get; set; } = "";
         public string Subsection { get; set; } = "";
 
-        public List<string> Comments { get; set; } = new List<string>();
+        public List<string> Comments { get;} = new List<string>();
 
         public override int GetHashCode()
         {

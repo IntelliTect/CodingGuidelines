@@ -6,6 +6,7 @@ namespace MarkdownOut {
     /// <summary>
     /// Provides static fields and methods to style and format Markdown text.
     /// </summary>
+     [System.Diagnostics.CodeAnalysis.SuppressMessage("Naming", "INTL0001:Fields _PascalCase", Justification = "From an Old Github Project, not for production")]
     public static class MdText {
 
         /// <summary>
@@ -13,9 +14,11 @@ namespace MarkdownOut {
         /// </summary>
         public static readonly string Tab = new string(' ', 4);
 
+
         /// <summary>
         /// The Markdown line break string (two spaces followed by a newline).
         /// </summary>
+        
         public static readonly string LineBreak = new string(' ', 2) + "\r\n";
 
         /// <summary>
@@ -146,13 +149,15 @@ namespace MarkdownOut {
                 case MdFormat.Quote: prefix = QuotePrefix; break;
                 case MdFormat.UnorderedListItem: prefix = UnorderedListItemPrefix; break;
                 case MdFormat.OrderedListItem: prefix = OrderedListItemPrefix; break;
-                case MdFormat.InternalLink: prefix = ""; text = $"[{text}](#{removeInvalidMDLinkCharacters(text).ToLowerInvariant()})"; break;
+#pragma warning disable CA1308 // Normalize strings to uppercase
+                case MdFormat.InternalLink: prefix = ""; text = $"[{text}](#{RemoveInvalidMDLinkCharacters(text).ToLowerInvariant()})"; break;
+#pragma warning restore CA1308 // Normalize strings to uppercase
                 default: throw new ArgumentException("The format is not recognized.");
             }
             return prefix + text;
         }
 
-        public static string removeInvalidMDLinkCharacters(object text)
+        public static string RemoveInvalidMDLinkCharacters(object text)
         {
             return Regex.Replace(text.ToString(), "[^A-Za-z]", "");
         }
