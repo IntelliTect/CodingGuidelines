@@ -16,8 +16,8 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Check if coding guidelines xml was changed
-      id: diff
-      run: git diff --exit-code "${{ github.workspace }}/docs/${{ env.XmlFileName }}"
+      id: diff  
+      run: echo "::set-output name=modified::$(git diff --exit-code "${{ github.workspace }}/docs/${{ env.XmlFileName }}")"
       #uses: mudlabs/simple-diff@v1.0.0
       #with:
       #  path: ${{ github.workspace }}/docs/${{ env.XmlFileName }}
