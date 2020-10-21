@@ -10,8 +10,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     
-    env:
-      XmlFileName: "Guidelines(8th Edition).xml"
     
     steps:
     - uses: actions/checkout@v2
@@ -20,6 +18,8 @@ jobs:
       uses: mudlabs/simple-diff@v1.0.0
       with:
         path: ./docs/${XmlFileName}
+      env:
+         XmlFileName: "Guidelines(8th Edition).xml"
     - run: |
         exit 1
         echo "xml file wasn't modified, action stopped"
