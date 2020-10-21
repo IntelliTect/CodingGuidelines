@@ -17,7 +17,7 @@ jobs:
     - uses: actions/checkout@v2
     - name: Check if coding guidelines xml was changed
       id: diff  
-      run: echo "::set-output name=modified::$(git diff --exit-code "${{ github.workspace }}/docs/${{ env.XmlFileName }}")"
+      run: echo "::set-output name=modified::$(git diff --name-only HEAD~1 HEAD "${{ github.workspace }}/docs/${{ env.XmlFileName }}")"
       #uses: mudlabs/simple-diff@v1.0.0
       #with:
       #  path: ${{ github.workspace }}/docs/${{ env.XmlFileName }}
@@ -25,7 +25,7 @@ jobs:
       run: |
         exit 1
         echo "xml file wasn't modified, action stopped"
-      if: steps.diff.outputs.modified != 1
+      if: endsWith(steps.diff.outputs.modified, ${{ env.XmlFileName }} )
       
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
