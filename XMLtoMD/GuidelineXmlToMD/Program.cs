@@ -16,7 +16,7 @@ namespace GuidelineXmlToMD
         {
             string xmlFileName = "Guidelines(8th Edition).xml";
             if (args.Length != 0) {  //check for input fileName
-                if (Regex.Match(AssemblyDirectory, @$"*.xml").Success) {
+                if (Regex.Match(args[0], @".*.xml").Success) {
                     xmlFileName = args[0];
                 }
             }
