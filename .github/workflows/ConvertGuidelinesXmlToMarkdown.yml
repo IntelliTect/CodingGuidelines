@@ -17,9 +17,6 @@ jobs:
     - uses: actions/checkout@v2
     - uses: technote-space/get-diff-action@v3
       with:
-          PATTERNS: |
-            +(docs)/${{ env.XmlFileName }}
-          
           FILES: |
             ${{ env.XmlFileName }}
               #- name: check output of git diff
