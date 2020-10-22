@@ -20,6 +20,11 @@ jobs:
         FILES: |
           ${{ env.XmlFileName }}
           #- name: check output of git diff
+    - name: check if xml not modified
+      run: |
+        echo "xml file not modified, no furthur actions will be taken"
+      if: env.MATCHED_FILES == 0
+      
     - name: check if xml modified
       run: |
         echo "xml file was modified, proceeding to create MD file"
