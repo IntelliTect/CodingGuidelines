@@ -15,21 +15,39 @@ jobs:
     
     steps:
     - uses: actions/checkout@v2
-    - name: Check if coding guidelines xml was changed
-      id: diff  
-      #run: echo "::set-output name=modified::$(git diff --name-only HEAD~1 HEAD)"
-    #- name: tryDifTool
-      uses: mudlabs/simple-diff@v1.0.0
+    - uses: technote-space/get-diff-action@v3
       with:
-        path: docs/${{ env.XmlFileName }} # path from "root" not sure what root is
-    #- name: check output of git diff
+          PATTERNS: |
+            +(docs)/${{ env.XmlFileName }}
+          
+          FILES: |
+            ${{ env.XmlFileName }}
+              #- name: check output of git diff
     - run: |
         exit 1
         echo "xml file wasn't modified, action stopped"
-      if: steps.diff.outputs.modified != true
+        if: !env.MATCHED_FILES
+    
+        # Check only if there are differences in the source code
+      
+      
+    
+   # - name: Check if coding guidelines xml was changed
+   #   id: diff  
+      #run: echo "::set-output name=modified::$(git diff --name-only HEAD~1 HEAD)"
+    #- name: tryDifTool
+   #   uses: mudlabs/simple-diff@v1.0.0
+    #  with:
+     #   path: docs/${{ env.XmlFileName }} # path from "root" not sure what root is
+    #- name: check output of git diff
+   # - run: |
+     #   exit 1
+      #  echo "xml file wasn't modified, action stopped"
+    #  if: steps.diff.outputs.modified != true
       
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
+    
       with:
         dotnet-version: 3.1.301
     - name: Install dependencies
