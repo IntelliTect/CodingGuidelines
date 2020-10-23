@@ -1,0 +1,52 @@
+# this workflow requires a secret PAT that has Repo read/write permissions. Both CodingGuidelines
+# and CodingGuidelinesSite repos have have one called REPO_PAT that is used in this workflow for the CopyCat action
+# This workflow is manually triggered by ruuning it under the "Actions" tab of the CodingGuidelines repo
+name: Update Docs Folder on CodingGuidelinesSite
+on: 
+  workflow_dispatch:
+    inputs:
+       commitComment: 
+        description: 'Commit Comment'
+        required: true
+        default: 'Updating docs folder'
+jobs:
+  copyDocs:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Copycat Action
+  # You may pin to the exact commit or the version.
+  # uses: andstor/copycat-action@10a8fce94cc066110cb394d6f06814b7f5f06a34
+      uses: andstor/copycat-action@v3.2.3
+      with: 
+    # Personal access token
+        personal_token: ${{ secrets.REPO_PAT }}
+    # The source path to the file(s) or folder(s) to copy from
+        src_path: docs/. 
+    # The destination path to copy the file(s) or folder(s) to
+        dst_path: /docs/
+    # The name of the owner of the repository to push to
+        dst_owner: intellitect
+    # The name of the repository to push to
+        dst_repo_name: CodingGuidelinesSite
+    # The branch name of the source repository
+    #    src_branch: # optional, default is master
+    # The branch name of the destination repository
+        dst_branch: main
+    # Set to true if the dst_path should be emptied before copying
+        clean: false
+    # A glob pattern for filtering file names
+    #    file_filter: # optional
+    # A glob pattern for filtering file paths to be included for copying
+     #  filter: # optional
+    # A glob pattern for excluding paths
+    #exclude: # optional
+    # Set to true if the source repository you want to copy from is the GitHub Wiki
+    #src_wiki: # optional 
+    # Set to true if the destination repository you want to copy from is the GitHub Wiki
+   # dst_wiki: # optional
+    # A custom git commit message.
+        commit_message: ${{ github.event.inputs.commitComment }}
+    # The GitHub username to associate commits made by this GitHub action
+        username: '${{ github.actor }}'
+    # The email used for associating commits made by this GitHub action
+        email: '${{ github.actor }}@users.noreply.github.com'
