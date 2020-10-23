@@ -1,4 +1,5 @@
-name: .NET Core
+#if the guidelines xml file is modified between commits to the master branch the associate markdown file is updated
+name: Update csharp Markdown
 
 on:
   push:
