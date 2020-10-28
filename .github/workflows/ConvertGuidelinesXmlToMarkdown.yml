@@ -1,0 +1,53 @@
+#if the guidelines xml file is modified between commits to the master branch the associate markdown file is updated
+name: Update csharp Markdown
+
+on:
+  push:
+    branches: 
+      - 'master'
+      
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    env:
+         XmlFileName: "Guidelines(8th Edition).xml"
+    
+    steps:
+    - uses: actions/checkout@v2
+      with:
+          ref: ${{ github.ref }}
+    - name: Simple Diff
+      uses: mudlabs/simple-diff@v1.0.2
+      id: diff
+      with:
+    # The path of the file or folder to find in the commits diff tree.
+        path: ./docs/${{ env.XmlFileName }}
+    # continue even if the xml file if the file isn't found in the diff tree (it wasn't changed). strict=true causes the action to fail otherwise
+        strict : false
+    - name: Guidelines xml status 
+      run: |
+        echo "${{ env.XmlFileName }} modified = ${{ steps.diff.outputs.modified }}"
+        echo "${{ steps.diff.outputs.name }}"     
+    
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.301
+      if: steps.diff.outputs.modified == true
+      
+    - name: restore_compile_run_createMD
+      run: |
+         dotnet restore
+         dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj
+         ./XMLtoMD/GuidelineXmlToMD/bin/Release/netcoreapp3.1/GuidelineXmlToMD "${{ env.XmlFileName }}" 
+      if: steps.diff.outputs.modified == true
+      
+    - name: Create commit and push to CodingGuideLinesMDUpdate
+      run: |
+          git config user.name '${{ github.actor }}'
+          git config user.email '${{ github.actor }}@users.noreply.github.com'
+          git add -A
+          git commit -m "new coding guidelines MD File created"
+          git push origin '${{ github.ref }}'
+      if: steps.diff.outputs.modified == true    
