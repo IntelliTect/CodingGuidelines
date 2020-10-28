@@ -123,7 +123,6 @@
 - :no_entry: AVOID explicitly throwing exceptions from finally blocks. (Implicitly thrown exceptions resulting from method calls are acceptable.)
 - :heavy_check_mark: DO favor try/finally and avoid using try/catch for cleanup code.
 - :heavy_check_mark: DO throw exceptions that describe which exceptional circumstance occurred, and if possible, how to prevent it.
-- :no_entry: AVOID general catch blocks and replace them with a catch of System.Exception.
 - :no_entry: AVOID catching exceptions for which the appropriate action is unknown. It is better to let an exception go unhandled than to handle it incorrectly.
 - :no_entry: AVOID catching and logging an exception before rethrowing it. Instead, allow the exception to escape until it can be handled appropriately.
 - :heavy_check_mark: DO prefer using an empty throw when catching and rethrowing an exception so as to preserve the call stack.

@@ -48,7 +48,6 @@
 	<guideline key="Ch05_cab2aca" severity="AVOID" section="Coding" subsection="Exceptions">AVOID explicitly throwing exceptions from finally blocks. (Implicitly thrown exceptions resulting from method calls are acceptable.)</guideline>
 	<guideline key="Ch05_34bdd36" severity="DO" section="Coding" subsection="Exceptions">DO favor try/finally and avoid using try/catch for cleanup code.</guideline>
 	<guideline key="Ch05_888a64e" severity="DO" section="Coding" subsection="Exceptions">"DO throw exceptions that describe which exceptional circumstance occurred, and if possible, how to prevent it."</guideline>
-	<guideline key="Ch05_79a6a92" severity="AVOID" section="Coding" subsection="Exceptions">AVOID general catch blocks and replace them with a catch of System.Exception.</guideline>
 	<guideline key="Ch05_75f9029" severity="AVOID" section="Coding" subsection="Exceptions">AVOID catching exceptions for which the appropriate action is unknown. It is better to let an exception go unhandled than to handle it incorrectly.</guideline>
 	<guideline key="Ch05_0f98c19" severity="AVOID" section="Coding" subsection="Exceptions">"AVOID catching and logging an exception before rethrowing it. Instead, allow the exception to escape until it can be handled appropriately."</guideline>
 	<guideline key="Ch05_6f18913" severity="DO" section="Coding" subsection="Exceptions">DO prefer using an empty throw when catching and rethrowing an exception so as to preserve the call stack.</guideline>
