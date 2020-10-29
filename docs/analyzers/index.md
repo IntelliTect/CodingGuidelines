@@ -1,6 +1,7 @@
 ## Naming INTL00XX 
 - [INTL0001 Fields _PascalCase]({{ site.baseurl }}{% link analyzers/00XX.Naming.md %}#intl0001)
 - [INTL0002 Properties PascalCase]({{ site.baseurl }}{% link analyzers/00XX.Naming.md %}#intl0002)
+- [INTL0003 Methods PascalCase]({{ site.baseurl }}{% link analyzers/00XX.Naming.md %}#intl0003)
 
 ## Formatting INTL01XX
 - [INTL0101 Attributes on separate lines]({{ site.baseurl }}{% link analyzers/01XX.Formatting.md %}#intl0101)
