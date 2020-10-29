@@ -1,12 +1,12 @@
 ---
-title: Design Standards
+title: Design GuideLines
 ---
 
-Coding Standards
+Coding Guidelines
 ================
 * [C#]({{ site.baseurl }}{% link coding/csharp.md %})
 
-Design Standards
+Design Guidelines
 ================
 
 * [Databases]({{ site.baseurl }}{% link databases/index.md %})
