@@ -5,6 +5,7 @@ title: Design GuideLines
 Coding Guidelines
 ================
 * [C#]({{ site.baseurl }}{% link coding/csharp.md %})
+* [PowerShell]({{ site.baseurl }}{% link coding/powershell.md %})
 
 Design Guidelines
 ================
