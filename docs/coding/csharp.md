@@ -163,7 +163,7 @@
 - :heavy_check_mark: DO use public static readonly modified fields for predefined object instances prior to C# 6.0.
 - :no_entry: AVOID changing a public readonly modified field in pre-C# 6.0 to a read-only automatically implemented property in C# 6.0 (or later) if version API compatibility is required.
 - :no_entry: AVOID publicly exposed nested types. The only exception is if the declaration of such a type is unlikely or pertains to an advanced customization scenario.
-- :heavy_check_mark: DO use PascalCasing and an “I” prefix for interface names.
+- :heavy_check_mark: DO use PascalCasing and a leading underscore (`_FieldName`) and an “I” prefix for interface names.
 
 
 ### Flags
@@ -428,6 +428,7 @@
 - :heavy_check_mark: DO name properties using a noun, noun phrase, or adjective.
 - :heavy_check_mark: DO declare all instance fields as private (and expose them via a property).
 - :heavy_check_mark: DO use constant fields for values that will never change.
+- :heavy_check_mark: Do name fields with PascalCase and a leading underscore (`_FieldName`).
 - :no_entry: AVOID constant fields for values that will change over time.
 - :x: DO NOT include “sentinel” values (such as a value called Maximum); such values can be confusing to the user.
 
