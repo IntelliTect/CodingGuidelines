@@ -64,7 +64,7 @@
 	<guideline key="Ch06_2fa1861" severity="DO" section="Naming" subsection="Variables and fields">"DO name properties using a noun, noun phrase, or adjective."</guideline>
 	<guideline key="Ch06_7dda59f" severity="CONSIDER" section="Naming" subsection="Miscellaneous">CONSIDER giving a property the same name as its type.</guideline>
 	<guideline key="Ch06_d75e3ef" severity="AVOID" section="Naming" subsection="Casing">AVOID naming fields with camelCase.</guideline>
-        <guideline key="Ch06_d75e3ef" severity="DO" section="Naming" subsection="Casing">Name fields with PascalCase and a leading underscore.</guideline>
+        <guideline key="" severity="DO" section="Naming" subsection="Variables and fields">Name fields with PascalCase and a leading underscore.</guideline>
 	<guideline key="Ch06_028c753" severity="DO" section="Naming" subsection="Casing">"DO favor prefixing Boolean properties with “Is,” “Can,” or “Has,” when that practice adds value."</guideline>
 	<guideline key="Ch06_d80065c" severity="DO" section="Naming" subsection="Variables and fields">DO declare all instance fields as private (and expose them via a property).</guideline>
 	<guideline key="Ch06_0d3a13f" severity="DO" section="Naming" subsection="Casing">DO name properties with PascalCase.</guideline>
