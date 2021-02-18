@@ -5,6 +5,8 @@ on:
   push:
     branches: 
       - 'master'
+  #allows for running at anytime from button
+  workflow_dispatch:
       
 jobs:
   build:
