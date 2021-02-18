@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Guidelines> 
+<Guidelines>
 	<guideline key="Ch01_73d80ae" severity="DO" section="Naming" subsection="Variables and fields">DO favor clarity over brevity when naming identifiers.</guideline>
 	<guideline key="Ch01_1724fff" severity="DO NOT" section="Naming" subsection="Abbreviations">DO NOT use abbreviations or contractions within identifier names.</guideline>
 	<guideline key="Ch01_1f465b0" severity="DO NOT" section="Naming" subsection="Abbreviations">"DO NOT use any acronyms unless they are widely accepted, and even then use them consistently."</guideline>
