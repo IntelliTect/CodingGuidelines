@@ -12,11 +12,13 @@ jobs:
     
     env:
          XmlFileName: "Guidelines(8th Edition).xml"
-    
+
     steps:
     - uses: actions/checkout@v2
       with:
           ref: ${{ github.ref }}
+          token: ${{ secrets.CI_PAT }}
+
     - name: Simple Diff
       uses: mudlabs/simple-diff@v1.0.2
       id: diff
@@ -28,7 +30,7 @@ jobs:
     - name: Guidelines xml status 
       run: |
         echo "${{ env.XmlFileName }} modified = ${{ steps.diff.outputs.modified }}"
-        echo "${{ steps.diff.outputs.name }}"     
+        echo "${{ steps.diff.outputs.name }}"
     
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
@@ -44,9 +46,9 @@ jobs:
       
     - name: Create commit and push to CodingGuideLinesMDUpdate
       run: |
-          git config user.name 'Keboo'
-          git config user.email 'kitokeboo@gmail.com'
+          git config user.name '${{ github.actor }}'
+          git config user.email '${{ github.actor }}@user.noreply.github.com'
           git add -A
           git commit -m "new coding guidelines MD File created"
-          git -c http.extraheader="AUTHORIZATION: Basic ${{ secrets.CI_PAT }}" push origin '${{ github.ref }}'
+          git push origin '${{ github.ref }}'
       #if: ${{ steps.diff.outputs.modified == 'true' }}  
