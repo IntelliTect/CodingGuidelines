@@ -44,8 +44,8 @@ jobs:
       
     - name: Create commit and push to CodingGuideLinesMDUpdate
       run: |
-          git config user.name '${{ github.actor }}'
-          git config user.email '${{ github.actor }}@users.noreply.github.com'
+          git config user.name 'Keboo'
+          git config user.email 'kitokeboo@gmail.com'
           git add -A
           git commit -m "new coding guidelines MD File created"
           git -c http.extraheader="AUTHORIZATION: Basic ${{ secrets.CI_PAT }}" push origin '${{ github.ref }}'
