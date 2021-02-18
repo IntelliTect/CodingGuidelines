@@ -5,8 +5,6 @@ on:
   push:
     branches: 
       - 'master'
-  #allows for running at anytime from button
-  workflow_dispatch:
       
 jobs:
   build:
@@ -40,8 +38,7 @@ jobs:
       
     - name: restore_compile_run_createMD
       run: |
-         dotnet restore
-         dotnet run --no-restore --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj
+         dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj
          ./XMLtoMD/GuidelineXmlToMD/bin/Release/netcoreapp3.1/GuidelineXmlToMD "${{ env.XmlFileName }}" 
       #if: ${{ steps.diff.outputs.modified == 'true' }}
       
