@@ -93,6 +93,7 @@
   <guideline key="Ch06_fda9a36" severity="AVOID" section="Coding" subsection="Fields">AVOID changing a public readonly modified field in pre-C# 6.0 to a read-only automatically implemented property in C# 6.0 (or later) if version API compatibility is required.</guideline>
   <guideline key="Ch06_d19d6d7" severity="AVOID" section="Coding" subsection="Fields">AVOID publicly exposed nested types. The only exception is if the declaration of such a type is unlikely or pertains to an advanced customization scenario.</guideline>
   <guideline key="Ch08_5f240f5" severity="DO" section="Coding" subsection="Fields">DO use PascalCasing and a leading underscore and an “I” prefix for interface names.</guideline>
+  <guideline key="Ch06_d75e3ef" severity="AVOID" section="Coding" subsection="Fields">AVOID naming fields with camelCase.</guideline>
   <guideline key="Ch06_30a3139" severity="AVOID" section="Coding" subsection="Fields">AVOID constant fields for values that will change over time.</guideline>
   <guideline key="Ch06_8030561" severity="DO" section="Coding" subsection="Fields">DO use constant fields for values that will never change.</guideline>
   <guideline key="" severity="DO" section="Coding" subsection="Fields">DO name fields with PascalCase and a leading underscore.</guideline>
@@ -128,7 +129,11 @@
   <guideline key="Ch06_9373c04" severity="AVOID" section="Coding" subsection="Methods">"AVOID frivolously defining extension methods, especially on types you don’t own."</guideline>
   <guideline key="Ch23_3189bfc" severity="DO" section="Coding" subsection="Methods">"DO provide public wrapper methods that use managed conventions such as structured exception handling, use of enums for special values, and so on."</guideline>
   <guideline key="Ch15_22fd754" severity="DO NOT" section="Coding" subsection="Methods">DO NOT call an OrderBy() following a prior OrderBy() method call. Use ThenBy() to sequence items by more than one value.</guideline>
+  <guideline key="Ch05_c6009f8" severity="DO" section="Coding" subsection="Methods">DO give methods names that are verbs or verb phrases.</guideline>
   <guideline key="Ch16_22981e5" severity="DO" section="Coding" subsection="Miscellaneous">"DO use query expression syntax to make queries easier to read, particularly if they involve complex from, let, join, or group clauses."</guideline>
+  <guideline key="Ch05_2ea0636" severity="DO" section="Coding" subsection="Miscellaneous">"DO treat parameter names as part of the API, and avoid changing the names if version compatibility between APIs is important."</guideline>
+  <guideline key="Ch06_0f313e5" severity="DO" section="Coding" subsection="Miscellaneous">DO name the source file with the name of the public type it contains.</guideline>
+  <guideline key="Ch06_b418973" severity="DO" section="Coding" subsection="Miscellaneous">DO use the same name for constructor parameters (camelCase) and properties (PascalCase) if the constructor parameters are used to simply set the property.</guideline>
   <guideline key="Ch10_155c67f" severity="AVOID" section="Coding" subsection="Miscellaneous">AVOID referencing other objects that are not being finalized during finalization.</guideline>
   <guideline key="Ch17_ffa4134" severity="CONSIDER" section="Coding" subsection="Miscellaneous">CONSIDER using nonrecursive algorithms when iterating over potentially deep data structures.</guideline>
   <guideline key="Ch10_2cab586" severity="CONSIDER" section="Coding" subsection="Miscellaneous">CONSIDER registering the finalization code with the AppDomain.ProcessExit to increase the probability that resource cleanup will execute before the process exits.</guideline>
@@ -143,6 +148,14 @@
   <guideline key="Ch14_4241a49" severity="DO NOT" section="Coding" subsection="Miscellaneous">DO NOT pass null as the value of the eventArgs argument.</guideline>
   <guideline key="Ch02_b86a9e2" severity="DO" section="Coding" subsection="Miscellaneous">DO rely on System.WriteLine() and System.Environment.NewLine rather than \n to accommodate Windows-specific operating system idiosyncrasies with the same code that runs on Linux and iOS.</guideline>
   <guideline key="Ch17_f8785bf" severity="DO NOT" section="Coding" subsection="Miscellaneous">"DO NOT make any unwarranted assumptions about the order in which elements of a collection will be enumerated. If the collection is not documented as enumerating its elements in a particular order, it is not guaranteed to produce elements in any particula"</guideline>
+  <guideline key="Ch09_b25f010" severity="DO NOT" section="Coding" subsection="Miscellaneous">DO NOT include “sentinel” values (such as a value called Maximum); such values can be confusing to the user.</guideline>
+  <guideline key="Ch04_9ec5eda" severity="DO NOT" section="Coding" subsection="Miscellaneous">"DO NOT use a constant for any value that can possibly change over time. The value of pi and the number of protons in an atom of gold are constants; the price of gold, the name of your company, and the version number of your program can change."</guideline>
+  <guideline key="Ch02_bd492fc" severity="DO" section="Coding" subsection="Miscellaneous">"DO use the C# keyword rather than the BCL name when specifying a data type (e.g., string rather than String)."</guideline>
+  <guideline key="Ch01_9cc676b" severity="DO NOT" section="Coding" subsection="Miscellaneous">"DO NOT use Hungarian notation (that is, do not encode the type of a variable in its name)."</guideline>
+  <guideline key="Ch01_73d80ae" severity="DO" section="Coding" subsection="Miscellaneous">DO favor clarity over brevity when naming identifiers.</guideline>
+  <guideline key="Ch05_d2ad07e" severity="DO" section="Coding" subsection="Namespaces">DO use PascalCasing for namespace names.</guideline>
+  <guideline key="Ch10_43776b8" severity="DO" section="Coding" subsection="Namespaces">DO prefix namespace names with a company name to prevent namespaces from different companies having the same name.</guideline>
+  <guideline key="Ch10_cfd2d4a" severity="DO" section="Coding" subsection="Namespaces">"DO use a stable, version-independent product name at the second level of a namespace name."</guideline>
   <guideline key="Ch06_7f9df1d" severity="DO" section="Coding" subsection="Parameters">DO provide constructor optional parameters and/or convenience constructor overloads that initialize properties with good defaults.</guideline>
   <guideline key="Ch05_75ff283" severity="DO" section="Coding" subsection="Parameters">DO provide simple method overloads that have a small number of required parameters.</guideline>
   <guideline key="Ch18_fb6c80d" severity="AVOID" section="Coding" subsection="Parameters">"AVOID providing constructor parameters to initialize attribute properties corresponding to the optional arguments (and, therefore, avoid overloading custom attribute constructors)."</guideline>
@@ -161,6 +174,7 @@
   <guideline key="Ch06_7dda59f" severity="CONSIDER" section="Coding" subsection="Properties">CONSIDER giving a property the same name as its type.</guideline>
   <guideline key="Ch06_ebb074f" severity="DO" section="Coding" subsection="Properties">DO apply appropriate accessibility modifiers on implementations of getters and setters on all properties.</guideline>
   <guideline key="Ch06_d814e9a" severity="DO NOT" section="Coding" subsection="Properties">DO NOT provide set-only properties or properties with the setter having broader accessibility than the getter.</guideline>
+  <guideline key="Ch06_028c753" severity="DO" section="Coding" subsection="Properties">"DO favor prefixing Boolean properties with “Is,” “Can,” or “Has,” when that practice adds value."</guideline>
   <guideline key="Ch06_2fa1861" severity="DO" section="Coding" subsection="Properties">"DO name properties using a noun, noun phrase, or adjective."</guideline>
   <guideline key="Ch06_e6aad81" severity="DO" section="Coding" subsection="Properties">"DO provide sensible defaults for all properties, ensuring that defaults do not result in a security hole or significantly inefficient code."</guideline>
   <guideline key="Ch06_0d3a13f" severity="DO" section="Coding" subsection="Properties">DO name properties with PascalCase.</guideline>
@@ -229,23 +243,9 @@
   <guideline key="Ch01_026c169" severity="DO" section="Naming" subsection="Casing">DO use camelCasing for local variable names.</guideline>
   <guideline key="Ch05_76e42bd" severity="DO" section="Naming" subsection="Casing">DO use camelCasing for parameter names.</guideline>
   <guideline key="Ch03_684e2db" severity="DO" section="Naming" subsection="Casing">DO use camelCasing for variable declarations using tuple syntax. </guideline>
-  <guideline key="Ch06_d75e3ef" severity="AVOID" section="Naming" subsection="Casing">AVOID naming fields with camelCase.</guideline>
   <guideline key="Ch03_5b13443" severity="CONSIDER" section="Naming" subsection="Casing">CONSIDER using PascalCasing for all tuple item names.</guideline>
-  <guideline key="Ch06_028c753" severity="DO" section="Naming" subsection="Casing">"DO favor prefixing Boolean properties with “Is,” “Can,” or “Has,” when that practice adds value."</guideline>
   <guideline key="Ch02_e712b97" severity="DO" section="Naming" subsection="Casing">"DO use uppercase literal suffixes (e.g., 1.618033988749895M)."</guideline>
-  <guideline key="Ch05_c6009f8" severity="DO" section="Naming" subsection="Methods">DO give methods names that are verbs or verb phrases.</guideline>
-  <guideline key="Ch05_2ea0636" severity="DO" section="Naming" subsection="Miscellaneous">"DO treat parameter names as part of the API, and avoid changing the names if version compatibility between APIs is important."</guideline>
-  <guideline key="Ch06_0f313e5" severity="DO" section="Naming" subsection="Miscellaneous">DO name the source file with the name of the public type it contains.</guideline>
-  <guideline key="Ch06_b418973" severity="DO" section="Naming" subsection="Miscellaneous">DO use the same name for constructor parameters (camelCase) and properties (PascalCase) if the constructor parameters are used to simply set the property.</guideline>
-  <guideline key="Ch10_cfd2d4a" severity="DO" section="Naming" subsection="Namespaces">"DO use a stable, version-independent product name at the second level of a namespace name."</guideline>
-  <guideline key="Ch10_43776b8" severity="DO" section="Naming" subsection="Namespaces">DO prefix namespace names with a company name to prevent namespaces from different companies having the same name.</guideline>
-  <guideline key="Ch05_d2ad07e" severity="DO" section="Naming" subsection="Namespaces">DO use PascalCasing for namespace names.</guideline>
   <guideline key="Ch12_eb8a1e1" severity="DO" section="Naming" subsection="Types">DO choose meaningful names for type parameters and prefix the name with T.</guideline>
   <guideline key="Ch10_57b5bd2" severity="DO NOT" section="Naming" subsection="Types">DO NOT define types without placing them into a namespace.</guideline>
   <guideline key="Ch12_6f21a67" severity="CONSIDER" section="Naming" subsection="Types">CONSIDER indicating a constraint in the name of a type parameter.</guideline>
-  <guideline key="Ch09_b25f010" severity="DO NOT" section="Naming" subsection="Variables and fields">DO NOT include “sentinel” values (such as a value called Maximum); such values can be confusing to the user.</guideline>
-  <guideline key="Ch04_9ec5eda" severity="DO NOT" section="Naming" subsection="Variables and fields">"DO NOT use a constant for any value that can possibly change over time. The value of pi and the number of protons in an atom of gold are constants; the price of gold, the name of your company, and the version number of your program can change."</guideline>
-  <guideline key="Ch02_bd492fc" severity="DO" section="Naming" subsection="Variables and fields">"DO use the C# keyword rather than the BCL name when specifying a data type (e.g., string rather than String)."</guideline>
-  <guideline key="Ch01_9cc676b" severity="DO NOT" section="Naming" subsection="Variables and fields">"DO NOT use Hungarian notation (that is, do not encode the type of a variable in its name)."</guideline>
-  <guideline key="Ch01_73d80ae" severity="DO" section="Naming" subsection="Variables and fields">DO favor clarity over brevity when naming identifiers.</guideline>
 </Guidelines>
