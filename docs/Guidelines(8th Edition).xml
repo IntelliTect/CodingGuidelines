@@ -25,6 +25,9 @@
   <guideline key="Ch23_1cbd746" severity="DO NOT" section="Coding" subsection="Classes">DO NOT unnecessarily replicate existing managed classes that already perform the function of the unmanaged API.</guideline>
   <guideline key="Ch10_6da0739" severity="DO" section="Coding" subsection="Classes">DO implement IDisposable to support possible deterministic finalization on classes with finalizers.</guideline>
   <guideline key="Ch14_287ceb3" severity="DO" section="Coding" subsection="Classes">DO pass the instance of the class as the value of the sender for nonstatic events.</guideline>
+  <guideline key="Ch10_e13f0a0" severity="DO" section="Coding" subsection="Comments">"DO provide XML comments on public APIs when they provide more context than the API signature alone. This includes member descriptions, parameter descriptions, and examples of calling the API."</guideline>
+  <guideline key="Ch01_29e0d70" severity="DO" section="Coding" subsection="Comments">DO favor writing clearer code over entering comments to clarify a complicated algorithm.</guideline>
+  <guideline key="Ch01_b91db37" severity="DO NOT" section="Coding" subsection="Comments">DO NOT use comments unless they describe something that is not obvious to someone other than the developer who wrote the code.</guideline>
   <guideline key="Ch10_351d63c" severity="DO NOT" section="Coding" subsection="Conversions">DO NOT provide an implicit conversion operator if the conversion is lossy.</guideline>
   <guideline key="Ch09_c60ba06" severity="AVOID" section="Coding" subsection="Conversions">AVOID direct enum/string conversions where the string must be localized into the user’s language.</guideline>
   <guideline key="Ch10_77f1997" severity="DO NOT" section="Coding" subsection="Conversions">DO NOT throw exceptions from implicit conversions.</guideline>
@@ -99,6 +102,9 @@
   <guideline key="" severity="DO" section="Coding" subsection="Fields">DO name fields with PascalCase and a leading underscore.</guideline>
   <guideline key="Ch06_d80065c" severity="DO" section="Coding" subsection="Fields">DO declare all instance fields as private (and expose them via a property).</guideline>
   <guideline key="Ch06_389b3f9" severity="CONSIDER" section="Coding" subsection="Fields">CONSIDER initializing static fields inline rather than explicitly using static constructors or declaration assigned values.</guideline>
+  <guideline key="Ch05_0d6dee5" severity="CONSIDER" section="Coding" subsection="Files">CONSIDER organizing the directory hierarchy for source code files to match the namespace hierarchy.</guideline>
+  <guideline key="Ch10_9564067" severity="CONSIDER" section="Coding" subsection="Files">CONSIDER creating a folder structure that matches the namespace hierarchy.</guideline>
+  <guideline key="Ch06_a3f55af" severity="DO NOT" section="Coding" subsection="Files">DO NOT place more than one class in a single source file.</guideline>
   <guideline key="Ch09_5980324" severity="CONSIDER" section="Coding" subsection="Flags">CONSIDER using the default 32-bit integer type as the underlying type of an enum. Use a smaller type only if you must do so for interoperability; use a larger type only if you are creating a flags enum with more than 32 flags.</guideline>
   <guideline key="Ch09_22c339b" severity="CONSIDER" section="Coding" subsection="Flags">CONSIDER providing special values for commonly used combinations of flags.</guideline>
   <guideline key="Ch09_c440ab9" severity="DO" section="Coding" subsection="Flags">DO use powers of 2 to ensure that all flag combinations are represented uniquely.</guideline>
@@ -152,7 +158,18 @@
   <guideline key="Ch04_9ec5eda" severity="DO NOT" section="Coding" subsection="Miscellaneous">"DO NOT use a constant for any value that can possibly change over time. The value of pi and the number of protons in an atom of gold are constants; the price of gold, the name of your company, and the version number of your program can change."</guideline>
   <guideline key="Ch02_bd492fc" severity="DO" section="Coding" subsection="Miscellaneous">"DO use the C# keyword rather than the BCL name when specifying a data type (e.g., string rather than String)."</guideline>
   <guideline key="Ch01_9cc676b" severity="DO NOT" section="Coding" subsection="Miscellaneous">"DO NOT use Hungarian notation (that is, do not encode the type of a variable in its name)."</guideline>
+  <guideline key="Ch01_1724fff" severity="DO NOT" section="Coding" subsection="Miscellaneous">DO NOT use abbreviations or contractions within identifier names.</guideline>
+  <guideline key="Ch01_1f465b0" severity="DO NOT" section="Coding" subsection="Miscellaneous">"DO NOT use any acronyms unless they are widely accepted, and even then use them consistently."</guideline>
+  <guideline key="Ch01_a611579" severity="DO" section="Coding" subsection="Miscellaneous">"DO capitalize both characters in two-character acronyms, except for the first word of a camelCased identifier."</guideline>
+  <guideline key="Ch01_7565e63" severity="DO" section="Coding" subsection="Miscellaneous">"DO capitalize only the first character in acronyms with three or more characters, except for the first word of a camelCased identifier."</guideline>
+  <guideline key="Ch01_5fbe0b8" severity="DO NOT" section="Coding" subsection="Miscellaneous">DO NOT capitalize any of the characters in acronyms at the beginning of a camelCased identifier.</guideline>
+  <guideline key="Ch12_eb8a1e1" severity="DO" section="Coding" subsection="Miscellaneous">DO choose meaningful names for type parameters and prefix the name with T.</guideline>
+  <guideline key="Ch10_57b5bd2" severity="DO NOT" section="Coding" subsection="Miscellaneous">DO NOT define types without placing them into a namespace.</guideline>
+  <guideline key="Ch12_6f21a67" severity="CONSIDER" section="Coding" subsection="Miscellaneous">CONSIDER indicating a constraint in the name of a type parameter.</guideline>
   <guideline key="Ch01_73d80ae" severity="DO" section="Coding" subsection="Miscellaneous">DO favor clarity over brevity when naming identifiers.</guideline>
+  <guideline key="Ch02_e712b97" severity="DO" section="Coding" subsection="Miscellaneous">"DO use uppercase literal suffixes (e.g., 1.618033988749895M)."</guideline>
+  <guideline key="Ch03_5b13443" severity="CONSIDER" section="Coding" subsection="Miscellaneous">CONSIDER using PascalCasing for all tuple item names.</guideline>
+  <guideline key="Ch03_684e2db" severity="DO" section="Coding" subsection="Miscellaneous">DO use camelCasing for variable declarations using tuple syntax. </guideline>
   <guideline key="Ch01_026c169" severity="DO" section="Coding" subsection="Miscellaneous">DO use camelCasing for local variable names.</guideline>
   <guideline key="Ch05_76e42bd" severity="DO" section="Coding" subsection="Miscellaneous">DO use camelCasing for parameter names.</guideline>
   <guideline key="Ch05_d2ad07e" severity="DO" section="Coding" subsection="Namespaces">DO use PascalCasing for namespace names.</guideline>
@@ -229,23 +246,6 @@
   <guideline key="Ch14_6baa967" severity="DO" section="Coding" subsection="Types">DO use System.EventArgs or a type that derives from System.EventArgs for a TEventArgs type.</guideline>
   <guideline key="Ch03_f566c99" severity="AVOID" section="Coding" subsection="Types">AVOID using implicitly typed local variables unless the data type of the assigned value is obvious.</guideline>
   <guideline key="Ch14_3e1089d" severity="CONSIDER" section="Coding" subsection="Types">CONSIDER using System.EventHandler&lt;T&gt; instead of manually creating new delegate types for event handlers unless the parameter names of a custom type offer significant clarification.</guideline>
-  <guideline key="Ch10_e13f0a0" severity="DO" section="Coding" subsection="Comments">"DO provide XML comments on public APIs when they provide more context than the API signature alone. This includes member descriptions, parameter descriptions, and examples of calling the API."</guideline>
-  <guideline key="Ch01_29e0d70" severity="DO" section="Coding" subsection="Comments">DO favor writing clearer code over entering comments to clarify a complicated algorithm.</guideline>
-  <guideline key="Ch01_b91db37" severity="DO NOT" section="Coding" subsection="Comments">DO NOT use comments unless they describe something that is not obvious to someone other than the developer who wrote the code.</guideline>
-  <guideline key="Ch05_0d6dee5" severity="CONSIDER" section="Coding" subsection="Files">CONSIDER organizing the directory hierarchy for source code files to match the namespace hierarchy.</guideline>
-  <guideline key="Ch10_9564067" severity="CONSIDER" section="Coding" subsection="Files">CONSIDER creating a folder structure that matches the namespace hierarchy.</guideline>
-  <guideline key="Ch06_a3f55af" severity="DO NOT" section="Coding" subsection="Files">DO NOT place more than one class in a single source file.</guideline>
   <guideline key="Ch04_9fa9f67" severity="AVOID" section="Coding" subsection="Whitespace">"AVOID omitting braces, except for the simplest of single-line if statements."</guideline>
   <guideline key="Ch04_19bd2d2" severity="DO" section="Coding" subsection="Whitespace">"DO use parentheses to make code more readable, particularly if the operator precedence is not clear to the casual reader."</guideline>
-  <guideline key="Ch01_1724fff" severity="DO NOT" section="Naming" subsection="Abbreviations">DO NOT use abbreviations or contractions within identifier names.</guideline>
-  <guideline key="Ch01_1f465b0" severity="DO NOT" section="Naming" subsection="Abbreviations">"DO NOT use any acronyms unless they are widely accepted, and even then use them consistently."</guideline>
-  <guideline key="Ch01_a611579" severity="DO" section="Naming" subsection="Casing">"DO capitalize both characters in two-character acronyms, except for the first word of a camelCased identifier."</guideline>
-  <guideline key="Ch01_7565e63" severity="DO" section="Naming" subsection="Casing">"DO capitalize only the first character in acronyms with three or more characters, except for the first word of a camelCased identifier."</guideline>
-  <guideline key="Ch01_5fbe0b8" severity="DO NOT" section="Naming" subsection="Casing">DO NOT capitalize any of the characters in acronyms at the beginning of a camelCased identifier.</guideline>
-  <guideline key="Ch03_684e2db" severity="DO" section="Naming" subsection="Casing">DO use camelCasing for variable declarations using tuple syntax. </guideline>
-  <guideline key="Ch03_5b13443" severity="CONSIDER" section="Naming" subsection="Casing">CONSIDER using PascalCasing for all tuple item names.</guideline>
-  <guideline key="Ch02_e712b97" severity="DO" section="Naming" subsection="Casing">"DO use uppercase literal suffixes (e.g., 1.618033988749895M)."</guideline>
-  <guideline key="Ch12_eb8a1e1" severity="DO" section="Naming" subsection="Types">DO choose meaningful names for type parameters and prefix the name with T.</guideline>
-  <guideline key="Ch10_57b5bd2" severity="DO NOT" section="Naming" subsection="Types">DO NOT define types without placing them into a namespace.</guideline>
-  <guideline key="Ch12_6f21a67" severity="CONSIDER" section="Naming" subsection="Types">CONSIDER indicating a constraint in the name of a type parameter.</guideline>
 </Guidelines>
