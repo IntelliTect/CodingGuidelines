@@ -18,6 +18,8 @@
   <guideline key="Ch04_f8b2290" severity="CONSIDER" section="Coding" subsection="Branches">CONSIDER refactoring the method to make the control flow easier to understand if you find yourself writing for loops with complex conditionals and multiple loop variables.</guideline>
   <guideline key="Ch04_d810859" severity="CONSIDER" section="Coding" subsection="Branches">CONSIDER using an if-else statement instead of an overly complicated conditional expression.</guideline>
   <guideline key="Ch04_8768539" severity="AVOID" section="Coding" subsection="Branches">AVOID using goto.</guideline>
+  <guideline key="Ch01_d57eb7e" severity="DO" section="Coding" subsection="Classes">DO use PascalCasing for all class names.</guideline>
+  <guideline key="Ch01_5e914b9" severity="DO" section="Coding" subsection="Classes">DO name classes with nouns or noun phrases.</guideline>
   <guideline key="Ch12_46f316c" severity="DO" section="Coding" subsection="Classes">DO place multiple generic semantically equivalent classes into a single file if they differ only by the number of generic parameters.</guideline>
   <guideline key="Ch12_b939a91" severity="AVOID" section="Coding" subsection="Classes">AVOID shadowing a type parameter of an outer type with an identically named type parameter of a nested type.</guideline>
   <guideline key="Ch23_1cbd746" severity="DO NOT" section="Coding" subsection="Classes">DO NOT unnecessarily replicate existing managed classes that already perform the function of the unmanaged API.</guideline>
@@ -91,6 +93,10 @@
   <guideline key="Ch06_fda9a36" severity="AVOID" section="Coding" subsection="Fields">AVOID changing a public readonly modified field in pre-C# 6.0 to a read-only automatically implemented property in C# 6.0 (or later) if version API compatibility is required.</guideline>
   <guideline key="Ch06_d19d6d7" severity="AVOID" section="Coding" subsection="Fields">AVOID publicly exposed nested types. The only exception is if the declaration of such a type is unlikely or pertains to an advanced customization scenario.</guideline>
   <guideline key="Ch08_5f240f5" severity="DO" section="Coding" subsection="Fields">DO use PascalCasing and a leading underscore and an “I” prefix for interface names.</guideline>
+  <guideline key="Ch06_30a3139" severity="AVOID" section="Coding" subsection="Fields">AVOID constant fields for values that will change over time.</guideline>
+  <guideline key="Ch06_8030561" severity="DO" section="Coding" subsection="Fields">DO use constant fields for values that will never change.</guideline>
+  <guideline key="" severity="DO" section="Coding" subsection="Fields">DO name fields with PascalCase and a leading underscore.</guideline>
+  <guideline key="Ch06_d80065c" severity="DO" section="Coding" subsection="Fields">DO declare all instance fields as private (and expose them via a property).</guideline>
   <guideline key="Ch06_389b3f9" severity="CONSIDER" section="Coding" subsection="Fields">CONSIDER initializing static fields inline rather than explicitly using static constructors or declaration assigned values.</guideline>
   <guideline key="Ch09_5980324" severity="CONSIDER" section="Coding" subsection="Flags">CONSIDER using the default 32-bit integer type as the underlying type of an enum. Use a smaller type only if you must do so for interoperability; use a larger type only if you are creating a flags enum with more than 32 flags.</guideline>
   <guideline key="Ch09_22c339b" severity="CONSIDER" section="Coding" subsection="Flags">CONSIDER providing special values for commonly used combinations of flags.</guideline>
@@ -152,9 +158,12 @@
   <guideline key="Ch06_26d0d4d" severity="AVOID" section="Coding" subsection="Properties">"AVOID accessing the backing field of a property outside the property, even from within the containing class."</guideline>
   <guideline key="Ch06_6189514" severity="DO" section="Coding" subsection="Properties">DO create read-only properties if the property value should not be changed.</guideline>
   <guideline key="Ch06_816174c" severity="DO" section="Coding" subsection="Properties">DO create read-only automatically implemented properties in C# 6.0 (or later) rather than read-only properties with a backing field if the property value should not be changed.</guideline>
+  <guideline key="Ch06_7dda59f" severity="CONSIDER" section="Coding" subsection="Properties">CONSIDER giving a property the same name as its type.</guideline>
   <guideline key="Ch06_ebb074f" severity="DO" section="Coding" subsection="Properties">DO apply appropriate accessibility modifiers on implementations of getters and setters on all properties.</guideline>
   <guideline key="Ch06_d814e9a" severity="DO NOT" section="Coding" subsection="Properties">DO NOT provide set-only properties or properties with the setter having broader accessibility than the getter.</guideline>
+  <guideline key="Ch06_2fa1861" severity="DO" section="Coding" subsection="Properties">"DO name properties using a noun, noun phrase, or adjective."</guideline>
   <guideline key="Ch06_e6aad81" severity="DO" section="Coding" subsection="Properties">"DO provide sensible defaults for all properties, ensuring that defaults do not result in a security hole or significantly inefficient code."</guideline>
+  <guideline key="Ch06_0d3a13f" severity="DO" section="Coding" subsection="Properties">DO name properties with PascalCase.</guideline>
   <guideline key="Ch06_f455cdc" severity="DO" section="Coding" subsection="Properties">"DO allow properties to be set in any order, even if this results in a temporarily invalid object state."</guideline>
   <guideline key="Ch06_50d676e" severity="DO" section="Coding" subsection="Properties">DO favor read-only automatically implemented properties in C# 6.0 (or later) over read-only fields.</guideline>
   <guideline key="Ch06_a1eeb77" severity="DO" section="Coding" subsection="Properties">DO use a nullable check for all reference-type properties and fields that are not initialized before instantiation completes.</guideline>
@@ -217,10 +226,7 @@
   <guideline key="Ch01_a611579" severity="DO" section="Naming" subsection="Casing">"DO capitalize both characters in two-character acronyms, except for the first word of a camelCased identifier."</guideline>
   <guideline key="Ch01_7565e63" severity="DO" section="Naming" subsection="Casing">"DO capitalize only the first character in acronyms with three or more characters, except for the first word of a camelCased identifier."</guideline>
   <guideline key="Ch01_5fbe0b8" severity="DO NOT" section="Naming" subsection="Casing">DO NOT capitalize any of the characters in acronyms at the beginning of a camelCased identifier.</guideline>
-  <guideline key="Ch01_d57eb7e" severity="DO" section="Naming" subsection="Casing">DO use PascalCasing for all class names.</guideline>
   <guideline key="Ch01_026c169" severity="DO" section="Naming" subsection="Casing">DO use camelCasing for local variable names.</guideline>
-  <guideline key="Ch06_0d3a13f" severity="DO" section="Naming" subsection="Casing">DO name properties with PascalCase.</guideline>
-  <guideline key="Ch05_d2ad07e" severity="DO" section="Naming" subsection="Casing">DO use PascalCasing for namespace names.</guideline>
   <guideline key="Ch05_76e42bd" severity="DO" section="Naming" subsection="Casing">DO use camelCasing for parameter names.</guideline>
   <guideline key="Ch03_684e2db" severity="DO" section="Naming" subsection="Casing">DO use camelCasing for variable declarations using tuple syntax. </guideline>
   <guideline key="Ch06_d75e3ef" severity="AVOID" section="Naming" subsection="Casing">AVOID naming fields with camelCase.</guideline>
@@ -230,22 +236,16 @@
   <guideline key="Ch05_c6009f8" severity="DO" section="Naming" subsection="Methods">DO give methods names that are verbs or verb phrases.</guideline>
   <guideline key="Ch05_2ea0636" severity="DO" section="Naming" subsection="Miscellaneous">"DO treat parameter names as part of the API, and avoid changing the names if version compatibility between APIs is important."</guideline>
   <guideline key="Ch06_0f313e5" severity="DO" section="Naming" subsection="Miscellaneous">DO name the source file with the name of the public type it contains.</guideline>
-  <guideline key="Ch06_7dda59f" severity="CONSIDER" section="Naming" subsection="Miscellaneous">CONSIDER giving a property the same name as its type.</guideline>
   <guideline key="Ch06_b418973" severity="DO" section="Naming" subsection="Miscellaneous">DO use the same name for constructor parameters (camelCase) and properties (PascalCase) if the constructor parameters are used to simply set the property.</guideline>
   <guideline key="Ch10_cfd2d4a" severity="DO" section="Naming" subsection="Namespaces">"DO use a stable, version-independent product name at the second level of a namespace name."</guideline>
   <guideline key="Ch10_43776b8" severity="DO" section="Naming" subsection="Namespaces">DO prefix namespace names with a company name to prevent namespaces from different companies having the same name.</guideline>
+  <guideline key="Ch05_d2ad07e" severity="DO" section="Naming" subsection="Namespaces">DO use PascalCasing for namespace names.</guideline>
   <guideline key="Ch12_eb8a1e1" severity="DO" section="Naming" subsection="Types">DO choose meaningful names for type parameters and prefix the name with T.</guideline>
   <guideline key="Ch10_57b5bd2" severity="DO NOT" section="Naming" subsection="Types">DO NOT define types without placing them into a namespace.</guideline>
   <guideline key="Ch12_6f21a67" severity="CONSIDER" section="Naming" subsection="Types">CONSIDER indicating a constraint in the name of a type parameter.</guideline>
   <guideline key="Ch09_b25f010" severity="DO NOT" section="Naming" subsection="Variables and fields">DO NOT include “sentinel” values (such as a value called Maximum); such values can be confusing to the user.</guideline>
-  <guideline key="Ch06_30a3139" severity="AVOID" section="Naming" subsection="Variables and fields">AVOID constant fields for values that will change over time.</guideline>
-  <guideline key="Ch06_8030561" severity="DO" section="Naming" subsection="Variables and fields">DO use constant fields for values that will never change.</guideline>
-  <guideline key="Ch06_d80065c" severity="DO" section="Naming" subsection="Variables and fields">DO declare all instance fields as private (and expose them via a property).</guideline>
-  <guideline key="" severity="DO" section="Naming" subsection="Variables and fields">DO name fields with PascalCase and a leading underscore.</guideline>
-  <guideline key="Ch06_2fa1861" severity="DO" section="Naming" subsection="Variables and fields">"DO name properties using a noun, noun phrase, or adjective."</guideline>
   <guideline key="Ch04_9ec5eda" severity="DO NOT" section="Naming" subsection="Variables and fields">"DO NOT use a constant for any value that can possibly change over time. The value of pi and the number of protons in an atom of gold are constants; the price of gold, the name of your company, and the version number of your program can change."</guideline>
   <guideline key="Ch02_bd492fc" severity="DO" section="Naming" subsection="Variables and fields">"DO use the C# keyword rather than the BCL name when specifying a data type (e.g., string rather than String)."</guideline>
-  <guideline key="Ch01_5e914b9" severity="DO" section="Naming" subsection="Variables and fields">DO name classes with nouns or noun phrases.</guideline>
   <guideline key="Ch01_9cc676b" severity="DO NOT" section="Naming" subsection="Variables and fields">"DO NOT use Hungarian notation (that is, do not encode the type of a variable in its name)."</guideline>
   <guideline key="Ch01_73d80ae" severity="DO" section="Naming" subsection="Variables and fields">DO favor clarity over brevity when naming identifiers.</guideline>
 </Guidelines>
