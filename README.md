@@ -143,3 +143,8 @@ instead of the `GetDirectories` method.  In the remarks section of the [document
 > for the whole array of names to be returned before you can access the array. Therefore, when you are working with many 
 > files and directories, EnumerateDirectories can be more efficient.
 > The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
+> 
+
+##### Guidelines Site Maintenance
+ There are two github actions that are used to update the CodingGuidelinesSite. One action ( *Update csharp Markdown* ) will run automatically when the XML file in the master branch is updated via a commit. The CodingGuidelines github page will then reflect the changes. After reviewing the "dev" site, there is another action ( *Update Docs Folder on CodingGuidelinesSite* ) that will move the new markdown file to production site [CodingGuidelinesSite]( https://intellitect.github.io/CodingGuidelinesSite/). 
+There is also another action to manually run a xml to md conversion on any branch.
