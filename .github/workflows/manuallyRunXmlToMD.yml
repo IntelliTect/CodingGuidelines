@@ -24,19 +24,7 @@ jobs:
           ref: ${{ github.ref }}
           token: ${{ secrets.CI_PAT }}
 
-    - name: Simple Diff
-      uses: mudlabs/simple-diff@v1.0.2
-      id: diff
-      with:
-        # The path of the file or folder to find in the commits diff tree.
-        path: ./docs/${{ env.XmlFileName }}
-        # continue even if the xml file if the file isn't found in the diff tree (it wasn't changed). strict=true causes the action to fail otherwise
-        strict : false
 
-    - name: Guidelines xml status 
-      run: |
-        echo "${{ env.XmlFileName }} modified = ${{ steps.diff.outputs.modified }}"
-        echo "${{ steps.diff.outputs.name }}"
     
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
