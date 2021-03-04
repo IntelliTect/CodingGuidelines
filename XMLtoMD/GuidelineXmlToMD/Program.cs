@@ -164,10 +164,12 @@ namespace GuidelineXmlToMD
         {
             get
             {
+                #pragma warning disable SYSLIB0012
                 string codeBase = Assembly.GetExecutingAssembly().CodeBase;
                 UriBuilder uri = new UriBuilder(codeBase);
                 string path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
+                #pragma warning restore SYSLIB0012
             }
         }
     }
