@@ -16,12 +16,12 @@ namespace GuidelineXmlToMD
         /// <summary>
         /// A simple to to convert coding guidelines xml to the website formatted markdown.
         /// </summary>
-        /// <param name="args">It is implied that args[0] is the name of the xml file that is stored at CodingGuidelines/docs/ can also be explicitly passed with --xml-file-name</param>
+        /// <param name="args">It is implied that args[0] is the name of the xml file that is stored at CodingGuidelines/docs/ This can also be explicitly passed with --xml-file-name</param>
         /// <param name="xmlFileName">The name of the xml file that is stored at CodingGuidelines/docs/</param>
         /// <param name="i">The xml file to process when using the -m option</param>
         /// <param name="o">The md file to create when using the -m option </param>
         /// <param name="m">Manual Run - Use xmlFilePath and outputMDFilePath</param>
-        static void Main(string [] args,string xmlFileName, string i= "null", string o="null", bool m = false)
+        static void Main(string[] args, string xmlFileName, string i = "null", string o = "null", bool m = false)
         {
             string markDownOutputFilePath;
             string xmlInputFilePath;
@@ -41,12 +41,13 @@ namespace GuidelineXmlToMD
                 markDownOutputFilePath = Path.GetFullPath(o);
                 xmlInputFilePath = Path.GetFullPath(i);
             }
-            else { // run in based on the repo file structure
-                // example structure of repo:
-                // CodingGuidelines\XMLtoMD\GuidelineXmlToMD\bin\Debug\netcoreapp3.1
-                // CodingGuidelines\docs
+            else
+            { // run in based on the repo file structure
+              // example structure of repo:
+              // CodingGuidelines\XMLtoMD\GuidelineXmlToMD\bin\Debug\netcoreapp3.1
+              // CodingGuidelines\docs
 
-                
+
                 if (args.Length != 0)
                 {  // check for input fileName being passed without parameter name specified
                     if (Regex.Match(args[0], @".*.xml").Success)
@@ -57,15 +58,15 @@ namespace GuidelineXmlToMD
 
                 Match repoRefFolder = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
                 string[] defaultXmlFilePath = { repoRefFolder.Value, "docs", xmlFileName };
-                xmlInputFilePath= Path.Combine(defaultXmlFilePath);
+                xmlInputFilePath = Path.Combine(defaultXmlFilePath);
 
                 string mdFileName = "csharp.md";
                 string[] mdFilePath = { repoRefFolder.Value, "docs", "coding", mdFileName };
                 markDownOutputFilePath = Path.Combine(mdFilePath);
 
             }
-                
-           
+
+
             ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(xmlInputFilePath);
 
             using (_MdWriter = new MdWriter(markDownOutputFilePath))
@@ -88,7 +89,7 @@ namespace GuidelineXmlToMD
             {
                 _MdWriter.WriteLine("");
                 Console.WriteLine(section);
-                _MdWriter.WriteLine(section, format: MdFormat.Heading2,style: MdStyle.BoldItalic);
+                _MdWriter.WriteLine(section, format: MdFormat.Heading2, style: MdStyle.BoldItalic);
 
 
 
@@ -196,12 +197,12 @@ namespace GuidelineXmlToMD
         {
             get
             {
-                #pragma warning disable SYSLIB0012
+#pragma warning disable SYSLIB0012
                 string codeBase = Assembly.GetExecutingAssembly().CodeBase;
                 UriBuilder uri = new UriBuilder(codeBase);
                 string path = Uri.UnescapeDataString(uri.Path);
                 return Path.GetDirectoryName(path);
-                #pragma warning restore SYSLIB0012
+#pragma warning restore SYSLIB0012
             }
         }
     }
