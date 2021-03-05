@@ -12,25 +12,63 @@ namespace GuidelineXmlToMD
     class Program
     {
         static MarkdownOut.MdWriter _MdWriter;
-        static void Main(string[] args)
+
+        /// <summary>
+        /// A simple to to convert coding guidelines xml to the website formatted markdown.
+        /// </summary>
+        /// <param name="args">It is implied that args[0] is the name of the xml file that is stored at CodingGuidelines/docs/ can also be explicitly passed with --xml-file-name</param>
+        /// <param name="xmlFileName">The name of the xml file that is stored at CodingGuidelines/docs/</param>
+        /// <param name="i">The xml file to process when using the -m option</param>
+        /// <param name="o">The md file to create when using the -m option </param>
+        /// <param name="m">Manual Run - Use xmlFilePath and outputMDFilePath</param>
+        static void Main(string [] args,string xmlFileName, string i= "null", string o="null", bool m = false)
         {
-            string xmlFileName = "Guidelines(8th Edition).xml";
-            if (args.Length != 0) {  //check for input fileName
-                if (Regex.Match(args[0], @".*.xml").Success) {
-                    xmlFileName = args[0];
+            string markDownOutputFilePath;
+            string xmlInputFilePath;
+
+            if (m)
+            {
+                if (Regex.Match(i, @".*.xml").Success)
+                {
+                    Console.WriteLine($"Converting {i} to {o}");
                 }
+                else
+                {
+                    Console.WriteLine($"Invalid xml file name: {i}");
+                    return;
+                }
+
+                markDownOutputFilePath = Path.GetFullPath(o);
+                xmlInputFilePath = Path.GetFullPath(i);
             }
+            else { // run in based on the repo file structure
+                // example structure of repo:
+                // CodingGuidelines\XMLtoMD\GuidelineXmlToMD\bin\Debug\netcoreapp3.1
+                // CodingGuidelines\docs
 
-            Match repoRefFolder = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
+                
+                if (args.Length != 0)
+                {  // check for input fileName being passed without parameter name specified
+                    if (Regex.Match(args[0], @".*.xml").Success)
+                    {
+                        xmlFileName = args[0];
+                    }
+                }
 
-            string[] xmlFilePath = { repoRefFolder.Value, "docs", xmlFileName};
-            ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(Path.Combine(xmlFilePath));
-            
-            
-            string mdFileName = "csharp.md";
-            string[] mdFilePath = { repoRefFolder.Value, "docs", "coding", mdFileName};
+                Match repoRefFolder = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
+                string[] defaultXmlFilePath = { repoRefFolder.Value, "docs", xmlFileName };
+                xmlInputFilePath= Path.Combine(defaultXmlFilePath);
 
-            using (_MdWriter = new MdWriter(Path.Combine(mdFilePath)))
+                string mdFileName = "csharp.md";
+                string[] mdFilePath = { repoRefFolder.Value, "docs", "coding", mdFileName };
+                markDownOutputFilePath = Path.Combine(mdFilePath);
+
+            }
+                
+           
+            ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(xmlInputFilePath);
+
+            using (_MdWriter = new MdWriter(markDownOutputFilePath))
             {
 
 
@@ -40,12 +78,6 @@ namespace GuidelineXmlToMD
                 _MdWriter.WriteLine("");
                 PrintGuidelinesBySection(guidelines);
             }
-        
-
-
-
-            //C: \Users\saffron\source\repos\CodingGuidelines\XMLtoMD\GuidelineXmlToMD\bin\Debug\netcoreapp3.1
-            //C: \Users\saffron\source\repos\CodingGuidelines\docs
 
 
         }
