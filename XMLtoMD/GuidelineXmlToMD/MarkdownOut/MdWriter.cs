@@ -87,7 +87,7 @@ namespace MarkdownOut // by https://github.com/rob-williams/MarkdownOut
         /// breaks to maintain the assumed intended line breaks in the text; otherwise, the text's
         /// newlines will not parsed as line breaks by Markdown parsers.
         /// </param>
-        /// <param name="numNewLines">Optional number of new lines ot add after each list element</param>
+        /// <param name="numNewLines">Optional number of new lines to add after each list element</param>
         public void WriteLine(object output, MdStyle style = MdStyle.None,
                               MdFormat format = MdFormat.None, bool useMdLineBreaks = true, int numNewLines = 2) {
             string text = MdText.StyleAndFormat(output, style, format);
@@ -127,7 +127,7 @@ namespace MarkdownOut // by https://github.com/rob-williams/MarkdownOut
         /// </param>
         /// <param name="style">The optional Markdown style to apply.</param>
         /// <param name="format">The optional Markdown format to apply.</param>
-        /// <param name="numNewLines">Optional number of new lines ot add after each list element</param>
+        /// <param name="numNewLines">Optional number of new lines to add after each list element</param>
         public void WriteUnorderedListItem(object output, int listIndent = 0,
                                            MdStyle style = MdStyle.None, MdFormat format = MdFormat.None, int numNewLines=1) {
             string text = MdText.Format(output, format);

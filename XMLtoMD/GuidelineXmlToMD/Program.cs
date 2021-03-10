@@ -28,7 +28,7 @@ namespace GuidelineXmlToMD
 
             if (m)
             {
-                if (Regex.Match(i, @".*.xml").Success)
+                if (i.EndsWith(".xml"))
                 {
                     Console.WriteLine($"Converting {i} to {o}");
                 }
@@ -69,7 +69,7 @@ namespace GuidelineXmlToMD
 
             ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(xmlInputFilePath);
 
-            using (_MdWriter = new MdWriter(markDownOutputFilePath))
+            using _MdWriter = new MdWriter(markDownOutputFilePath);
             {
 
 
