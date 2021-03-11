@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.CommandLine;
+using System.CommandLine.IO;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -12,29 +14,35 @@ namespace GuidelineXmlToMD
     class Program
     {
         static MarkdownOut.MdWriter _MdWriter;
+        private static IConsole _Console;
 
         /// <summary>
-        /// A simple to to convert coding guidelines xml to the website formatted markdown.
+        /// A simple tool to convert coding guidelines xml to the website formatted markdown.
         /// </summary>
-        /// <param name="args">It is implied that args[0] is the name of the xml file that is stored at CodingGuidelines/docs/ This can also be explicitly passed with --xml-file-name</param>
-        /// <param name="xmlFileName">The name of the xml file that is stored at CodingGuidelines/docs/</param>
-        /// <param name="i">The xml file to process when using the -m option</param>
-        /// <param name="o">The md file to create when using the -m option </param>
-        /// <param name="m">Manual Run - Use xmlFilePath and outputMDFilePath</param>
-        static void Main(string[] args, string xmlFileName, string i = "null", string o = "null", bool m = false)
+        /// <param name="xmlFileName">The name of the xml file that is stored at "CodingGuidelines/docs/". If specified then the tool will run and output the MD file to CodingGuidelines\docs\coding\csharp.md based on the location of the assembly (-i and -o options are ignored/not required)</param>
+        /// <param name="i">The xml file to process. "-o" must also be specified.</param>
+        /// <param name="o">The md file to create. "-i" must also be specified.</param> 
+        /// <param name="console"></param>
+        static void Main(string xmlFileName, string i, string o, IConsole console = null)
         {
+            if (console is null)
+            {
+                throw new ArgumentNullException(nameof(console));
+            }
+            else { _Console = console; }
+
             string markDownOutputFilePath;
             string xmlInputFilePath;
 
-            if (m)
+            if (string.IsNullOrEmpty(xmlFileName)) // use i and o
             {
                 if (i.EndsWith(".xml"))
                 {
-                    Console.WriteLine($"Converting {i} to {o}");
+                    _Console.Out.WriteLine($"Converting {i} to {o}");
                 }
                 else
                 {
-                    Console.WriteLine($"Invalid xml file name: {i}");
+                    _Console.Out.WriteLine($"Invalid xml file name: {i}");
                     return;
                 }
 
@@ -46,14 +54,10 @@ namespace GuidelineXmlToMD
               // example structure of repo:
               // CodingGuidelines\XMLtoMD\GuidelineXmlToMD\bin\Debug\netcoreapp3.1
               // CodingGuidelines\docs
-
-
-                if (args.Length != 0)
-                {  // check for input fileName being passed without parameter name specified
-                    if (Regex.Match(args[0], @".*.xml").Success)
-                    {
-                        xmlFileName = args[0];
-                    }
+                if (!xmlFileName.EndsWith(".xml"))
+                { 
+                    _Console.Out.WriteLine($"Invalid xml file name: {i}");
+                    return;
                 }
 
                 Match repoRefFolder = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
@@ -69,9 +73,8 @@ namespace GuidelineXmlToMD
 
             ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(xmlInputFilePath);
 
-            using _MdWriter = new MdWriter(markDownOutputFilePath);
+            using (_MdWriter = new MdWriter(markDownOutputFilePath))
             {
-
 
                 _MdWriter.WriteLine("C# Guidelines", format: MdFormat.Heading1);
                 PrintSections(guidelines);
@@ -88,7 +91,7 @@ namespace GuidelineXmlToMD
             foreach (string section in GetSections(guidelines))
             {
                 _MdWriter.WriteLine("");
-                Console.WriteLine(section);
+                _Console.Out.WriteLine(section);
                 _MdWriter.WriteLine(section, format: MdFormat.Heading2, style: MdStyle.BoldItalic);
 
 
@@ -106,7 +109,7 @@ namespace GuidelineXmlToMD
 
                     if (guidelinesInSubsection.Any())
                     {
-                        Console.WriteLine($"     { subsection}");
+                        _Console.Out.WriteLine($"     { subsection}");
                         _MdWriter.WriteLine(subsection, format: MdFormat.Heading3, numNewLines: 1);
 
                         foreach (Guideline guideline in guidelinesInSubsection)
@@ -153,7 +156,7 @@ namespace GuidelineXmlToMD
             List<string> sections = GetSections(guidelines);
             foreach (string section in sections)
             {
-                Console.WriteLine(section);
+                _Console.Out.WriteLine(section);
 
                 _MdWriter.WriteUnorderedListItem(section, format: MdFormat.InternalLink, listIndent: 0);
 
@@ -164,7 +167,7 @@ namespace GuidelineXmlToMD
 
                 foreach (string subsection in subSections)
                 {
-                    Console.WriteLine($"     { subsection}");
+                    _Console.Out.WriteLine($"     { subsection}");
                     _MdWriter.WriteUnorderedListItem(subsection, format: MdFormat.InternalLink, listIndent: 1);
                 }
                 _MdWriter.WriteLine("", numNewLines: 1);
