@@ -4,7 +4,7 @@ name: Update csharp Markdown
 on:
   push:
     branches: 
-      - 'master'
+      - 'main'
       
 jobs:
   build:
