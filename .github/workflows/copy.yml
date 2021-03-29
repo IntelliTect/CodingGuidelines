@@ -29,7 +29,7 @@ jobs:
     # The name of the repository to push to
         dst_repo_name: CodingGuidelinesSite
     # The branch name of the source repository
-    #    src_branch: # optional, default is master
+        src_branch: main
     # The branch name of the destination repository
         dst_branch: main
     # Set to true if the dst_path should be emptied before copying
