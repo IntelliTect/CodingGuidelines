@@ -5,6 +5,7 @@ title: IntelliTect Guidelines
 Coding Guidelines
 ================
 * [C#]({{ site.baseurl }}{% link coding/csharp.md %})
+* [JavaScript]({{ site.baseurl }}{% link coding/javascript.md %})
 
 Analyzers
 =========
