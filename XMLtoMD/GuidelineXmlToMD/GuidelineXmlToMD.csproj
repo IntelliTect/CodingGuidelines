@@ -3,14 +3,21 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>IntelliTect.EssentialCSharp.Publishing</ToolCommandName>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="MarkdownOut\" />
-  </ItemGroup>
-
+  <PropertyGroup>
+    <NoWarn>1591</NoWarn>
+    <Version>1.0.0</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild> <!-- #pragma warning disable CS1591 // Missing XML comment for publicly visible type or member -->
+  </PropertyGroup>
+  
   <ItemGroup>
     <PackageReference Include="IntelliTect.Analyzers" Version="0.1.8" />
+    <PackageReference Include="System.CommandLine.DragonFruit" Version="0.3.0-alpha.20574.7" />
   </ItemGroup>
 
 </Project>
