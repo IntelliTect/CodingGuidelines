@@ -40,8 +40,8 @@ jobs:
       if: ${{ steps.diff.outputs.modified == 'true' }}
       
     - name: restore_compile_run_createMD
-      run: |
-         dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj
+      run: >
+         dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj 
          -- --xml-input-file "./docs/${{ env.XmlFileName }}" --markdown-output-file "./docs/coding/csharp.md"
       if: ${{ steps.diff.outputs.modified == 'true' }}
       

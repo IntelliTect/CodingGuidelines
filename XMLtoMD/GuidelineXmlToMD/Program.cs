@@ -21,10 +21,21 @@ namespace GuidelineXmlToMD
         /// <param name="console">Injected by System.CommandLine</param>
         static void Main(FileInfo xmlInputFile, FileInfo markdownOutputFile, IConsole console)
         {
+            if (xmlInputFile is null)
+            {
+                throw new ArgumentNullException(nameof(xmlInputFile));
+            }
+
+            if (markdownOutputFile is null)
+            {
+                throw new ArgumentNullException(nameof(markdownOutputFile));
+            }
+
             if (console is null)
             {
                 throw new ArgumentNullException(nameof(console));
             }
+
 
             if (!xmlInputFile.Exists)
             {
