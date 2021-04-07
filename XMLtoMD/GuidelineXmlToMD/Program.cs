@@ -13,88 +13,49 @@ namespace GuidelineXmlToMD
 {
     class Program
     {
-        static MarkdownOut.MdWriter _MdWriter;
-        private static IConsole _Console;
-
         /// <summary>
         /// A simple tool to convert coding guidelines xml to the website formatted markdown.
         /// </summary>
-        /// <param name="xmlFileName">The name of the xml file that is stored at "CodingGuidelines/docs/". If specified then the tool will run and output the MD file to CodingGuidelines\docs\coding\csharp.md based on the location of the assembly (-i and -o options are ignored/not required)</param>
-        /// <param name="i">The xml file to process. "-o" must also be specified.</param>
-        /// <param name="o">The md file to create. "-i" must also be specified.</param> 
-        /// <param name="console"></param>
-        static void Main(string xmlFileName, string i, string o, IConsole console = null)
+        /// <param name="xmlInputFile">The xml file to process.</param>
+        /// <param name="markdownOutputFile">The md file to create.</param> 
+        /// <param name="console">Injected by System.CommandLine</param>
+        static void Main(FileInfo xmlInputFile, FileInfo markdownOutputFile, IConsole console)
         {
             if (console is null)
             {
                 throw new ArgumentNullException(nameof(console));
             }
-            else { _Console = console; }
 
-            string markDownOutputFilePath;
-            string xmlInputFilePath;
-
-            if (string.IsNullOrEmpty(xmlFileName)) // use i and o
+            if (!xmlInputFile.Exists)
             {
-                if (i.EndsWith(".xml"))
-                {
-                    _Console.Out.WriteLine($"Converting {i} to {o}");
-                }
-                else
-                {
-                    _Console.Out.WriteLine($"Invalid xml file name: {i}");
-                    return;
-                }
-
-                markDownOutputFilePath = Path.GetFullPath(o);
-                xmlInputFilePath = Path.GetFullPath(i);
-            }
-            else
-            { // run in based on the repo file structure
-              // example structure of repo:
-              // CodingGuidelines\XMLtoMD\GuidelineXmlToMD\bin\Debug\netcoreapp3.1
-              // CodingGuidelines\docs
-                if (!xmlFileName.EndsWith(".xml"))
-                { 
-                    _Console.Out.WriteLine($"Invalid xml file name: {i}");
-                    return;
-                }
-
-                Match repoRefFolder = Regex.Match(AssemblyDirectory, @$".*CodingGuidelines");
-                string[] defaultXmlFilePath = { repoRefFolder.Value, "docs", xmlFileName };
-                xmlInputFilePath = Path.Combine(defaultXmlFilePath);
-
-                string mdFileName = "csharp.md";
-                string[] mdFilePath = { repoRefFolder.Value, "docs", "coding", mdFileName };
-                markDownOutputFilePath = Path.Combine(mdFilePath);
-
+                throw new FileNotFoundException("Could not find input file", xmlInputFile.FullName);
             }
 
+            string markDownOutputFilePath = markdownOutputFile.FullName;
+            string xmlInputFilePath = xmlInputFile.FullName;
+
+            console.Out.WriteLine($"Converting {xmlInputFilePath} to {markDownOutputFilePath}");
 
             ICollection<Guideline> guidelines = GuidelineXmlFileReader.ReadExisitingGuidelinesFile(xmlInputFilePath);
 
-            using (_MdWriter = new MdWriter(markDownOutputFilePath))
-            {
-
-                _MdWriter.WriteLine("C# Guidelines", format: MdFormat.Heading1);
-                PrintSections(guidelines);
-                _MdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
-                _MdWriter.WriteLine("");
-                PrintGuidelinesBySection(guidelines);
-            }
-
-
+            using var mdWriter = new MdWriter(markDownOutputFilePath);
+            mdWriter.WriteLine("C# Guidelines", format: MdFormat.Heading1);
+            PrintSections(guidelines, mdWriter, console);
+            mdWriter.WriteLine("Guidelines", format: MdFormat.Heading1);
+            mdWriter.WriteLine("");
+            PrintGuidelinesBySection(guidelines, mdWriter, console);
         }
 
-        private static void PrintGuidelinesBySection(ICollection<Guideline> guidelines)
+        private static void PrintGuidelinesBySection(
+            ICollection<Guideline> guidelines, 
+            MdWriter mdWriter,
+            IConsole console)
         {
             foreach (string section in GetSections(guidelines))
             {
-                _MdWriter.WriteLine("");
-                _Console.Out.WriteLine(section);
-                _MdWriter.WriteLine(section, format: MdFormat.Heading2, style: MdStyle.BoldItalic);
-
-
+                mdWriter.WriteLine("");
+                console.Out.WriteLine(section);
+                mdWriter.WriteLine(section, format: MdFormat.Heading2, style: MdStyle.BoldItalic);
 
                 IEnumerable<Guideline> guidelinesInSections = (from guideline in guidelines
                                                                where string.Equals(guideline.Section, section, StringComparison.OrdinalIgnoreCase)
@@ -109,15 +70,15 @@ namespace GuidelineXmlToMD
 
                     if (guidelinesInSubsection.Any())
                     {
-                        _Console.Out.WriteLine($"     { subsection}");
-                        _MdWriter.WriteLine(subsection, format: MdFormat.Heading3, numNewLines: 1);
+                        console.Out.WriteLine($"     { subsection}");
+                        mdWriter.WriteLine(subsection, format: MdFormat.Heading3, numNewLines: 1);
 
                         foreach (Guideline guideline in guidelinesInSubsection)
                         {
-                            _MdWriter.WriteUnorderedListItem(GetGuidelineEmoji(guideline) + " " + guideline.Text.Trim('"'), listIndent: 0);
+                            mdWriter.WriteUnorderedListItem(GetGuidelineEmoji(guideline) + " " + guideline.Text.Trim('"'), listIndent: 0);
                         }
                     }
-                    _MdWriter.WriteLine("", numNewLines: 1);
+                    mdWriter.WriteLine("", numNewLines: 1);
 
                 }
             }
@@ -147,18 +108,21 @@ namespace GuidelineXmlToMD
             return emoji;
         }
 
-        private static void PrintSections(ICollection<Guideline> guidelines)
+        private static void PrintSections(
+            ICollection<Guideline> guidelines,
+            MdWriter mdWriter,
+            IConsole console)
         {
-            _MdWriter.WriteLine("Sections", format: MdFormat.Heading2);
+            mdWriter.WriteLine("Sections", format: MdFormat.Heading2);
 
             List<string> subSections = new List<string>();
 
             List<string> sections = GetSections(guidelines);
             foreach (string section in sections)
             {
-                _Console.Out.WriteLine(section);
+                console.Out.WriteLine(section);
 
-                _MdWriter.WriteUnorderedListItem(section, format: MdFormat.InternalLink, listIndent: 0);
+                mdWriter.WriteUnorderedListItem(section, format: MdFormat.InternalLink, listIndent: 0);
 
 
                 subSections = (from guideline in guidelines
@@ -167,17 +131,11 @@ namespace GuidelineXmlToMD
 
                 foreach (string subsection in subSections)
                 {
-                    _Console.Out.WriteLine($"     { subsection}");
-                    _MdWriter.WriteUnorderedListItem(subsection, format: MdFormat.InternalLink, listIndent: 1);
+                    console.Out.WriteLine($"     { subsection}");
+                    mdWriter.WriteUnorderedListItem(subsection, format: MdFormat.InternalLink, listIndent: 1);
                 }
-                _MdWriter.WriteLine("", numNewLines: 1);
-
-
-
+                mdWriter.WriteLine("", numNewLines: 1);
             }
-
-
-
         }
 
         public static List<string> GetSections(ICollection<Guideline> guidelines)
@@ -195,23 +153,5 @@ namespace GuidelineXmlToMD
                                         select guideline.Subsection).Distinct().OrderBy(x => x).ToList();
             return subSections;
         }
-
-        public static string AssemblyDirectory
-        {
-            get
-            {
-#pragma warning disable SYSLIB0012
-                string codeBase = Assembly.GetExecutingAssembly().CodeBase;
-                UriBuilder uri = new UriBuilder(codeBase);
-                string path = Uri.UnescapeDataString(uri.Path);
-                return Path.GetDirectoryName(path);
-#pragma warning restore SYSLIB0012
-            }
-        }
     }
-
-
-
-
-
 }
