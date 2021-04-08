@@ -135,8 +135,7 @@ Omit the `catch` or `finally` clauses if they are not needed, but never omit bot
 
 The `for in` statement allows for looping through the names of all of the properties of an object. Unfortunately, all of the members which were inherited through the prototype chain will also be included in the loop. This has the disadvantage of serving up method functions when the interest is in data members. To prevent this, the body of every for in statement should be wrapped in an if statement that does filtering. It can select for a particular type or range of values, or it can exclude functions, or it can exclude properties from the prototype. For example:
 ```js
-for (var variable in object) 
-{
+for (var variable in object) {
   if (filter) {
     // Statements...
   }
