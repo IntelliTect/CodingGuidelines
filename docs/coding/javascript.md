@@ -96,7 +96,7 @@ else {
 }
 ```
 
-Control statements should have a new line between the control keyword and opening parenthesis, to distinguish them from function calls.
+Control statements should have single spaces between the control keyword, control condition, and opening parenthesis.
 - :grey_question: STRONGLY CONSIDER using curly braces even in situations where they are technically optional. Having them increases readability and decreases the likelihood of logic errors being introduced when new lines are added.
 
 ### switch
