@@ -80,7 +80,7 @@ do {
 These should all be followed by a semi-colon. In addition the `return` value expression must start on the same line as the return keyword in order to avoid semi-colon insertion.
 
 - :heavy_check_mark: DO use a semi-colon except where it's not allowed
-- :heavy_check_mark: DO configure ESLint rule `semi` with option `["error", "always"]`.
+- :heavy_check_mark: DO configure ESLint rule `semi` with option `["error", "always"]`. If using TypeScript, use rule `@typescript-eslint/semi` instead and turn `semi` off.
 
 ## Control Structures
 These include `if`, `for`, `while`, `switch`, etc. Here is an example if statement, since it is the most complicated of them:
