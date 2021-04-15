@@ -1,18 +1,11 @@
 ---
-title: Design GuideLines
+title: IntelliTect Guidelines
 ---
 
 Coding Guidelines
 ================
 * [C#]({{ site.baseurl }}{% link coding/csharp.md %})
-
-Design Guidelines
-================
-
-* [Databases]({{ site.baseurl }}{% link databases/index.md %})
-* [External Libraries]({{ site.baseurl }}{% link external_libraries/index.md %})
-* [APIs]({{ site.baseurl }}{% link apis/index.md %})
-* [Security]({{ site.baseurl }}{% link security/index.md %})
+* [JavaScript]({{ site.baseurl }}{% link coding/javascript.md %})
 
 Analyzers
 =========
