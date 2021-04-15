@@ -26,13 +26,13 @@ namespace GuidelineXmlToMD
 
             foreach (XElement guidelineFromXml in previousGuidelines.Root.DescendantNodes().OfType<XElement>())
             {
-                Guideline guideline = new Guideline();
-                guideline.Severity = guidelineFromXml.Attribute(_Severity)?.Value;
-                guideline.Subsection = guidelineFromXml.Attribute(_Subsection)?.Value;
-                guideline.Section = guidelineFromXml.Attribute(_Section)?.Value;
-                guideline.Text = guidelineFromXml?.Value;
-                guideline.Key = guidelineFromXml.Attribute(_Key)?.Value;
-
+                Guideline guideline = new Guideline(
+                    Key: guidelineFromXml.Attribute(_Key)?.Value,
+                    Text: guidelineFromXml?.Value,
+                    Severity: guidelineFromXml.Attribute(_Severity)?.Value,
+                    Section: guidelineFromXml.Attribute(_Section)?.Value,
+                    Subsection: guidelineFromXml.Attribute(_Subsection)?.Value
+                );
                 guidelines.Add(guideline);
             }
             return guidelines;
