@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Xml.Linq;
 
 namespace GuidelineXmlToMD
 {
-    static class GuidelineXmlFileReader
+    public static class GuidelineXmlFileReader
     {
-        public const string _Guideline = "guideline";
-        public const string _Key = "key";
-        public const string _Severity = "severity";
-
-        public const string _Section = "section";
-        public const string _Subsection = "subsection";
-        public const string _Comments = "comments";
+        private const string _Key = "key";
+        private const string _Severity = "severity";
+        private const string _Section = "section";
+        private const string _Subsection = "subsection";
 
 
         public static ICollection<Guideline> ReadExisitingGuidelinesFile(string pathToExistingGuidelinesXml)
