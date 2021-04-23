@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "GuidelineXmlToMD": {
-      "commandName": "Project",
-      "commandLineArgs": "--xml-input-file \"..\\..\\..\\..\\..\\docs\\Guidelines(8th Edition).xml\" --markdown-output-file \"..\\..\\..\\..\\..\\docs\\coding\\csharp.md\""
-    }
-  }
-}

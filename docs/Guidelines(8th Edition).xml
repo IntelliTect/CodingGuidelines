@@ -99,7 +99,7 @@
   <guideline key="Ch06_d75e3ef" severity="AVOID" section="Coding" subsection="Fields">AVOID naming fields with camelCase.</guideline>
   <guideline key="Ch06_30a3139" severity="AVOID" section="Coding" subsection="Fields">AVOID constant fields for values that will change over time.</guideline>
   <guideline key="Ch06_8030561" severity="DO" section="Coding" subsection="Fields">DO use constant fields for values that will never change.</guideline>
-  <guideline key="" severity="DO" section="Coding" subsection="Fields">DO name fields with PascalCase and a leading underscore.</guideline>
+  <guideline severity="DO" section="Coding" subsection="Fields">DO name fields with PascalCase and a leading underscore.</guideline>
   <guideline key="Ch06_d80065c" severity="DO" section="Coding" subsection="Fields">DO declare all instance fields as private (and expose them via a property).</guideline>
   <guideline key="Ch06_389b3f9" severity="CONSIDER" section="Coding" subsection="Fields">CONSIDER initializing static fields inline rather than explicitly using static constructors or declaration assigned values.</guideline>
   <guideline key="Ch05_0d6dee5" severity="CONSIDER" section="Coding" subsection="Files">CONSIDER organizing the directory hierarchy for source code files to match the namespace hierarchy.</guideline>
@@ -246,6 +246,8 @@
   <guideline key="Ch14_6baa967" severity="DO" section="Coding" subsection="Types">DO use System.EventArgs or a type that derives from System.EventArgs for a TEventArgs type.</guideline>
   <guideline key="Ch03_f566c99" severity="AVOID" section="Coding" subsection="Types">AVOID using implicitly typed local variables unless the data type of the assigned value is obvious.</guideline>
   <guideline key="Ch14_3e1089d" severity="CONSIDER" section="Coding" subsection="Types">CONSIDER using System.EventHandler&lt;T&gt; instead of manually creating new delegate types for event handlers unless the parameter names of a custom type offer significant clarification.</guideline>
+  <guideline severity="CONSIDER" section="Coding" subsection="Variables">CONSIDER using var any time that the initialization of the variable clearly shows what the variable will contain.</guideline>
+  <guideline severity="CONSIDER" section="Coding" subsection="Variables">CONSIDER using target-typed new expressions any time that the instance clearly shows its type.</guideline>
   <guideline key="Ch04_9fa9f67" severity="AVOID" section="Coding" subsection="Whitespace">"AVOID omitting braces, except for the simplest of single-line if statements."</guideline>
   <guideline key="Ch04_19bd2d2" severity="DO" section="Coding" subsection="Whitespace">"DO use parentheses to make code more readable, particularly if the operator precedence is not clear to the casual reader."</guideline>
 </Guidelines>

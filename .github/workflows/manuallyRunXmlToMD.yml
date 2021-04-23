@@ -31,7 +31,7 @@ jobs:
       
     - name: restore_compile_run_createMD
       run: >
-         dotnet run --configuration Release --project ./XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj 
+         dotnet run --configuration Release --project ./Tools/XMLtoMD/GuidelineXmlToMD/GuidelineXmlToMD.csproj 
          -- --xml-input-file "./docs/${{ env.XmlFileName }}" --markdown-output-file "./docs/coding/csharp.md"
       
     - name: Create commit and push to CodingGuideLinesMDUpdate

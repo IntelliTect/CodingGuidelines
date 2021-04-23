@@ -30,6 +30,7 @@
      - [Threads](#threads)
      - [ToString()](#tostring)
      - [Types](#types)
+     - [Variables](#variables)
      - [Whitespace](#whitespace)
 
 # Guidelines
@@ -339,6 +340,10 @@
 - :heavy_check_mark: DO use System.EventArgs or a type that derives from System.EventArgs for a TEventArgs type.
 - :no_entry: AVOID using implicitly typed local variables unless the data type of the assigned value is obvious.
 - :grey_question: CONSIDER using System.EventHandler<T> instead of manually creating new delegate types for event handlers unless the parameter names of a custom type offer significant clarification.
+
+### Variables
+- :grey_question: CONSIDER using var any time that the initialization of the variable clearly shows what the variable will contain.
+- :grey_question: CONSIDER using target-typed new expressions any time that the instance clearly shows its type.
 
 ### Whitespace
 - :no_entry: AVOID omitting braces, except for the simplest of single-line if statements.
