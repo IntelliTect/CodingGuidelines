@@ -1,12 +1,9 @@
-**Defect Tracking**	
+**Defect Tracking and Resolution**	
 
-Defect will be tracked in Azure DevOps and linked to associated story. 
+Defect should be tracked in the same way as User Stories. If appropriate, link the original user story to the defect. 
 
-Defects generated from automated testing tool/platform will be manually ported over to ADO by the DCX QA Lead one reviewed with DCX Leads and Product Owner.
+Defects generated from automated testing tool/platform, when validated, should be recorded the same as any ohter defect.
 
-Defects found during manual testing will be added directly in ADO and linked to the user story being tested.
+Defects are reviewed and planned with other user stories on the backlog .
 
-Defect Prioritization & Assignment:
-
-- Defect will be reviewed daily with DCX Product Owner, Business Analyst, Scrum Master, Development Leads and Architect to determine severity, prioritize and assign to appropriate resource.
-- Defect may be assigned for resolution in existing sprint or future sprint.
+If a defect is high priority, process shoudl be followed but it may be expedited: Add the defect to the backlog, create a branch for the defect, write unit tests for the defect, fix the code, push the branch, create  PR, when approved. Existing CI/CD pipelines should then deploy the fix to production.
