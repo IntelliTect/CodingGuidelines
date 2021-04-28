@@ -25,9 +25,6 @@ Of the techniques mentioned, the most powerful is automated unit testing. If app
 
 # Automated Unit Testing
 
-
-
-
 **Capabilities Inventory**
 
 |Capability|Ideal State|Tools In Inventory|
@@ -39,12 +36,6 @@ Of the techniques mentioned, the most powerful is automated unit testing. If app
 |Unit and Regression Testing|Complex code and foundational code is covered by unit tests.  Complex code and foundational code is automatically identified to ensure compliance.  Unit tests are executed as part of the build process.  Failing unit tests are required to be fixed prior to merges or releases.  Regression tests are composed of the entire suite of unit tests + additional higher-level tests as needed.  Regression tests are automatically verified as part of the build process prior to release.|Junit, NUnit, Selenium, WorkSoft|
 |Performance Testing|Performance testing is part of the deployment pipeline.  All applications are held to documented performance standards.|LoadRunner|
 |Security Analysis|Code is automatically scanned to protect against malicious components, detect plaintext credentials, validating appropriate IAM, and monitoring for behavioral anomalies.||
-
-**Code Review**
-
-- Code reviews will be required for all new code.  Code reviews will be completed by the Development Lead or the Project Architect.  Code reviews will occur before a merge to the main branch.
-
-- Code reviews will follow the [Phillips 66 Code Review Guidelines](https://phillips66.sharepoint.com/sites/IT_AE66PMO/Digital%20Capability/Shared%20Documents/2.2%20-%20IN%20-%20Business%20Improvement/WS%20-%20DCX/Working%20Documents/10.%20Development%20Standards/Code%20Review%20Guidelines.docx?d=w244551758e6b4ad7865d9374c29b8126&csf=1&e=e5viRP) and will focus on adherence to coding standards, architectural alignment and security guidelines.
 
 **Infrastructure Review**
 
@@ -62,29 +53,18 @@ Of the techniques mentioned, the most powerful is automated unit testing. If app
 
 - Quality metrics will be used to ensure the project is meeting the non-functional quality and security requirements.
 
-**Unit and Regression Testing**
-
-- [See Testing Strategy - Unit and Regression Testing](https://p66-default.visualstudio.com/Digital%20Customer%20Experience/_wiki/wikis/DigitalCustomerExperience.wiki?pagePath=%2FProject%20Artifacts%2FTesting%20Strategy%2FUnit%20and%20Regression%20Testing&pageId=159&wikiVersion=GBwikiMaster)
-
-- Unit testing will follow the [Phillips 66 Unit Testing Guidelines](
-https://phillips66.sharepoint.com/sites/IT_AE66PMO/Digital%20Capability/Shared%20Documents/2.2%20-%20IN%20-%20Business%20Improvement/WS%20-%20DCX/Working%20Documents/10.%20Development%20Standards/Phillips%2066%20Automated%20Unit%20Testing%20Guidelines.docx?d=w0b8bf2bafdf942f99230863565fe36da&csf=1&e=DbEaeD)
-
 
 **Performance Testing**
-
-- [See Testing Strategy - Performance Testing](https://p66-default.visualstudio.com/Digital%20Customer%20Experience/_wiki/wikis/DigitalCustomerExperience.wiki?pagePath=%2FProject%20Artifacts%2FTesting%20Strategy%2FPerformance%20Testing&pageId=196&wikiVersion=GBwikiMaster)
+<todo: />
 
 **Security Analysis (Static)**
 
-- Security Analysis (Static) will be part of the build pipeline.  SonarQube is expected to be leveraged for this task.  Scans will focus on the OWASP Top 10 and the SANS Top 25.
-
-- [Phillips 66 Secure Coding Standards](https://phillips66.sharepoint.com/sites/IT_AE66PMO/Digital%20Capability/Shared%20Documents/2.2%20-%20IN%20-%20Business%20Improvement/WS%20-%20DCX/Working%20Documents/10.%20Development%20Standards/Secure%20Coding%20Standards.docx?d=wabf79e56d74a491ca17191baefff8f87&csf=1&e=PqdjLl)
+- Include Static Security Analysis (Static) as part of an automated Continuous Integration build pipeline. Code analysis capabilities are built in to GitHub, and, several good external tools exist including SonarQube which will report on vulnerabilities and fail builds if scans do not complete.  
+- Scans should focus on the OWASP Top 10 and the SANS Top 25.
+<todo: reference tools />
 
 **Security Analysis (Dynamic)**
-- Security Analysis (Dynamic) will be executed outside the build pipeline.  Phillips 66 performs dynamic scanning using a variety of tools on a periodic basis and once for new projects the first time they are deployed.  In addition, we perform periodic penetration and security testing.  
-
-- This will be handled outside of the DCX team.  The DCX team will be responsible for remediation of any issues found.
-
-- [Phillips 66 Secure Coding Standards](https://phillips66.sharepoint.com/sites/IT_AE66PMO/Digital%20Capability/Shared%20Documents/2.2%20-%20IN%20-%20Business%20Improvement/WS%20-%20DCX/Working%20Documents/10.%20Development%20Standards/Secure%20Coding%20Standards.docx?d=wabf79e56d74a491ca17191baefff8f87&csf=1&e=PqdjLl)
+- Security Analysis (Dynamic) should be executed as part of a Continuous Deployment pipeline.
+<todo: reference tools />
 
 
