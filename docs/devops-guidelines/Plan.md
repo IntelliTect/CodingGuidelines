@@ -4,11 +4,9 @@
 
 Value to be delivered by the project should be managed on a backlog
 
-Project code shoudl be connected to work: Product Backlog Items/User Stories and Bugs/Defects.
+Project code should be connected to work: Product Backlog Items/User Stories/Issues and Bugs/Defects.
 
-This enables Azure DevOps to automatically generate release notes and audit reports providing traceability from inception through delivery.
-
-See [P66 Agile Initiative]() for additional information.
+This enables Azure DevOps/GitHub to automatically generate release and audit reports of work delivered by a deployment.
 
 ## Work Management Tooling
 
