@@ -1,6 +1,6 @@
 # DevOps Approach
 
-"DevOps is cultural fusion of People, Process, and Technology to accelerate deliery of Business Value"
+"DevOps is cultural fusion of People, Process, and Technology to accelerate delivery of Business Value"
 
 ![DevOps Continous Improvement](.images/DevOps.png)
 
