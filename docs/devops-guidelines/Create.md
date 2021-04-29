@@ -43,7 +43,7 @@ Implementation is where the rubber meets the road.  The plans are laid.  The use
 
 Implementation will follow the SCRUM methodology and utilize Test Driven Development (TDD).  All features will be logged as user stories with acceptance criteria before they are worked.
 
-All development is expected to be performed using Visual Studio Code, Mulesoft Anypoint Studio and Eclipse.
+All development is expected to be performed using the appropriate development environmetn such as Visual Studio, Visual Studio Code, Eclipse, ...
 
 ## Source Management
 Git repos in Azure DevOps are preferred. 
