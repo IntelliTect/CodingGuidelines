@@ -1,0 +1,32 @@
+name: CodingGuidelines Build
+
+on:
+  push:
+    branches:
+    - main
+env:
+  version: 0.1.9
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: microsoft/setup-msbuild@v1.0.2
+    - uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 3.1.x
+    - name: Use latest NuGet
+      uses: nuget/setup-nuget@v1
+    - name: NuGet Restore
+      run: nuget restore **/*.sln
+    - name: Build
+      run: msbuild 'IntelliTect.Analyzer.sln' /p:configuration='Release' /p:Version=${{ env.version }}
+    - name: Test
+      run: dotnet test **/*.Tests.csproj
+    - name: dotnet pack
+      run: dotnet pack -p:Version="${{ env.version }}-ci-${{ github.run_id }}" -o ${{ github.workspace }}
+      shell: powershell
+    - uses: actions/upload-artifact@v2
+      with:
+        path: ${{ github.workspace }}
+        name: drop
