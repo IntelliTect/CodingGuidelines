@@ -2,8 +2,11 @@ name: CodingGuidelines Build
 
 on:
   push:
-    branches:
-    - main
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    - cron: 0 6 * * 1
 env:
   version: 0.1.9
 jobs:
