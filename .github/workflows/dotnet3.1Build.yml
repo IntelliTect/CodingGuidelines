@@ -22,12 +22,14 @@ jobs:
       uses: nuget/setup-nuget@v1
     - name: Get Directory
       run: pwd
-    - name: NuGet Restore
-      run: nuget restore **\*.sln
+    - name: Dotnet Restore dependencies
+      run: dotnet restore
     - name: Build
       run: msbuild 'IntelliTect.Analyzer.sln' /p:configuration='Release' /p:Version=${{ env.version }}
+    # - name: Build
+    #   run: dotnet build --no-restore
     - name: Test
-      run: dotnet test **/*.Tests.csproj
+      run: dotnet test --no-build --verbosity normal
     - name: dotnet pack
       run: dotnet pack -p:Version="${{ env.version }}-ci-${{ github.run_id }}" -o ${{ github.workspace }}
       shell: powershell
