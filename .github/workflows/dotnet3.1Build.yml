@@ -10,15 +10,12 @@ env:
 jobs:
   build:
     runs-on: windows-latest
-    strategy:
-      matrix:
-        dotnet-version: ['3.1.x', '5.0.x' ]
     steps:
     - uses: actions/checkout@v2
-    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+    - name: Setup .NET Core SDK 5.0
       uses: actions/setup-dotnet@v1
       with:
-          dotnet-version: ${{ matrix.dotnet-version }}
+          dotnet-version: '5.0.x'
     - name: Get Directory
       run: pwd
     - name: Build
@@ -29,5 +26,5 @@ jobs:
       run: dotnet pack -p:Version="${{ env.version }}-ci-${{ github.run_number }}" -o ${{ github.workspace }}
     - uses: actions/upload-artifact@v2
       with:
-        path: ${{ github.workspace }}
+        path: ${{ github.workspace }}/*.nupkg
         name: drop
