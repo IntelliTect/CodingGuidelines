@@ -5,33 +5,28 @@ on:
     branches: [ main ]
   pull_request:
     branches: [ main ]
-  schedule:
-    - cron: 0 6 * * 1
 env:
   version: 0.1.9
 jobs:
   build:
     runs-on: windows-latest
+    strategy:
+      matrix:
+        dotnet-version: ['3.1.x', '5.0.x' ]
     steps:
     - uses: actions/checkout@v2
-    - uses: microsoft/setup-msbuild@v1.0.2
-    - name: Setup .NET
+    - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.x
-    - name: Use latest NuGet
-      uses: nuget/setup-nuget@v1
+          dotnet-version: ${{ matrix.dotnet-version }}
     - name: Get Directory
       run: pwd
-    - name: Dotnet Restore dependencies
-      run: dotnet restore
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build -p:Version="${{ env.version }}"
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: dotnet pack
-      run: dotnet pack -p:Version="${{ env.version }}-ci-${{ github.run_id }}" -o ${{ github.workspace }}
-      shell: powershell
+      run: dotnet pack -p:Version="${{ env.version }}-ci-${{ github.run_number }}" -o ${{ github.workspace }}
     - uses: actions/upload-artifact@v2
       with:
         path: ${{ github.workspace }}
