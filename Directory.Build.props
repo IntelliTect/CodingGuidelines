@@ -1,6 +1,7 @@
 ﻿<Project>
   <PropertyGroup>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <TargetFramework>net5.0</TargetFramework>
+    <!-- <TreatWarningsAsErrors>true</TreatWarningsAsErrors> -->
     <LangVersion>8.0</LangVersion>
   </PropertyGroup>
 </Project>

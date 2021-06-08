@@ -16,10 +16,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
           dotnet-version: '5.0.x'
-    - name: Setup .NET Core 3.1
-      uses: actions/setup-dotnet@v1
-      with:
-          dotnet-version: '3.1.x'
     - name: Get Directory
       run: pwd
     - name: Get Dotnet Version
@@ -37,4 +33,4 @@ jobs:
     - uses: actions/upload-artifact@v2
       with:
         path: ${{ github.workspace }}/*.nupkg
-        name: drop
+        name: Intellitect.CodingGuidelines
