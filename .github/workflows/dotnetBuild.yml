@@ -22,6 +22,10 @@ jobs:
           dotnet-version: '3.1.x'
     - name: Get Directory
       run: pwd
+    - name: Get Dotnet Version
+      run: dotnet --version
+    - name: Dotnet info
+      run: dotnet --info
     - name: Install dependencies
       run: dotnet restore
     - name: Build
