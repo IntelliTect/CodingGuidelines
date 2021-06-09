@@ -16,12 +16,11 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
           dotnet-version: '5.0.x'
-    - name: Get Directory
-      run: pwd
-    - name: Get Dotnet Version
-      run: dotnet --version
-    - name: Dotnet info
-      run: dotnet --info
+    - name: Get Build Information
+      run: |
+        pwd
+        dotnet --info
+        dotnet --version
     - name: Install dependencies
       run: dotnet restore
     - name: Build
