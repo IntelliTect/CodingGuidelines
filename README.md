@@ -1,6 +1,6 @@
 [![NuGet Status](http://img.shields.io/nuget/v/IntelliTect.Analyzers.svg?style=flat&label=IntelliTect.Analyzers)](https://www.nuget.org/packages/IntelliTect.Analyzers/)
 
-[![Build Status](https://intellitect.visualstudio.com/CodingStandards/_apis/build/status/IntelliTect.CodingGuidelines?branchName=master)](https://intellitect.visualstudio.com/CodingStandards/_build/latest?definitionId=95&branchName=master)
+[![CodingGuidelines Build](https://github.com/IntelliTect/CodingGuidelines/actions/workflows/dotnetBuild.yml/badge.svg)](https://github.com/IntelliTect/CodingGuidelines/actions/workflows/dotnetBuild.yml)
 
 [Coding Snippets Repository](https://github.com/IntelliTect/IntelliTect.Snippets)
 
