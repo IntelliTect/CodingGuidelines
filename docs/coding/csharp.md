@@ -283,7 +283,6 @@
 - :heavy_check_mark: DO implement non-nullable reference-type automatically implemented properties as read-only.
 - :heavy_check_mark: DO assign non-nullable reference-type properties before instantiation completes.
 - :heavy_check_mark: DO implement non-nullable read/write reference fully implemented properties with a nullable backing field, a null-forgiveness operator when returning the field from the getter, and non-null validation in the property setter.
-- :heavy_check_mark: DO allow properties to be set in any order, even if this results in a temporarily invalid object state.
 
 ### Strings
 - :heavy_check_mark: DO favor composite formatting over use of the addition operator for concatenating strings when localization is a possibility.
