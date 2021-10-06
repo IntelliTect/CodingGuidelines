@@ -11,10 +11,13 @@
     <RepositoryUrl>https://github.com/IntelliTect/CodingGuidelines</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Analyzer aiding the implementation of IntelliTect internal coding guidelines</Description>
-    <Copyright>Copyright</Copyright>
+    <Copyright>Copyright 2021</Copyright>
     <PackageTags>IntelliTect.Analyzer, analyzers</PackageTags>
     <NoPackageAnalysis>true</NoPackageAnalysis>
     <NoWarn>CA1303</NoWarn>
+    <PackageIcon>intellitect-avatar.png</PackageIcon>
+    <PackageProjectUrl>https://intellitect.github.io/CodingGuidelines/</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -32,6 +35,14 @@
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="..\..\intellitect-avatar.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="..\..\README.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
