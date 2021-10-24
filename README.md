@@ -145,6 +145,9 @@ instead of the `GetDirectories` method.  In the remarks section of the [document
 > The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
 > 
 
+#### INTL0303 - Unused local variable
+TODO: Needs documentation
+
 #### INTL0304 - Do not implicitly convert between `DateTime` and `DateTimeOffset`.
 
 Code relying on certain behaviors may function correctly when run in tests locally because all code will be running in 
