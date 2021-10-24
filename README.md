@@ -145,6 +145,34 @@ instead of the `GetDirectories` method.  In the remarks section of the [document
 > The returned collection is not cached; each call to the GetEnumerator on the collection will start a new enumeration.
 > 
 
+#### INTL0303 - Do not implicitly convert between `DateTime` and `DateTimeOffset`.
+
+Code relying on certain behaviors may function correctly when run in tests locally because all code will be running in 
+the same timezone. This same code will fail or have different behavior when some of it is running in a hosted environment 
+like Azure where the time zone is often set to UTC.
+
+See the feature proposal to remove this from the [dotnet corelib](https://github.com/dotnet/runtime/issues/32954).
+
+> Misleading usecase is that TimeZoneInfo.ConvertTime has 2 overloads for DateTime and DateTimeOffset. When result of the 
+> first one is assigned to DateTimeOffset typed variable, DateTimeOffset record with local time zone offset is created. 
+> This is unclear for common code reader there's something unintended behaviour may take a place ((hey, I've supplied date, 
+> time and timezone to this function, and expect it to return date&time object for this timezone)), because types of either 
+> DateTime or DateTimeOffset that comes to ConvertTime argument may be masked by complex computational expression.
+
+#### INTL0303 - Do not implicitly convert between `DateTime` and `DateTimeOffset`.
+
+Code relying on certain behaviors may function correctly when run in tests locally because all code will be running in 
+the same timezone. This same code will fail or have different behavior when some of it is running in a hosted environment 
+like Azure where the time zone is often set to UTC.
+
+See the feature proposal to remove this from the [dotnet corelib](https://github.com/dotnet/runtime/issues/32954).
+
+> Misleading usecase is that TimeZoneInfo.ConvertTime has 2 overloads for DateTime and DateTimeOffset. When result of the 
+> first one is assigned to DateTimeOffset typed variable, DateTimeOffset record with local time zone offset is created. 
+> This is unclear for common code reader there's something unintended behaviour may take a place ((hey, I've supplied date, 
+> time and timezone to this function, and expect it to return date&time object for this timezone)), because types of either 
+> DateTime or DateTimeOffset that comes to ConvertTime argument may be masked by complex computational expression.
+
 ##### Guidelines Site Maintenance
  There are two github actions that are used to update the CodingGuidelinesSite. One action ( *Update csharp Markdown* ) will run automatically when the XML file in the master branch is updated via a commit. The CodingGuidelines github page will then reflect the changes. After reviewing the "dev" site, there is another action ( *Update Docs Folder on CodingGuidelinesSite* ) that will move the new markdown file to production site [CodingGuidelinesSite]( https://intellitect.github.io/CodingGuidelinesSite/). 
 There is also another action to manually run a xml to md conversion on any branch.
