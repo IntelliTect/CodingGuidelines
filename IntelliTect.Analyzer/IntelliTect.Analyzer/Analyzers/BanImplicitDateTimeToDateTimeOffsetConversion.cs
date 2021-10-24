@@ -54,7 +54,7 @@ namespace IntelliTect.Analyzer.Analyzers
         private static class Rule304
         {
             internal const string DiagnosticId = "INTL0304";
-            internal const string Title = "Do not use implicit conversion between `DateTime` and `DateTimeOffset`";
+            internal const string Title = "Do not use implicit conversion from `DateTime` to `DateTimeOffset`";
             internal const string MessageFormat = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior.";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
@@ -62,7 +62,7 @@ namespace IntelliTect.Analyzer.Analyzers
 #pragma warning restore INTL0001 
 
             internal const string Description =
-                "When you use EnumerateFiles, you can start enumerating the collection of names before the whole collection is returned; when you use GetFiles, you must wait for the whole array of names to be returned before you can access the array. Therefore, when you are working with many files and directories, EnumerateFiles can be more efficient.";
+                "Implicit conversion of `DateTime` to `DateTimeOffset` determines timezone offset based on the `DateTime.Kind` value, and for `DateTimeKind.Unspecified` it assumes `DateTimeKind.Local`, which may lead to differing behavior between running locally and on a server.";
         }
     }
 }

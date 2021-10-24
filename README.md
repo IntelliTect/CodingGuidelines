@@ -148,11 +148,13 @@ instead of the `GetDirectories` method.  In the remarks section of the [document
 #### INTL0303 - Unused local variable
 TODO: Needs documentation
 
-#### INTL0304 - Do not implicitly convert between `DateTime` and `DateTimeOffset`.
+#### INTL0304 - Do not implicitly convert from `DateTime` to `DateTimeOffset`.
 
-Code relying on certain behaviors may function correctly when run in tests locally because all code will be running in 
-the same timezone. This same code will fail or have different behavior when some of it is running in a hosted environment 
-like Azure where the time zone is often set to UTC.
+Implicit conversion of `DateTime` to `DateTimeOffset` determines timezone offset based on the `DateTime.Kind` value, and for 
+`DateTimeKind.Unspecified` it assumes `DateTimeKind.Local`, which may lead to differing behavior between running locally 
+and on a server. Code relying on certain behaviors may function correctly when run in tests locally because all code will 
+be running in the same timezone. This same code will fail or have different behavior when some of it is running in a hosted 
+environment like Azure where the time zone is often set to UTC.
 
 See the feature proposal to remove this from the [dotnet corelib](https://github.com/dotnet/runtime/issues/32954).
 
