@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Linq;
+using IntelliTect.Analyzer.Extensions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Operations;
 
 namespace IntelliTect.Analyzer.Analyzers
 {
@@ -28,7 +31,27 @@ namespace IntelliTect.Analyzer.Analyzers
 
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
-            //context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
+            context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Conversion);
+        }
+
+        private void AnalyzeInvocation(OperationAnalysisContext context)
+        {
+            if (!(context.Operation is IConversionOperation conversionOperation))
+            {
+                return;
+            }
+
+            if (conversionOperation.Conversion.IsImplicit)
+            {
+                INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
+                INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+                if (containingType.Equals(dateTimeOffsetType))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(_Rule304, conversionOperation.Syntax.GetLocation()));
+                }
+            }
+
+
         }
 
         private static class Rule304

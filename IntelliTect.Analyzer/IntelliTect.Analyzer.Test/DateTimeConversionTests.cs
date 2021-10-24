@@ -33,7 +33,7 @@ namespace ConsoleApp42
                                Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior.",
                                Locations =
                                    new[] {
-                            new DiagnosticResultLocation("Test0.cs", 9, 30)
+                            new DiagnosticResultLocation("Test0.cs", 10, 38)
                                    }
                            });
 
