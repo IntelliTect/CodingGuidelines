@@ -40,6 +40,47 @@ namespace ConsoleApp42
         }
 
         [TestMethod]
+        public void UsageOfImplicitConversionInComparison_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+using System.Threading;
+
+namespace ConsoleApp1
+{
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            DateTime first = DateTime.Now;
+
+            Thread.Sleep(10);
+
+            DateTimeOffset second = DateTimeOffset.Now;
+
+            if (first < second)
+            {
+                Console.WriteLine(""Time has passed..."");
+            }
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0304",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior.",
+                               Locations =
+                                   new[] {
+                            new DiagnosticResultLocation("Test0.cs", 17, 17)
+                                   }
+                           });
+
+        }
+
+        [TestMethod]
         public void UsageOfExplicitConversion_ProducesNothing()
         {
             string source = @"
