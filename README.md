@@ -8,3 +8,7 @@
 
 # Coding Guidelines / Design Guidelines
 A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingGuidelines/)
+
+## Guidelines Site Maintenance
+ There are two github actions that are used to update the CodingGuidelinesSite. One action ( *Update csharp Markdown* ) will run automatically when the XML file in the master branch is updated via a commit. The CodingGuidelines github page will then reflect the changes. After reviewing the "dev" site, there is another action ( *Update Docs Folder on CodingGuidelinesSite* ) that will move the new markdown file to production site [CodingGuidelinesSite]( https://intellitect.github.io/CodingGuidelinesSite/). 
+There is also another action to manually run a xml to md conversion on any branch.
