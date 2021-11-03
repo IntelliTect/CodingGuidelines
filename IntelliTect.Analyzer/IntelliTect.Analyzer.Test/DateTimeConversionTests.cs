@@ -28,7 +28,7 @@ namespace ConsoleApp42
             VerifyCSharpDiagnostic(source,
                            new DiagnosticResult
                            {
-                               Id = "INTL0304",
+                               Id = "INTL0202",
                                Severity = DiagnosticSeverity.Warning,
                                Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior.",
                                Locations =
@@ -69,7 +69,7 @@ namespace ConsoleApp1
             VerifyCSharpDiagnostic(source,
                            new DiagnosticResult
                            {
-                               Id = "INTL0304",
+                               Id = "INTL0202",
                                Severity = DiagnosticSeverity.Warning,
                                Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior.",
                                Locations =
