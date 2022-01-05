@@ -21,7 +21,7 @@ url: "https://intellitect.github.io/" # the base hostname & protocol for your si
 
 # Build settings
 markdown: kramdown
-theme: jekyll-theme-cayman
+theme: jekyll-theme-midnight
 plugins:
   - jekyll-feed
   - jemoji
