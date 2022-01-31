@@ -1,4 +1,4 @@
-[![NuGet Status](http://img.shields.io/nuget/v/IntelliTect.Analyzers.svg?style=flat&label=IntelliTect.Analyzers)](https://www.nuget.org/packages/IntelliTect.Analyzers/)
+[![NuGet Status](http://img.shields.io/nuget/v/IntelliTect.Analyzers.svg?style=flat&color=blue&label=IntelliTect.Analyzers)](https://www.nuget.org/packages/IntelliTect.Analyzers/)
 
 [![CodingGuidelines Build](https://github.com/IntelliTect/CodingGuidelines/actions/workflows/dotnetBuild.yml/badge.svg)](https://github.com/IntelliTect/CodingGuidelines/actions/workflows/dotnetBuild.yml)
 
