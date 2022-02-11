@@ -101,6 +101,7 @@
 - :no_entry: AVOID creating enums that represent an “incomplete” set of values, such as product version numbers.
 - :no_entry: AVOID creating flag enums where the zero value has a meaning other than “no flags are set.”
 - :no_entry: AVOID enums that contain a single value.
+- :heavy_check_mark: DO make the enum name itself to be singular (unless the enums are bit flags).
 - :heavy_check_mark: DO provide a value of 0 (none) for simple enums, knowing that 0 will be the default value when no explicit initialization is provided.
 - :no_entry: AVOID creating “reserved for future use” values in an enum.
 - :heavy_check_mark: DO use the FlagsAttribute to mark enums that contain flags.
