@@ -45,6 +45,7 @@
   <guideline key="Ch09_cc7b10e" severity="AVOID" section="Coding" subsection="Enums">"AVOID creating enums that represent an “incomplete” set of values, such as product version numbers."</guideline>
   <guideline key="Ch09_bf80755" severity="AVOID" section="Coding" subsection="Enums">AVOID creating flag enums where the zero value has a meaning other than “no flags are set.”</guideline>
   <guideline key="Ch09_a2194dc" severity="AVOID" section="Coding" subsection="Enums">AVOID enums that contain a single value.</guideline>
+  <guideline key="" severity="DO" section="Coding" subsection="Enums">DO make the enum name itself to be singular (unless the enums are bit flags).</guideline>
   <guideline key="Ch09_210817d" severity="DO" section="Coding" subsection="Enums">"DO provide a value of 0 (none) for simple enums, knowing that 0 will be the default value when no explicit initialization is provided."</guideline>
   <guideline key="Ch09_590f85a" severity="AVOID" section="Coding" subsection="Enums">AVOID creating “reserved for future use” values in an enum.</guideline>
   <guideline key="Ch09_ae9fd04" severity="DO" section="Coding" subsection="Enums">DO use the FlagsAttribute to mark enums that contain flags.</guideline>
