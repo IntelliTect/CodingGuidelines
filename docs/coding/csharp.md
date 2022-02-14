@@ -36,9 +36,6 @@
 # Guidelines
 
 
-
-
-
 ## ***Coding***
 
 ### Arrays
