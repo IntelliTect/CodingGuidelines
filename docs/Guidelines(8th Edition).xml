@@ -96,11 +96,9 @@
   <guideline key="Ch06_bb622bd" severity="DO" section="Coding" subsection="Fields">DO use public static readonly modified fields for predefined object instances prior to C# 6.0.</guideline>
   <guideline key="Ch06_fda9a36" severity="AVOID" section="Coding" subsection="Fields">AVOID changing a public readonly modified field in pre-C# 6.0 to a read-only automatically implemented property in C# 6.0 (or later) if version API compatibility is required.</guideline>
   <guideline key="Ch06_d19d6d7" severity="AVOID" section="Coding" subsection="Fields">AVOID publicly exposed nested types. The only exception is if the declaration of such a type is unlikely or pertains to an advanced customization scenario.</guideline>
-  <guideline key="Ch08_5f240f5" severity="DO" section="Coding" subsection="Fields">DO use PascalCasing and a leading underscore and an “I” prefix for interface names.</guideline>
-  <guideline key="Ch06_d75e3ef" severity="AVOID" section="Coding" subsection="Fields">AVOID naming fields with camelCase.</guideline>
+  <guideline key="Ch08_5f240f5" severity="DO" section="Coding" subsection="Fields">DO name fields with PascalCase and a leading underscore and an “I” prefix for interface names.</guideline>
   <guideline key="Ch06_30a3139" severity="AVOID" section="Coding" subsection="Fields">AVOID constant fields for values that will change over time.</guideline>
   <guideline key="Ch06_8030561" severity="DO" section="Coding" subsection="Fields">DO use constant fields for values that will never change.</guideline>
-  <guideline severity="DO" section="Coding" subsection="Fields">DO name fields with PascalCase and a leading underscore.</guideline>
   <guideline key="Ch06_d80065c" severity="DO" section="Coding" subsection="Fields">DO declare all instance fields as private (and expose them via a property).</guideline>
   <guideline key="Ch06_389b3f9" severity="CONSIDER" section="Coding" subsection="Fields">CONSIDER initializing static fields inline rather than explicitly using static constructors or declaration assigned values.</guideline>
   <guideline key="Ch05_0d6dee5" severity="CONSIDER" section="Coding" subsection="Files">CONSIDER organizing the directory hierarchy for source code files to match the namespace hierarchy.</guideline>
