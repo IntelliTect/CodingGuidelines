@@ -61,7 +61,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 {
                     // Unsure if this is the best way to determine if member was defined in the project.
                     SymbolInfo symbol = context.SemanticModel.GetSymbolInfo(nameSyntax);
-                    if (symbol.Symbol == null)
+                    if (symbol.Symbol == null || symbol.Symbol.OriginalDefinition.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory")
                     {
                         Location loc = memberAccess.GetLocation();
                         context.ReportDiagnostic(Diagnostic.Create(_Rule301, loc, memberAccess.Name));
@@ -73,7 +73,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 {
                     // Unsure if this is the best way to determine if member was defined in the project.
                     SymbolInfo symbol = context.SemanticModel.GetSymbolInfo(nameSyntax);
-                    if (symbol.Symbol == null)
+                    if (symbol.Symbol is null || symbol.Symbol.OriginalDefinition.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory")
                     {
                         Location loc = memberAccess.GetLocation();
                         context.ReportDiagnostic(Diagnostic.Create(_Rule302, loc, memberAccess.Name));
