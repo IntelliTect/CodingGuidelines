@@ -5,6 +5,7 @@ on:
   push:
     branches: 
       - 'main'
+  workflow_dispatch:
       
 jobs:
   build:
@@ -36,7 +37,9 @@ jobs:
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 5.0.201
+        dotnet-version: |
+          5.0.x
+          6.0.x
       if: ${{ steps.diff.outputs.modified == 'true' }}
       
     - name: restore_compile_run_createMD
