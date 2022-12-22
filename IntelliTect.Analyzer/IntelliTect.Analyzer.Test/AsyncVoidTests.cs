@@ -53,7 +53,7 @@ namespace IntelliTect.Analyzer.Tests
             var expected = new DiagnosticResult
             {
                 Id = "INTL0201",
-                Message = "Async methods should not return void.",
+                Message = "Async methods should not return void",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
                     new[] {

@@ -140,7 +140,7 @@ namespace ConsoleApplication1
             Assert.AreEqual("Flow", diagnostic.Category);
             Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
             Assert.AreEqual(true, diagnostic.IsEnabledByDefault);
-            Assert.AreEqual("All local variables should be accessed, or named with underscores to indicate they are unused", diagnostic.Description);
+            Assert.AreEqual("All local variables should be accessed, or named with underscores to indicate they are unused.", diagnostic.Description);
             Assert.AreEqual("https://github.com/IntelliTect/CodingGuidelines", diagnostic.HelpLinkUri);
         }
 
