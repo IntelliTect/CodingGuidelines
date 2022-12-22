@@ -21,7 +21,7 @@ jobs:
           token: ${{ secrets.CI_PAT }}
 
     - name: Simple Diff
-      uses: mudlabs/simple-diff@v1.0.2
+      uses: mudlabs/simple-diff@v1.2.0
       id: diff
       with:
         # The path of the file or folder to find in the commits diff tree.
