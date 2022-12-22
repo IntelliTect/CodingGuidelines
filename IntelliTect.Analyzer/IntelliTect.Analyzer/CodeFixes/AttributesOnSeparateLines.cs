@@ -39,7 +39,7 @@ namespace IntelliTect.Analyzer.CodeFixes
 
             // Find the enclosing AttributeList
             SyntaxNode attributeList = declaration.Parent;
-            while (attributeList.Kind() != SyntaxKind.AttributeList)
+            while (!attributeList.IsKind(SyntaxKind.AttributeList))
             {
                 attributeList = attributeList.Parent;
             }
