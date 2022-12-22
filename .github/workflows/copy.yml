@@ -16,7 +16,7 @@ jobs:
     - name: Copycat Action
   # You may pin to the exact commit or the version.
   # uses: andstor/copycat-action@10a8fce94cc066110cb394d6f06814b7f5f06a34
-      uses: andstor/copycat-action@v3.2.3
+      uses: andstor/copycat-action@v3.2.4
       with: 
     # Personal access token
         personal_token: ${{ secrets.REPO_PAT }}
