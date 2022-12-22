@@ -35,7 +35,7 @@ namespace ConsoleApp5
                 {
                     Id = "INTL0301",
                     Severity = DiagnosticSeverity.Info,
-                    Message = "Favor using the method `EnumerateFiles` over the `GetFiles` method.",
+                    Message = "Favor using the method `EnumerateFiles` over the `GetFiles` method",
                     Locations =
                         new[] {
                             new DiagnosticResultLocation("Test0.cs", 11, 30)
@@ -103,7 +103,7 @@ namespace ConsoleApp5
                 {
                     Id = "INTL0302",
                     Severity = DiagnosticSeverity.Info,
-                    Message = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method.",
+                    Message = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method",
                     Locations =
                         new[] {
                             new DiagnosticResultLocation("Test0.cs", 11, 30)

@@ -13,7 +13,7 @@ namespace IntelliTect.Analyzer.Analyzers
         public const string DiagnosticId = "INTL0002";
         private const string Title = "Properties PascalCase";
         private const string MessageFormat = "Property '{0}' should be PascalCase";
-        private const string Description = "All properties should be in the format PascalCase";
+        private const string Description = "All properties should be in the format PascalCase.";
         private const string Category = "Naming";
         private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title, 
             DiagnosticId);

@@ -86,7 +86,7 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             internal const string DiagnosticId = "INTL0301";
             internal const string Title = "Favor using EnumerateFiles";
-            internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method.";
+            internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore ot match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
@@ -100,7 +100,7 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             internal const string DiagnosticId = "INTL0302";
             internal const string Title = "Favor using EnumerateDirectories";
-            internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method.";
+            internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore ot match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);

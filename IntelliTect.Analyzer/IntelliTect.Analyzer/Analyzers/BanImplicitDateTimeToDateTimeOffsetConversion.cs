@@ -55,7 +55,7 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             internal const string DiagnosticId = "INTL0202";
             internal const string Title = "Do not use implicit conversion from `DateTime` to `DateTimeOffset`";
-            internal const string MessageFormat = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior.";
+            internal const string MessageFormat = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
