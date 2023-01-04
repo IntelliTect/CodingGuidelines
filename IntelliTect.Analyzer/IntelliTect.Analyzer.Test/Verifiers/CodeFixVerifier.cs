@@ -109,8 +109,7 @@ namespace TestHelper
                     document = document.WithSyntaxRoot(Formatter.Format(document.GetSyntaxRootAsync().Result, Formatter.Annotation, document.Project.Solution.Workspace));
                     newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
 
-                    Assert.IsTrue(false,
-                        $"Fix introduced new compiler diagnostics:{string.Join(Environment.NewLine, newCompilerDiagnostics.Select(d => d.ToString()))}" + 
+                    Assert.Fail($"Fix introduced new compiler diagnostics:{string.Join(Environment.NewLine, newCompilerDiagnostics.Select(d => d.ToString()))}" + 
                         $"{Environment.NewLine}{Environment.NewLine}New document:{Environment.NewLine}{document.GetSyntaxRootAsync().Result.ToFullString()}{Environment.NewLine}");
                 }
 
