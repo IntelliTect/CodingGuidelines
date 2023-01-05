@@ -56,7 +56,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                 diagnostic);
         }
 
-        private async Task<Document> PutOnSeparateLine(Document document, SyntaxNode parentDeclaration, CancellationToken cancellationToken)
+        private static async Task<Document> PutOnSeparateLine(Document document, SyntaxNode parentDeclaration, CancellationToken cancellationToken)
         {
             var attributeLists = new SyntaxList<AttributeListSyntax>();
 

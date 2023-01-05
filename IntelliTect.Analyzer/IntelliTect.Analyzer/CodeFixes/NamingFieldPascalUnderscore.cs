@@ -44,7 +44,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                 diagnostic);
         }
 
-        private async Task<Solution> MakePascalWithUnderscore(Document document, SyntaxToken declaration, CancellationToken cancellationToken)
+        private static async Task<Solution> MakePascalWithUnderscore(Document document, SyntaxToken declaration, CancellationToken cancellationToken)
         {
             string nameOfField = declaration.ValueText;
             string nameWithoutUnderscore = nameOfField.TrimStart('_');
@@ -53,7 +53,7 @@ namespace IntelliTect.Analyzer.CodeFixes
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
             ISymbol symbol = semanticModel.GetDeclaredSymbol(declaration.Parent, cancellationToken);
             Solution solution = document.Project.Solution;
-            SymbolRenameOptions options = new SymbolRenameOptions()
+            SymbolRenameOptions options = new()
             {
                 RenameOverloads = true
             };

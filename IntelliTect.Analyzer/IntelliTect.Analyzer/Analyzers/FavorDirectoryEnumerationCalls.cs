@@ -44,12 +44,12 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             var expression = (InvocationExpressionSyntax)context.Node;
 
-            if (!(expression.Expression is MemberAccessExpressionSyntax memberAccess))
+            if (expression.Expression is not MemberAccessExpressionSyntax memberAccess)
             {
                 return;
             }
 
-            if (!(memberAccess.Expression is IdentifierNameSyntax nameSyntax))
+            if (memberAccess.Expression is not IdentifierNameSyntax nameSyntax)
             {
                 return;
             }
@@ -87,7 +87,7 @@ namespace IntelliTect.Analyzer.Analyzers
             internal const string DiagnosticId = "INTL0301";
             internal const string Title = "Favor using EnumerateFiles";
             internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method";
-#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore ot match the style
+#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
 #pragma warning restore INTL0001 
@@ -101,7 +101,7 @@ namespace IntelliTect.Analyzer.Analyzers
             internal const string DiagnosticId = "INTL0302";
             internal const string Title = "Favor using EnumerateDirectories";
             internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method";
-#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore ot match the style
+#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
 #pragma warning restore INTL0001 

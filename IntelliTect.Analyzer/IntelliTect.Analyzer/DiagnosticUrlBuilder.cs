@@ -3,8 +3,6 @@ using System.Text.RegularExpressions;
 
 namespace IntelliTect.Analyzer
 {
-#pragma warning disable CA1055 // Uri return values should not be strings
-
     public static class DiagnosticUrlBuilder
     {
         private const string BaseUrl = "https://github.com/IntelliTect/CodingGuidelines";
@@ -29,6 +27,4 @@ namespace IntelliTect.Analyzer
             return BaseUrl + $"#{diagnosticId.ToUpperInvariant()}" + $"---{hyphenatedTitle.ToUpperInvariant()}";
         }
     }
-
-#pragma warning restore CA1055 // Uri return values should not be strings
 }
