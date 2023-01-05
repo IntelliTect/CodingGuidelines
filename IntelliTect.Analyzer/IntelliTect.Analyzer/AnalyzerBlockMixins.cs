@@ -10,7 +10,7 @@ namespace IntelliTect.Analyzer
         {
             FieldInfo fi = value.GetType().GetRuntimeField(value.ToString());
 
-            var attributes = (TAttribute[]) fi?.GetCustomAttributes(typeof(TAttribute), false);
+            var attributes = (TAttribute[])fi?.GetCustomAttributes(typeof(TAttribute), false);
 
             return attributes?.Length > 0 ? valueAccessor(attributes[0]) : null;
         }

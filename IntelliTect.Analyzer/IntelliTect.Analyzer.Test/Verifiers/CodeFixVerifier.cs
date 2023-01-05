@@ -1,14 +1,14 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace TestHelper
 {
@@ -109,7 +109,7 @@ namespace TestHelper
                     document = document.WithSyntaxRoot(Formatter.Format(document.GetSyntaxRootAsync().Result, Formatter.Annotation, document.Project.Solution.Workspace));
                     newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
 
-                    Assert.Fail($"Fix introduced new compiler diagnostics:{string.Join(Environment.NewLine, newCompilerDiagnostics.Select(d => d.ToString()))}" + 
+                    Assert.Fail($"Fix introduced new compiler diagnostics:{string.Join(Environment.NewLine, newCompilerDiagnostics.Select(d => d.ToString()))}" +
                         $"{Environment.NewLine}{Environment.NewLine}New document:{Environment.NewLine}{document.GetSyntaxRootAsync().Result.ToFullString()}{Environment.NewLine}");
                 }
 
@@ -123,7 +123,7 @@ namespace TestHelper
             //after applying all of the code fixes, compare the resulting string to the inputted one
             string actual = GetStringFromDocument(document);
             Assert.AreEqual<string>(
-                newSource?.Replace("\r","",StringComparison.InvariantCulture), 
+                newSource?.Replace("\r", "", StringComparison.InvariantCulture),
                 actual?.Replace("\r", "", StringComparison.InvariantCulture));
         }
     }

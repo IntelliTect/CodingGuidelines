@@ -117,7 +117,7 @@ namespace ConsoleApplication1
             var expected = new DiagnosticResult
             {
                 Id = Analyzers.UnusedLocalVariable.DiagnosticId,
-                Message = "Local variable 'foo' should be used", 
+                Message = "Local variable 'foo' should be used",
                 Severity = DiagnosticSeverity.Info,
                 Locations = new[]
                 {

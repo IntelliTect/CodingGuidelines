@@ -15,11 +15,11 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string MessageFormat = "Property '{0}' should be PascalCase";
         private const string Description = "All properties should be in the format PascalCase.";
         private const string Category = "Naming";
-        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title,
             DiagnosticId);
 
-        private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, Title, MessageFormat, 
-            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description,_HelpLinkUri);
+        private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, Title, MessageFormat,
+            Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
@@ -29,7 +29,7 @@ namespace IntelliTect.Analyzer.Analyzers
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            
+
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Property);

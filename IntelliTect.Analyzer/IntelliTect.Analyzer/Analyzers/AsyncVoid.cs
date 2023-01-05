@@ -16,7 +16,7 @@ namespace IntelliTect.Analyzer.Analyzers
         private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title,
             DiagnosticId);
 
-        private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, Title, MessageFormat, 
+        private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, Title, MessageFormat,
             Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
@@ -27,7 +27,7 @@ namespace IntelliTect.Analyzer.Analyzers
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            
+
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Method);

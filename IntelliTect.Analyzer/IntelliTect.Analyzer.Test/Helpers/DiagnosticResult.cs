@@ -1,5 +1,5 @@
-using Microsoft.CodeAnalysis;
 using System;
+using Microsoft.CodeAnalysis;
 
 namespace TestHelper
 {
@@ -36,9 +36,9 @@ namespace TestHelper
     public struct DiagnosticResult
     {
         private DiagnosticResultLocation[] _Locations;
-        
+
 #pragma warning disable CA1819 // Properties should not return arrays
-        
+
         public DiagnosticResultLocation[] Locations
         {
             get
@@ -52,7 +52,7 @@ namespace TestHelper
                 _Locations = value;
             }
         }
-        
+
 #pragma warning restore CA1819 // Properties should not return arrays
 
         public DiagnosticSeverity Severity { get; set; }
