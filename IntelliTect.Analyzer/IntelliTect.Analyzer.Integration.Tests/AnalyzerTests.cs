@@ -23,7 +23,7 @@ namespace IntelliTect.Analyzer.Integration.Tests
         [TestMethod]
         public async Task RunOnSelf()
         {
-            await ProcessProject(new FileInfo(Path.Combine("..", "..", "..", "..", "IntelliTect.Analyzer","IntelliTect.Analyzer.csproj")))
+            await ProcessProject(new FileInfo(Path.Combine("..", "..", "..", "..", "IntelliTect.Analyzer", "IntelliTect.Analyzer.csproj")))
                 .ConfigureAwait(false);
         }
 

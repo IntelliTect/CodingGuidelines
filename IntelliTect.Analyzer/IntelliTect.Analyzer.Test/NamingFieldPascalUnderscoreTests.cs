@@ -118,7 +118,7 @@ namespace IntelliTect.Analyzer.Tests
 
             VerifyCSharpDiagnostic(test, expected);
         }
-        
+
         [TestMethod]
         public void FieldWithNamingViolation_FieldTwoLeadingUnderScores_Warning()
         {
@@ -224,7 +224,7 @@ namespace IntelliTect.Analyzer.Tests
     }";
             await VerifyCSharpFix(test, fixTest);
         }
-        
+
         [TestMethod]
         public async Task FieldTwoLeadingUnderScores_CodeFix_FixNamingViolation_FieldIsNamedCorrectly()
         {
@@ -368,7 +368,7 @@ namespace IntelliTect.Analyzer.Tests
 
             VerifyCSharpDiagnostic(test);
         }
-        
+
         [TestMethod]
         [Description("Issue 14")]
         public void FieldWithNamingViolation_ClassHasGeneratedCodeAttribute_Ignored()
@@ -392,7 +392,7 @@ namespace IntelliTect.Analyzer.Tests
 
             VerifyCSharpDiagnostic(test);
         }
-        
+
         [TestMethod]
         [Description("Issue 14")]
         public void FieldWithNamingViolation_FieldHasGeneratedCodeAttribute_Ignored()

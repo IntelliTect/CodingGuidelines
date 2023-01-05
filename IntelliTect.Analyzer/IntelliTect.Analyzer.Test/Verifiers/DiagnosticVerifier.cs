@@ -1,11 +1,22 @@
 using System;
-using Microsoft.CodeAnalysis;
+using System.Collections.Generic;
+
+/* Unmerged change from project 'IntelliTect.Analyzer.Tests (net6.0)'
+Before:
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
+After:
+using Microsoft.Linq;
+using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
+*/
 using System.Linq;
 using System.Text;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace TestHelper
 {
@@ -176,8 +187,8 @@ namespace TestHelper
         {
             FileLinePositionSpan actualSpan = actual.GetLineSpan();
 
-            Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path != null 
-                                                               && actualSpan.Path.Contains("Test0.", StringComparison.Ordinal) 
+            Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path != null
+                                                               && actualSpan.Path.Contains("Test0.", StringComparison.Ordinal)
                                                                && expected.Path.Contains("Test.", StringComparison.Ordinal)),
                 string.Format("Expected diagnostic to be in file \"{0}\" was actually in file \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
                     expected.Path, actualSpan.Path, FormatDiagnostics(analyzer, diagnostic)));
