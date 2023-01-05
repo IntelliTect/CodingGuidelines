@@ -1,17 +1,5 @@
 using System;
 using System.Collections.Generic;
-
-/* Unmerged change from project 'IntelliTect.Analyzer.Tests (net6.0)'
-Before:
-using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-After:
-using Microsoft.Linq;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
-*/
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
@@ -117,7 +105,7 @@ namespace TestHelper
         {
             int expectedCount = expectedResults.Length;
             int actualCount = actualResults.Count();
-            Assert.AreEqual(expectedCount, actualCount, $"Mismatch between number of diagnostics returned, expected \" {expectedCount} \" actual \" {actualCount} \"\r\n\r\nDiagnostics:\r\n{(actualResults.Any() ? FormatDiagnostics(analyzer, actualResults.ToArray()) : "NONE.")}\r\n");
+            Assert.AreEqual(expectedCount, actualCount, $"Mismatch between number of diagnostics returned, expected \" {expectedCount} \" actual \" {actualCount} \"{Environment.NewLine}{Environment.NewLine}Diagnostics:{Environment.NewLine}{(actualResults.Any() ? FormatDiagnostics(analyzer, actualResults.ToArray()) : "NONE.")}{Environment.NewLine}");
 
             for (int i = 0; i < expectedResults.Length; i++)
             {
@@ -128,7 +116,7 @@ namespace TestHelper
                 {
                     Assert.AreEqual(actual.Location,
                                     Location.None,
-                                    string.Format($"Expected:\nA project diagnostic with No location\nActual:\n{FormatDiagnostics(analyzer, actual)}"));
+                                    string.Format($"Expected:{Environment.NewLine}A project diagnostic with No location{Environment.NewLine}Actual:{Environment.NewLine}{FormatDiagnostics(analyzer, actual)}"));
                 }
                 else
                 {
@@ -137,7 +125,7 @@ namespace TestHelper
 
                     Assert.AreEqual(additionalLocations.Length,
                         expected.Locations.Length - 1,
-                        $"Expected {expected.Locations.Length - 1} additional locations but got {additionalLocations.Length} for Diagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                        $"Expected {expected.Locations.Length - 1} additional locations but got {additionalLocations.Length} for Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, actual)}{Environment.NewLine}");
 
                     for (int j = 0; j < additionalLocations.Length; ++j)
                     {
@@ -146,15 +134,15 @@ namespace TestHelper
                 }
                 Assert.AreEqual(actual.Id,
                                    expected.Id,
-                                   $"Expected diagnostic id to be \"{expected.Id}\" was \"{actual.Id}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                                   $"Expected diagnostic id to be \"{expected.Id}\" was \"{actual.Id}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, actual)}{Environment.NewLine}");
 
                 Assert.AreEqual(actual.Severity,
                                    expected.Severity,
-                                   $"Expected diagnostic severity to be \"{expected.Severity}\" was \"{actual.Severity}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                                   $"Expected diagnostic severity to be \"{expected.Severity}\" was \"{actual.Severity}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, actual)}{Environment.NewLine}");
 
                 Assert.AreEqual(actual.GetMessage(),
                                    expected.Message,
-                                   "Expected diagnostic message to be \"{expected.Message}\" was \"{actual.GetMessage()}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, actual)}\r\n");
+                                   $"Expected diagnostic message to be \"{expected.Message}\" was \"{actual.GetMessage()}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, actual)}{Environment.NewLine}");
             }
         }
 
@@ -172,8 +160,7 @@ namespace TestHelper
             Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path != null
                                                                && actualSpan.Path.Contains("Test0.", StringComparison.Ordinal)
                                                                && expected.Path.Contains("Test.", StringComparison.Ordinal)),
-                string.Format("Expected diagnostic to be in file \"{0}\" was actually in file \"{1}\"\r\n\r\nDiagnostic:\r\n    {2}\r\n",
-                    expected.Path, actualSpan.Path, FormatDiagnostics(analyzer, diagnostic)));
+                $"Expected diagnostic to be in file \"{expected.Path}\" was actually in file \"{actualSpan.Path}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, diagnostic)}{Environment.NewLine}");
 
             Microsoft.CodeAnalysis.Text.LinePosition actualLinePosition = actualSpan.StartLinePosition;
 
@@ -182,7 +169,7 @@ namespace TestHelper
             {
                 Assert.AreEqual(actualLinePosition.Line + 1,
                                 expected.Line,
-                                $"Expected diagnostic to be on line \"{expected.Line}\" was actually on line \"{actualLinePosition.Line + 1}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, diagnostic)}\r\n");
+                                $"Expected diagnostic to be on line \"{expected.Line}\" was actually on line \"{actualLinePosition.Line + 1}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, diagnostic)}{Environment.NewLine}");
             }
 
             // Only check column position if there is an actual column position in the real diagnostic
@@ -190,7 +177,7 @@ namespace TestHelper
             {
                 Assert.AreEqual(actualLinePosition.Character + 1,
                                 expected.Column,
-                                "Expected diagnostic to start at column \"{expected.Column}\" was actually at column \"{actualLinePosition.Character + 1}\"\r\n\r\nDiagnostic:\r\n    {FormatDiagnostics(analyzer, diagnostic)}\r\n");
+                                $"Expected diagnostic to start at column \"{expected.Column}\" was actually at column \"{actualLinePosition.Character + 1}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, diagnostic)}{Environment.NewLine}");
             }
         }
         #endregion
@@ -224,7 +211,7 @@ namespace TestHelper
                         else
                         {
                             Assert.IsTrue(location.IsInSource,
-                                $"Test base does not currently handle diagnostics in metadata locations. Diagnostic in metadata: {diagnostics[i]}\r\n");
+                                $"Test base does not currently handle diagnostics in metadata locations. Diagnostic in metadata: {diagnostics[i]}{Environment.NewLine}");
 
                             string resultMethodName = diagnostics[i].Location.SourceTree.FilePath.EndsWith(".cs", StringComparison.Ordinal) ? "GetCSharpResultAt" : "GetBasicResultAt";
                             Microsoft.CodeAnalysis.Text.LinePosition linePosition = diagnostics[i].Location.GetLineSpan().StartLinePosition;
