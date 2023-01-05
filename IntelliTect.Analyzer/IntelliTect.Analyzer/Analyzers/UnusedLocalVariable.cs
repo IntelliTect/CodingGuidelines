@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -18,7 +18,7 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string _Category = "Flow";
         private const string _HelpLinkUri = "https://github.com/IntelliTect/CodingGuidelines";
 
-        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, _Title, _MessageFormat,
+        private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, _Title, _MessageFormat,
             _Category, DiagnosticSeverity.Info, isEnabledByDefault: true, description: _Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);

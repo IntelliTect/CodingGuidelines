@@ -13,13 +13,13 @@ namespace IntelliTect.Analyzer.Analyzers
     {
         private const string Category = "Performance";
 
-        private static readonly DiagnosticDescriptor _Rule301 = new DiagnosticDescriptor(Rule301.DiagnosticId,
+        private static readonly DiagnosticDescriptor _Rule301 = new(Rule301.DiagnosticId,
             Rule301.Title,
             Rule301.MessageFormat,
             Category, DiagnosticSeverity.Info, true, Rule301.Description,
             Rule301.HelpMessageUri);
 
-        private static readonly DiagnosticDescriptor _Rule302 = new DiagnosticDescriptor(Rule302.DiagnosticId,
+        private static readonly DiagnosticDescriptor _Rule302 = new(Rule302.DiagnosticId,
             Rule302.Title,
             Rule302.MessageFormat,
             Category, DiagnosticSeverity.Info, true, Rule302.Description,

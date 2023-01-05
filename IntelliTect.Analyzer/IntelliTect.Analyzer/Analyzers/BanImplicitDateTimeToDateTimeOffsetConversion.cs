@@ -11,7 +11,7 @@ namespace IntelliTect.Analyzer.Analyzers
     {
         private const string Category = "Reliability";
 
-        private static readonly DiagnosticDescriptor _Rule202 = new DiagnosticDescriptor(Rule202.DiagnosticId,
+        private static readonly DiagnosticDescriptor _Rule202 = new(Rule202.DiagnosticId,
             Rule202.Title,
             Rule202.MessageFormat,
             Category, DiagnosticSeverity.Warning, true, Rule202.Description,
