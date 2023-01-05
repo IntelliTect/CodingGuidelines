@@ -42,7 +42,7 @@ namespace IntelliTect.Analyzer.Analyzers
             {
                 INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
                 INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-                if (containingType.Equals(dateTimeOffsetType))
+                if (SymbolEqualityComparer.Default.Equals(containingType, dateTimeOffsetType))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
                 }
