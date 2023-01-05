@@ -120,7 +120,7 @@ namespace ConsoleApp
     }
 }";
 
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(12, 6));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(12, 6));
         }
 
         [TestMethod]
@@ -146,7 +146,7 @@ namespace ConsoleApp
         }
     }
 }";
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(15, 13));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(15, 13));
         }
 
         [TestMethod]
@@ -172,7 +172,7 @@ namespace ConsoleApp
         }
     }
 }";
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(13, 13));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(13, 13));
         }
 
         [TestMethod]
@@ -200,7 +200,7 @@ namespace ConsoleApp
 int Prop {get;set;}
     }
 }";
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(19, 13));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(19, 13));
         }
 
         [TestMethod]
@@ -221,7 +221,7 @@ namespace ConsoleApp
         }
     }
 }";
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(11, 10));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(11, 10));
         }
 
         [TestMethod]
@@ -242,7 +242,7 @@ namespace ConsoleApp
         }
     }
 }";
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(9, 6));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(9, 6));
         }
 
         [TestMethod]
@@ -265,7 +265,7 @@ namespace ConsoleApp
         [A]int Prop {get;set;}
     }
 }";
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(15, 10));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(15, 10));
         }
 
         [TestMethod]
@@ -291,7 +291,7 @@ namespace ConsoleApp
         }
     }
 }";
-            VerifyCSharpDiagnostic(test, GetExpectedDiagnosticResult(11, 10));
+            VerifyCSharpDiagnostic(test, AttributesOnSeparateLinesTests.GetExpectedDiagnosticResult(11, 10));
         }
 
         [TestMethod]
@@ -390,7 +390,7 @@ namespace ConsoleApp
             await VerifyCSharpFix(test, fixTest);
         }
 
-        private DiagnosticResult GetExpectedDiagnosticResult(int line, int col)
+        private static DiagnosticResult GetExpectedDiagnosticResult(int line, int col)
         {
             return new DiagnosticResult
             {

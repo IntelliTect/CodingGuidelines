@@ -33,7 +33,7 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private void AnalyzeInvocation(OperationAnalysisContext context)
         {
-            if (!(context.Operation is IConversionOperation conversionOperation))
+            if (context.Operation is not IConversionOperation conversionOperation)
             {
                 return;
             }

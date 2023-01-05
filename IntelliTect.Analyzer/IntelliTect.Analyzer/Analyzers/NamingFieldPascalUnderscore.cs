@@ -47,7 +47,7 @@ namespace IntelliTect.Analyzer.Analyzers
             }
             
             //Enum members should not be flagged
-            if (!(namedTypeSymbol.ContainingType.EnumUnderlyingType is null))
+            if (namedTypeSymbol.ContainingType.EnumUnderlyingType is not null)
             {
                 return;
             }
