@@ -42,7 +42,8 @@ namespace IntelliTect.Analyzer.Analyzers
                 DataFlowAnalysis dataFlow = context.SemanticModel.AnalyzeDataFlow(method.Body);
 
                 ImmutableArray<ISymbol> variablesDeclared = dataFlow.VariablesDeclared;
-                IEnumerable<ISymbol> variablesRead = dataFlow.ReadInside.Union(dataFlow.ReadOutside);
+                IEnumerable<ISymbol> variablesRead = dataFlow.ReadInside.Union(dataFlow.ReadOutside,
+                    SymbolEqualityComparer.Default);
                 IEnumerable<ISymbol> unused = variablesDeclared.Except(variablesRead)
                     .Where(x => !(x.Name.All(c => c == '_')));
 
