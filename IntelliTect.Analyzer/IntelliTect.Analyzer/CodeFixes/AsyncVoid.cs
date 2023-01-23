@@ -43,7 +43,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                 diagnostic);
         }
 
-        private async Task<Document> MakeReturnTask(Document document, MethodDeclarationSyntax declaration, CancellationToken cancellationToken)
+        private static async Task<Document> MakeReturnTask(Document document, MethodDeclarationSyntax declaration, CancellationToken cancellationToken)
         {
             SyntaxNode root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
             SyntaxNode newRoot = root.ReplaceNode(declaration.ReturnType, SyntaxFactory.ParseTypeName(typeof(Task).Name).WithTrailingTrivia(SyntaxFactory.Space));

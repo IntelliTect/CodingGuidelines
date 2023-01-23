@@ -36,9 +36,6 @@
 # Guidelines
 
 
-
-
-
 ## ***Coding***
 
 ### Arrays
@@ -101,6 +98,7 @@
 - :no_entry: AVOID creating enums that represent an “incomplete” set of values, such as product version numbers.
 - :no_entry: AVOID creating flag enums where the zero value has a meaning other than “no flags are set.”
 - :no_entry: AVOID enums that contain a single value.
+- :heavy_check_mark: DO make the enum name itself to be singular (unless the enums are bit flags).
 - :heavy_check_mark: DO provide a value of 0 (none) for simple enums, knowing that 0 will be the default value when no explicit initialization is provided.
 - :no_entry: AVOID creating “reserved for future use” values in an enum.
 - :heavy_check_mark: DO use the FlagsAttribute to mark enums that contain flags.
@@ -227,7 +225,7 @@
 - :heavy_check_mark: DO use delegate types that match the signature of the desired method when an unmanaged API requires a function pointer.
 - :x: DO NOT pass null as the value of the eventArgs argument.
 - :heavy_check_mark: DO rely on System.WriteLine() and System.Environment.NewLine rather than \n to accommodate Windows-specific operating system idiosyncrasies with the same code that runs on Linux and iOS.
-- :x: DO NOT make any unwarranted assumptions about the order in which elements of a collection will be enumerated. If the collection is not documented as enumerating its elements in a particular order, it is not guaranteed to produce elements in any particula
+- :x: DO NOT make any unwarranted assumptions about the order in which elements of a collection will be enumerated. If the collection is not documented as enumerating its elements in a particular order, it is not guaranteed to produce elements in any particular order.
 - :x: DO NOT include “sentinel” values (such as a value called Maximum); such values can be confusing to the user.
 - :x: DO NOT use a constant for any value that can possibly change over time. The value of pi and the number of protons in an atom of gold are constants; the price of gold, the name of your company, and the version number of your program can change.
 - :heavy_check_mark: DO use the C# keyword rather than the BCL name when specifying a data type (e.g., string rather than String).
@@ -263,7 +261,7 @@
 ### Properties
 - :heavy_check_mark: DO use properties for simple access to simple data with simple computations.
 - :heavy_check_mark: DO favor automatically implemented properties over properties with simple backing fields when no additional logic is required.
-- :grey_question: CONSIDER using the same casing on a property’s backing field as that used in the property, distinguishing the backing field with an “_” prefix. Do not, however, use two underscores; identifiers beginning with two underscores are reserved for the use of t
+- :grey_question: CONSIDER using the same casing on a property’s backing field as that used in the property, distinguishing the backing field with an “_” prefix. Do not, however, use two underscores; identifiers beginning with two underscores are reserved for the use of the language.
 - :heavy_check_mark: DO use nameof(value) (which resolves to “value”) for the paramName argument when creating ArgumentException() or ArgumentNullException() type exceptions (value"" is the implicit name of the parameter on property setters).
 - :heavy_check_mark: DO favor automatically implemented properties over fields.
 - :heavy_check_mark: DO favor automatically implemented properties over using fully expanded ones if there is no additional implementation logic.
@@ -283,7 +281,6 @@
 - :heavy_check_mark: DO implement non-nullable reference-type automatically implemented properties as read-only.
 - :heavy_check_mark: DO assign non-nullable reference-type properties before instantiation completes.
 - :heavy_check_mark: DO implement non-nullable read/write reference fully implemented properties with a nullable backing field, a null-forgiveness operator when returning the field from the getter, and non-null validation in the property setter.
-- :heavy_check_mark: DO allow properties to be set in any order, even if this results in a temporarily invalid object state.
 
 ### Strings
 - :heavy_check_mark: DO favor composite formatting over use of the addition operator for concatenating strings when localization is a possibility.

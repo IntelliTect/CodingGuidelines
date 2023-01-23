@@ -1,12 +1,12 @@
-using Microsoft.CodeAnalysis;
 using System;
+using Microsoft.CodeAnalysis;
 
 namespace TestHelper
 {
     /// <summary>
     /// Location where the diagnostic appears, as determined by path, line number, and column number.
     /// </summary>
-    public struct DiagnosticResultLocation
+    public readonly struct DiagnosticResultLocation
     {
         public DiagnosticResultLocation(string path, int line, int column)
         {
@@ -36,17 +36,14 @@ namespace TestHelper
     public struct DiagnosticResult
     {
         private DiagnosticResultLocation[] _Locations;
-        
+
 #pragma warning disable CA1819 // Properties should not return arrays
-        
+
         public DiagnosticResultLocation[] Locations
         {
             get
             {
-                if (_Locations == null)
-                {
-                    _Locations = Array.Empty<DiagnosticResultLocation>();
-                }
+                _Locations ??= Array.Empty<DiagnosticResultLocation>();
                 return _Locations;
             }
 
@@ -55,7 +52,7 @@ namespace TestHelper
                 _Locations = value;
             }
         }
-        
+
 #pragma warning restore CA1819 // Properties should not return arrays
 
         public DiagnosticSeverity Severity { get; set; }

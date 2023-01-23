@@ -5,6 +5,7 @@ on:
   push:
     branches: 
       - 'main'
+  workflow_dispatch:
       
 jobs:
   build:
@@ -14,13 +15,13 @@ jobs:
       XmlFileName: "Guidelines(8th Edition).xml"
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
       with:
           ref: ${{ github.ref }}
           token: ${{ secrets.CI_PAT }}
 
     - name: Simple Diff
-      uses: mudlabs/simple-diff@v1.0.2
+      uses: mudlabs/simple-diff@v1.2.0
       id: diff
       with:
         # The path of the file or folder to find in the commits diff tree.
@@ -34,9 +35,11 @@ jobs:
         echo "${{ steps.diff.outputs.name }}"
     
     - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+      uses: actions/setup-dotnet@v3
       with:
-        dotnet-version: 5.0.201
+        dotnet-version: |
+          5.0.x
+          6.0.x
       if: ${{ steps.diff.outputs.modified == 'true' }}
       
     - name: restore_compile_run_createMD
@@ -48,7 +51,7 @@ jobs:
     - name: Create commit and push to CodingGuideLinesMDUpdate
       run: |
           git config user.name '${{ github.actor }}'
-          git config user.email '${{ github.actor }}@user.noreply.github.com'
+          git config user.email '${{ github.actor }}@users.noreply.github.com'
           git add -A
           git commit -m "new coding guidelines MD File created"
           git push origin '${{ github.ref }}'

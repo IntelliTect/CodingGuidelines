@@ -6,8 +6,8 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CodeActions;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
@@ -39,7 +39,7 @@ namespace IntelliTect.Analyzer.CodeFixes
 
             // Find the enclosing AttributeList
             SyntaxNode attributeList = declaration.Parent;
-            while (attributeList.Kind() != SyntaxKind.AttributeList)
+            while (!attributeList.IsKind(SyntaxKind.AttributeList))
             {
                 attributeList = attributeList.Parent;
             }
@@ -56,7 +56,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                 diagnostic);
         }
 
-        private async Task<Document> PutOnSeparateLine(Document document, SyntaxNode parentDeclaration, CancellationToken cancellationToken)
+        private static async Task<Document> PutOnSeparateLine(Document document, SyntaxNode parentDeclaration, CancellationToken cancellationToken)
         {
             var attributeLists = new SyntaxList<AttributeListSyntax>();
 

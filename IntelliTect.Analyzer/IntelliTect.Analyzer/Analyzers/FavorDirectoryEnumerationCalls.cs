@@ -13,13 +13,13 @@ namespace IntelliTect.Analyzer.Analyzers
     {
         private const string Category = "Performance";
 
-        private static readonly DiagnosticDescriptor _Rule301 = new DiagnosticDescriptor(Rule301.DiagnosticId,
+        private static readonly DiagnosticDescriptor _Rule301 = new(Rule301.DiagnosticId,
             Rule301.Title,
             Rule301.MessageFormat,
             Category, DiagnosticSeverity.Info, true, Rule301.Description,
             Rule301.HelpMessageUri);
 
-        private static readonly DiagnosticDescriptor _Rule302 = new DiagnosticDescriptor(Rule302.DiagnosticId,
+        private static readonly DiagnosticDescriptor _Rule302 = new(Rule302.DiagnosticId,
             Rule302.Title,
             Rule302.MessageFormat,
             Category, DiagnosticSeverity.Info, true, Rule302.Description,
@@ -44,12 +44,12 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             var expression = (InvocationExpressionSyntax)context.Node;
 
-            if (!(expression.Expression is MemberAccessExpressionSyntax memberAccess))
+            if (expression.Expression is not MemberAccessExpressionSyntax memberAccess)
             {
                 return;
             }
 
-            if (!(memberAccess.Expression is IdentifierNameSyntax nameSyntax))
+            if (memberAccess.Expression is not IdentifierNameSyntax nameSyntax)
             {
                 return;
             }
@@ -61,7 +61,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 {
                     // Unsure if this is the best way to determine if member was defined in the project.
                     SymbolInfo symbol = context.SemanticModel.GetSymbolInfo(nameSyntax);
-                    if (symbol.Symbol == null)
+                    if (symbol.Symbol == null || symbol.Symbol.OriginalDefinition.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory")
                     {
                         Location loc = memberAccess.GetLocation();
                         context.ReportDiagnostic(Diagnostic.Create(_Rule301, loc, memberAccess.Name));
@@ -73,7 +73,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 {
                     // Unsure if this is the best way to determine if member was defined in the project.
                     SymbolInfo symbol = context.SemanticModel.GetSymbolInfo(nameSyntax);
-                    if (symbol.Symbol == null)
+                    if (symbol.Symbol is null || symbol.Symbol.OriginalDefinition.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory")
                     {
                         Location loc = memberAccess.GetLocation();
                         context.ReportDiagnostic(Diagnostic.Create(_Rule302, loc, memberAccess.Name));
@@ -86,8 +86,8 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             internal const string DiagnosticId = "INTL0301";
             internal const string Title = "Favor using EnumerateFiles";
-            internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method.";
-#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore ot match the style
+            internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method";
+#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
 #pragma warning restore INTL0001 
@@ -100,8 +100,8 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             internal const string DiagnosticId = "INTL0302";
             internal const string Title = "Favor using EnumerateDirectories";
-            internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method.";
-#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore ot match the style
+            internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method";
+#pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
 #pragma warning restore INTL0001 

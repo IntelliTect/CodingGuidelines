@@ -6,7 +6,7 @@ namespace IntelliTect.Analyzer
     internal class DescriptionAttribute : Attribute
     {
         public static DescriptionAttribute Default { get; } = new DescriptionAttribute();
-        
+
         public string Description { get; }
 
         public DescriptionAttribute() : this(string.Empty)

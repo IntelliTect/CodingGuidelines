@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
 using System.Threading;
@@ -44,7 +44,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                 diagnostic);
         }
 
-        private async Task<Solution> MakePascal(Document document, SyntaxToken declaration, CancellationToken cancellationToken)
+        private static async Task<Solution> MakePascal(Document document, SyntaxToken declaration, CancellationToken cancellationToken)
         {
             string nameOfField = declaration.ValueText;
             string newName = char.ToUpper(nameOfField.First()) + nameOfField.Substring(1);
@@ -52,7 +52,16 @@ namespace IntelliTect.Analyzer.CodeFixes
             SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
             ISymbol symbol = semanticModel.GetDeclaredSymbol(declaration.Parent, cancellationToken);
             Solution solution = document.Project.Solution;
-            return await Renamer.RenameSymbolAsync(solution, symbol, newName, solution.Workspace.Options, cancellationToken).ConfigureAwait(false);
+            SymbolRenameOptions options = new()
+            {
+                RenameOverloads = true
+            };
+            return await Renamer.RenameSymbolAsync(solution: solution,
+                                                   symbol: symbol,
+                                                   options: options,
+                                                   newName: newName,
+                                                   cancellationToken: cancellationToken)
+                                .ConfigureAwait(false);
         }
     }
 }

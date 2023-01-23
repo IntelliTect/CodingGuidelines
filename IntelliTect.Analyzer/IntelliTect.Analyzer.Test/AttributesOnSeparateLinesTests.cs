@@ -390,7 +390,7 @@ namespace ConsoleApp
             await VerifyCSharpFix(test, fixTest);
         }
 
-        private DiagnosticResult GetExpectedDiagnosticResult(int line, int col)
+        private static DiagnosticResult GetExpectedDiagnosticResult(int line, int col)
         {
             return new DiagnosticResult
             {

@@ -14,10 +14,10 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string MessageFormat = "Attributes should be on separate lines";
         private const string Description = "All attributes should be on separate lines and be wrapped in their own braces.";
         private const string Category = "Formatting";
-        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title,
             DiagnosticId);
 
-        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat,
+        private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, Title, MessageFormat,
             Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);

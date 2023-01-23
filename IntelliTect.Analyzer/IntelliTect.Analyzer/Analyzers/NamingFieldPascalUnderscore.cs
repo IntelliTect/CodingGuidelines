@@ -13,12 +13,12 @@ namespace IntelliTect.Analyzer.Analyzers
         public const string DiagnosticId = "INTL0001";
         private const string Title = "Fields _PascalCase";
         private const string MessageFormat = "Field '{0}' should be named _PascalCase";
-        private const string Description = "All fields should be in the format _PascalCase";
+        private const string Description = "All fields should be in the format _PascalCase.";
         private const string Category = "Naming";
-        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title, 
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title,
             DiagnosticId);
 
-        private static readonly DiagnosticDescriptor _Rule = new DiagnosticDescriptor(DiagnosticId, Title, MessageFormat, 
+        private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, Title, MessageFormat,
             Category, DiagnosticSeverity.Warning, isEnabledByDefault: true, description: Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
@@ -29,7 +29,7 @@ namespace IntelliTect.Analyzer.Analyzers
             {
                 throw new ArgumentNullException(nameof(context));
             }
-            
+
             context.EnableConcurrentExecution();
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Field);
@@ -45,9 +45,9 @@ namespace IntelliTect.Analyzer.Analyzers
             {
                 return;
             }
-            
+
             //Enum members should not be flagged
-            if (!(namedTypeSymbol.ContainingType.EnumUnderlyingType is null))
+            if (namedTypeSymbol.ContainingType.EnumUnderlyingType is not null)
             {
                 return;
             }
@@ -57,7 +57,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (namedTypeSymbol.Name.StartsWith("_", StringComparison.Ordinal) && namedTypeSymbol.Name.Length > 1 
+            if (namedTypeSymbol.Name.StartsWith("_", StringComparison.Ordinal) && namedTypeSymbol.Name.Length > 1
                                                      && Casing.IsPascalCase(namedTypeSymbol.Name.Skip(1)))
             {
                 return;
