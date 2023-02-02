@@ -1,0 +1,19 @@
+{
+  "name": "Intellitect Guidelines",
+  "version": "0.0.1",
+  "description": "IntelliTect&#39;s guidelines for coding and architecture. Documentation for IntelliTect&#39;s .NET Compiler Platform (Roslyn) Analyzers.",
+  "main": "index.js",
+  "authors": {
+    "name": "",
+    "email": ""
+  },
+  "repository": "https://github.com/IntelliTect/CodingGuidelines/Intellitect Guidelines",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "vuepress": "^1.5.3"
+  }
+}
