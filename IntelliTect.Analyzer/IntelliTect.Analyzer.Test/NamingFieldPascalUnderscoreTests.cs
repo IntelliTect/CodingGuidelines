@@ -79,9 +79,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Field 'MyField' should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -111,9 +111,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Field '_myField' should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -143,9 +143,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Field '__myField' should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                         new DiagnosticResultLocation("Test0.cs", 13, 27)
-                    }
+                    ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -443,9 +443,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Field '_My_Field' should be named _PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);

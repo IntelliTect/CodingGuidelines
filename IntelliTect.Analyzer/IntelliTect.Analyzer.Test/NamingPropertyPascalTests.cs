@@ -79,9 +79,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Property 'myProperty' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -111,9 +111,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Property '_MyProperty' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -290,9 +290,9 @@ namespace AspNetCore
                 Message = "Property 'My_Property' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -356,9 +356,9 @@ namespace AspNetCore
                 Message = "Property 'foo' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                         new DiagnosticResultLocation("Test0.cs", 13, 27)
-                    }
+                    ]
             };
             var expected2 = new DiagnosticResult
             {
@@ -366,9 +366,9 @@ namespace AspNetCore
                 Message = "Property 'foo' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                         new DiagnosticResultLocation("Test0.cs", 18, 31)
-                    }
+                    ]
             };
 
             VerifyCSharpDiagnostic(test, expected1, expected2);

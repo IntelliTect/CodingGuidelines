@@ -48,10 +48,7 @@ namespace TestHelper
         /// <returns>An IEnumerable of Diagnostics that surfaced in the source code, sorted by Location</returns>
         protected static Diagnostic[] GetSortedDiagnosticsFromDocuments(DiagnosticAnalyzer analyzer, Document[] documents)
         {
-            if (documents is null)
-            {
-                throw new ArgumentNullException(nameof(documents));
-            }
+            ArgumentNullException.ThrowIfNull(documents);
 
             var projects = new HashSet<Project>();
             foreach (Document document in documents)
@@ -97,7 +94,7 @@ namespace TestHelper
         /// <returns>An IEnumerable containing the Diagnostics in order of Location</returns>
         private static Diagnostic[] SortDiagnostics(IEnumerable<Diagnostic> diagnostics)
         {
-            return diagnostics.OrderBy(d => d.Location.SourceSpan.Start).ToArray();
+            return [.. diagnostics.OrderBy(d => d.Location.SourceSpan.Start)];
         }
 
         #endregion
@@ -135,7 +132,7 @@ namespace TestHelper
         /// <returns>A Document created from the source string</returns>
         protected static Document CreateDocument(string source, string language = LanguageNames.CSharp)
         {
-            return CreateProject(new[] { source }, language).Documents.First();
+            return CreateProject([source], language).Documents.First();
         }
 
         /// <summary>
