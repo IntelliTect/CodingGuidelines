@@ -43,7 +43,7 @@ namespace TestHelper
         {
             get
             {
-                _Locations ??= Array.Empty<DiagnosticResultLocation>();
+                _Locations ??= [];
                 return _Locations;
             }
 

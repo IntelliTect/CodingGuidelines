@@ -40,7 +40,7 @@ namespace IntelliTect.Analyzer.Analyzers
 
             if (namedTypeSymbol.GetAttributes().Any())
             {
-                IDictionary<int, AttributeData> lineDictionary = new Dictionary<int, AttributeData>();
+                Dictionary<int, AttributeData> lineDictionary = [];
                 foreach (AttributeData attribute in namedTypeSymbol.GetAttributes())
                 {
                     SyntaxReference applicationSyntaxReference = attribute.ApplicationSyntaxReference;

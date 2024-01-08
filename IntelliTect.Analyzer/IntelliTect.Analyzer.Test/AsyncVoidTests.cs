@@ -56,9 +56,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Async methods should not return void",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 31)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);

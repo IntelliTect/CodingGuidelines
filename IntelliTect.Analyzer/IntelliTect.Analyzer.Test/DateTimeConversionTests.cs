@@ -32,9 +32,9 @@ namespace ConsoleApp42
                                Severity = DiagnosticSeverity.Warning,
                                Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
                                Locations =
-                                   new[] {
+                                   [
                             new DiagnosticResultLocation("Test0.cs", 10, 38)
-                                   }
+                                   ]
                            });
 
         }
@@ -73,9 +73,9 @@ namespace ConsoleApp1
                                Severity = DiagnosticSeverity.Warning,
                                Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
                                Locations =
-                                   new[] {
+                                   [
                             new DiagnosticResultLocation("Test0.cs", 17, 17)
-                                   }
+                                   ]
                            });
 
         }
