@@ -61,5 +61,5 @@ jobs:
         run: |
           $tagVersion = "${{ github.ref }}".substring(11)
           echo "::set-output name=TAG_VERSION::$tagVersion"
-          dotnet nuget push CHANGEME_Package_Name.$tagVersion.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+          dotnet nuget push IntelliTect.Analyzers.$tagVersion.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
         id: tag-version
