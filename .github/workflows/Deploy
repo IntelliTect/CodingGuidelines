@@ -1,0 +1,65 @@
+name: Deploy
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+defaults:
+  run:
+    shell: pwsh
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          global-json-file: "./global.json"
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Set Version
+        run: |
+          echo "${{ github.ref }}"
+          $tagVersion = "${{ github.ref }}".substring(11)
+          echo "buildVersion=$tagVersion.${{ github.run_number }}" >> $env:GITHUB_ENV
+          echo "nugetVersion=$tagVersion" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          echo "preRelease=false" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+      - name: Pack
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: dotnet pack -p:PackageVersion=${{ env.nugetVersion }} --configuration Release -o ${{ github.workspace }}/PackedNuget
+
+      - name: Upload Artifacts
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: actions/upload-artifact@v3
+        with:
+          name: NuGet
+          path: ${{ github.workspace }}/PackedNuget
+
+  deploy:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    environment:
+      name: "Production"
+      url: "https://www.nuget.org/packages/IntelliTect.Analyzers"
+    name: Push NuGets
+
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v3
+        with:
+          name: NuGet
+
+      - name: Push NuGet
+        run: |
+          $tagVersion = "${{ github.ref }}".substring(11)
+          echo "::set-output name=TAG_VERSION::$tagVersion"
+          dotnet nuget push IntelliTect.Analyzers.$tagVersion.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
+        id: tag-version
