@@ -41,3 +41,6 @@ jobs:
 
     - name: Build
       run: dotnet build -p:ContinuousIntegrationBuild=True --no-restore --configuration Release
+
+    - name: Test
+      run: dotnet test IntelliTect.Analyzer.sln /property:GenerateFullPaths=true /consoleloggerparameters:NoSummary
