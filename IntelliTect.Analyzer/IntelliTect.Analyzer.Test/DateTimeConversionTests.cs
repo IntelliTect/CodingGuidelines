@@ -134,11 +134,30 @@ namespace ConsoleApp1
         }
 
         [TestMethod]
-        public void UsageOfImplicitConversion_InLinq_ProducesWarningMessage()
+        public void UsageOfImplicitConversion_InLinqWithVariables_ProducesWarningMessage()
         {
-            string dir = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
-            string path = Path.Combine(dir, "Data", "DateTime_ImplicitConversion_InLinq.cs");
-            string source = File.ReadAllText(path);
+            string source = @"
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Pair(DateTimeOffset DateTimeOffset, DateTime DateTime);
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Pair> list = new(){ new(DateTimeOffset.Now, DateTime.Now) };
+            _ = list.Where(pair => {
+                DateTimeOffset first = pair.DateTimeOffset;
+                DateTime second = pair.DateTime;
+                return first < second;
+            });
+        }
+    }
+}";
 
             VerifyCSharpDiagnostic(
                 source,
@@ -147,7 +166,41 @@ namespace ConsoleApp1
                     Id = "INTL0202",
                     Severity = DiagnosticSeverity.Warning,
                     Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
-                    Locations = [new DiagnosticResultLocation("Test0.cs", 17, 25)]
+                    Locations = [new DiagnosticResultLocation("Test0.cs", 18, 32)]
+                }
+            );
+        }
+
+        [TestMethod]
+        public void UsageOfImplicitConversion_InLinq_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Pair(DateTimeOffset DateTimeOffset, DateTime DateTime);
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Pair> list = new(){ new(DateTimeOffset.Now, DateTime.Now) };
+            _ = list.Where(pair => pair.DateTimeOffset < pair.DateTime);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(
+                source,
+                new DiagnosticResult
+                {
+                    Id = "INTL0202",
+                    Severity = DiagnosticSeverity.Warning,
+                    Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                    Locations = [new DiagnosticResultLocation("Test0.cs", 15, 36)]
                 }
             );
         }
