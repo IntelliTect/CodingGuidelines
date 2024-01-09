@@ -119,10 +119,10 @@ namespace ConsoleApplication1
                 Id = Analyzers.UnusedLocalVariable.DiagnosticId,
                 Message = "Local variable 'foo' should be used",
                 Severity = DiagnosticSeverity.Info,
-                Locations = new[]
-                {
+                Locations =
+                [
                     new DiagnosticResultLocation("Test0.cs", 15, 20)
-                }
+                ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -242,9 +242,9 @@ namespace ConsoleApplication1
                 Message = "Local variable 't' should be used",
                 Severity = DiagnosticSeverity.Info,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 10, 17)
-                        }
+                        ]
             };
             VerifyCSharpDiagnostic(test, result);
         }

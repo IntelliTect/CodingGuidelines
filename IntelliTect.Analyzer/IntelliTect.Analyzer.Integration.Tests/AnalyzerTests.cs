@@ -29,10 +29,7 @@ namespace IntelliTect.Analyzer.Integration.Tests
 
         public static async Task ProcessProject(FileInfo projectFile)
         {
-            if (projectFile is null)
-            {
-                throw new ArgumentNullException(nameof(projectFile));
-            }
+            ArgumentNullException.ThrowIfNull(projectFile);
 
             using var workspace = MSBuildWorkspace.Create();
             Project project = await workspace.OpenProjectAsync(projectFile.FullName).ConfigureAwait(false);

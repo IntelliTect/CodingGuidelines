@@ -398,9 +398,9 @@ namespace ConsoleApp
                 Message = "Attributes should be on separate lines",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", line, col)
-                        }
+                        ]
             };
         }
 
