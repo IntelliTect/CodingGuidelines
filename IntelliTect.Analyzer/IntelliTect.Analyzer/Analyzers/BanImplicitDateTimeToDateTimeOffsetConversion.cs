@@ -49,12 +49,12 @@ namespace IntelliTect.Analyzer.Analyzers
             }
             else
             {
-                bool hasImplicitArg = conversionOperation.Operand.ChildOperations
+                IOperation implicitDateTimeOffsetOp = conversionOperation.Operand.ChildOperations
                     .Where(op => op.Kind == OperationKind.Argument && IsDateTimeOffsetSymbol(context, ((IArgumentOperation)op).Value.Type))
-                    .Any();
-                if (hasImplicitArg)
+                    .FirstOrDefault();
+                if (implicitDateTimeOffsetOp != default)
                 {
-                    context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
+                    context.ReportDiagnostic(Diagnostic.Create(_Rule202, implicitDateTimeOffsetOp.Syntax.GetLocation()));
                 }
             }
         }

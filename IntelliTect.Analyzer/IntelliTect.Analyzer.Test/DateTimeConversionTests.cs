@@ -134,6 +134,74 @@ namespace ConsoleApp1
         }
 
         [TestMethod]
+        public void UsageOfImplicitConversion_WithProperties_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Pair(DateTimeOffset DateTimeOffset, DateTime DateTime);
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            Pair pair = new(DateTimeOffset.Now, DateTime.Now);
+            retirn pair.DateTimeOffset < pair.DateTime;
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(
+                source,
+                new DiagnosticResult
+                {
+                    Id = "INTL0202",
+                    Severity = DiagnosticSeverity.Warning,
+                    Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                    Locations = [new DiagnosticResultLocation("Test0.cs", 14, 29)]
+                }
+            );
+        }
+
+        [TestMethod]
+        public void UsageOfImplicitConversion_WithPropertiesInLinq_ProducesWarningMessage()
+         {
+            string source = @"
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace ConsoleApp1
+{
+    internal class Pair(DateTimeOffset DateTimeOffset, DateTime DateTime);
+
+    internal class Program
+    {
+        static void Main(string[] args)
+        {
+            List<Pair> list = new(){ new(DateTimeOffset.Now, DateTime.Now) };  // <-- L14
+            _ = list.Where(pair => pair.DateTimeOffset < pair.DateTime);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(
+                source,
+                new DiagnosticResult
+                {
+                    Id = "INTL0202",
+                    Severity = DiagnosticSeverity.Warning,
+                    Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                    Locations = [new DiagnosticResultLocation("Test0.cs", 14, 42)]
+                }
+            );
+        }
+
+        [TestMethod]
         public void UsageOfImplicitConversion_InLinqWithVariables_ProducesWarningMessage()
         {
             string source = @"
@@ -166,45 +234,10 @@ namespace ConsoleApp1
                     Id = "INTL0202",
                     Severity = DiagnosticSeverity.Warning,
                     Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
-                    Locations = [new DiagnosticResultLocation("Test0.cs", 18, 32)]
+                    Locations = [new DiagnosticResultLocation("Test0.cs", 18, 24)]
                 }
             );
         }
-
-        [TestMethod]
-        public void UsageOfImplicitConversion_InLinq_ProducesWarningMessage()
-        {
-            string source = @"
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace ConsoleApp1
-{
-    internal class Pair(DateTimeOffset DateTimeOffset, DateTime DateTime);
-
-    internal class Program
-    {
-        static void Main(string[] args)
-        {
-            List<Pair> list = new(){ new(DateTimeOffset.Now, DateTime.Now) };
-            _ = list.Where(pair => pair.DateTimeOffset < pair.DateTime);
-        }
-    }
-}";
-
-            VerifyCSharpDiagnostic(
-                source,
-                new DiagnosticResult
-                {
-                    Id = "INTL0202",
-                    Severity = DiagnosticSeverity.Warning,
-                    Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
-                    Locations = [new DiagnosticResultLocation("Test0.cs", 14, 36)]
-                }
-            );
-        }
-
 
         [TestMethod]
         public void UsageOfExplicitConversion_ProducesNothing()
