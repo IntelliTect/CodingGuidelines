@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
@@ -33,22 +34,35 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private void AnalyzeInvocation(OperationAnalysisContext context)
         {
-            if (context.Operation is not IConversionOperation conversionOperation)
+            if (context.Operation is not IConversionOperation conversionOperation || !conversionOperation.Conversion.IsImplicit)
             {
                 return;
             }
 
-            if (conversionOperation.Conversion.IsImplicit && conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
+            if (conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
             {
                 INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
-                INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-                if (SymbolEqualityComparer.Default.Equals(containingType, dateTimeOffsetType))
+                if (IsDateTimeOffsetSymbol(context, containingType))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
                 }
             }
+            else
+            {
+                bool hasImplicitArg = conversionOperation.Operand.ChildOperations
+                    .Where(op => op.Kind == OperationKind.Argument && IsDateTimeOffsetSymbol(context, ((IArgumentOperation)op).Value.Type))
+                    .Any();
+                if (hasImplicitArg)
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
+                }
+            }
+        }
 
-
+        private static bool IsDateTimeOffsetSymbol(OperationAnalysisContext context, ITypeSymbol symbol)
+        {
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+            return SymbolEqualityComparer.Default.Equals(symbol, dateTimeOffsetType);
         }
 
         private static class Rule202
