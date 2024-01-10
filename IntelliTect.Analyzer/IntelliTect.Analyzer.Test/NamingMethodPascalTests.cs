@@ -78,6 +78,15 @@ namespace IntelliTect.Analyzer.Tests
         }
 
         [TestMethod]
+        public void ProperlyNamedMethod_TopLevelStatements_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+Console.WriteLine(""Hello World!"");";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
         public void AutoProperty_PascalCasedMethod_NoDiagnosticInformationReturned()
         {
             string test = @"
