@@ -138,3 +138,33 @@ dotnet_naming_rule.properties_pascal_case.symbols = all_properties
 dotnet_naming_rule.properties_pascal_case.style = pascal_case_style
 dotnet_naming_symbols.all_properties.applicable_kinds = property
 dotnet_naming_symbols.all_properties.applicable_accessibilities = *
+
+############################### 
+# Roslynator Defaults         # 
+###############################
+# RCS1001: Add braces (when expression spans over multiple lines).
+dotnet_diagnostic.RCS1001.severity = error
+
+# RCS1003: Add braces to if-else (when expression spans over multiple lines).
+dotnet_diagnostic.RCS1003.severity = error
+
+# RCS1007: Add braces
+dotnet_diagnostic.RCS1007.severity = error
+
+# RCS1044: Remove original exception from throw statement
+dotnet_diagnostic.RCS1044.severity = error
+
+# RCS1123: Add parentheses according to operator precedence.
+dotnet_diagnostic.RCS1123.severity = error
+
+# RCS1037: Remove trailing white-space.
+dotnet_diagnostic.RCS1037.severity = none
+
+# RCS1036: Remove redundant empty line.
+dotnet_diagnostic.RCS1036.severity = none
+
+# RCS1170: Use read-only auto-implemented property.
+dotnet_diagnostic.RCS1170.severity = warning
+
+# RCS1213: Remove unused member declaration.
+dotnet_diagnostic.RCS1213.severity = warning
