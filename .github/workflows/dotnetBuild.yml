@@ -24,7 +24,7 @@ jobs:
         with:
             use-github-auto-merge: true
 
-  build:
+  build-and-test:
     runs-on: ubuntu-latest
 
     steps:
@@ -43,4 +43,4 @@ jobs:
       run: dotnet build -p:ContinuousIntegrationBuild=True --no-restore --configuration Release
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --configuration Release --verbosity normal
