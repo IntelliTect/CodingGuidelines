@@ -33,7 +33,7 @@ jobs:
 
       - name: Pack
         if: startsWith(github.ref, 'refs/tags/v')
-        run: dotnet pack -p:PackageVersion=${{ env.nugetVersion }} --configuration Release -o ${{ github.workspace }}/PackedNuget
+        run: dotnet pack IntelliTect.Analyzer/IntelliTect.Analyzer/IntelliTect.Analyzer.csproj -p:PackageVersion=${{ env.nugetVersion }} --configuration Release -o ${{ github.workspace }}/PackedNuget
 
       - name: Upload Artifacts
         if: startsWith(github.ref, 'refs/tags/v')
