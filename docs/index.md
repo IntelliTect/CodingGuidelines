@@ -7,6 +7,7 @@ Coding Guidelines
 * [C#]({{ site.baseurl }}{% link coding/csharp.md %})
 * [C# Naming Guidelines Table]({{ site.baseurl }}{% link assets/C#NamingGuidelinesTable.md %})
 * [JavaScript]({{ site.baseurl }}{% link coding/javascript.md %})
+* [Python]({{ site.baseurl }}{% link coding/python.md %})
 
 Analyzers
 =========
