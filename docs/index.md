@@ -4,7 +4,7 @@ title: IntelliTect Guidelines
 
 Coding Guidelines
 ================
-* [C#]({{ site.baseurl }}{% link coding/csharp.md %})
+* [C#](https://essentialcsharp.com/guidelines)
 * [JavaScript]({{ site.baseurl }}{% link coding/javascript.md %})
 
 Analyzers
