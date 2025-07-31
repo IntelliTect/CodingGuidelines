@@ -30,7 +30,7 @@ namespace ConsoleApp42
                            {
                                Id = "INTL0202",
                                Severity = DiagnosticSeverity.Warning,
-                               Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Message = "Converting `DateTime` to `DateTimeOffset` without specifying timezone offset can result in unpredictable behavior",
                                Locations =
                                    [
                             new DiagnosticResultLocation("Test0.cs", 10, 38)
@@ -71,7 +71,7 @@ namespace ConsoleApp1
                            {
                                Id = "INTL0202",
                                Severity = DiagnosticSeverity.Warning,
-                               Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Message = "Converting `DateTime` to `DateTimeOffset` without specifying timezone offset can result in unpredictable behavior",
                                Locations =
                                    [
                             new DiagnosticResultLocation("Test0.cs", 17, 17)
@@ -93,6 +93,58 @@ namespace ConsoleApp43
             static void Main(string[] args)
             {
                 DateTimeOffset ofs = (DateTimeOffset)DateTime.Now;
+            }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(source);
+
+        }
+
+        [TestMethod]
+        public void UsageOfDateTimeOnlyConstructor_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+
+namespace ConsoleApp44
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                DateTimeOffset ofs = new DateTimeOffset(DateTime.Now);
+            }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Converting `DateTime` to `DateTimeOffset` without specifying timezone offset can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 10, 38)
+                                   ]
+                           });
+
+        }
+
+        [TestMethod]
+        public void UsageOfDateTimeWithOffsetConstructor_ProducesNothing()
+        {
+            string source = @"
+using System;
+
+namespace ConsoleApp45
+    {
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                DateTimeOffset ofs = new DateTimeOffset(DateTime.Now, TimeSpan.Zero);
             }
         }
     }";
