@@ -29,6 +29,7 @@ namespace IntelliTect.Analyzer.Analyzers
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
             context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Conversion);
+            context.RegisterOperationAction(AnalyzeObjectCreation, OperationKind.ObjectCreation);
         }
 
         private void AnalyzeInvocation(OperationAnalysisContext context)
@@ -51,18 +52,45 @@ namespace IntelliTect.Analyzer.Analyzers
 
         }
 
+        private void AnalyzeObjectCreation(OperationAnalysisContext context)
+        {
+            if (context.Operation is not IObjectCreationOperation objectCreationOperation)
+            {
+                return;
+            }
+
+            // Check if it's creating a DateTimeOffset
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+            if (!SymbolEqualityComparer.Default.Equals(objectCreationOperation.Type, dateTimeOffsetType))
+            {
+                return;
+            }
+
+            // Check if the constructor has exactly one parameter of type DateTime
+            if (objectCreationOperation.Constructor?.Parameters.Length == 1)
+            {
+                IParameterSymbol parameter = objectCreationOperation.Constructor.Parameters[0];
+                INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
+                
+                if (SymbolEqualityComparer.Default.Equals(parameter.Type, dateTimeType))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(_Rule202, objectCreationOperation.Syntax.GetLocation()));
+                }
+            }
+        }
+
         private static class Rule202
         {
             internal const string DiagnosticId = "INTL0202";
-            internal const string Title = "Do not use implicit conversion from `DateTime` to `DateTimeOffset`";
-            internal const string MessageFormat = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior";
+            internal const string Title = "Do not convert `DateTime` to `DateTimeOffset` without specifying timezone offset";
+            internal const string MessageFormat = "Converting `DateTime` to `DateTimeOffset` without specifying timezone offset can result in unpredictable behavior";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
 #pragma warning restore INTL0001 
 
             internal const string Description =
-                "Implicit conversion of `DateTime` to `DateTimeOffset` determines timezone offset based on the `DateTime.Kind` value, and for `DateTimeKind.Unspecified` it assumes `DateTimeKind.Local`, which may lead to differing behavior between running locally and on a server.";
+                "Converting `DateTime` to `DateTimeOffset` determines timezone offset based on the `DateTime.Kind` value, and for `DateTimeKind.Unspecified` it assumes `DateTimeKind.Local`, which may lead to differing behavior between running locally and on a server.";
         }
     }
 }
