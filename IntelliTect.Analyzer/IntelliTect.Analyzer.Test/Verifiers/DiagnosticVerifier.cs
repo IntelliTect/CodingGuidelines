@@ -167,16 +167,16 @@ namespace TestHelper
             // Only check line position if there is an actual line in the real diagnostic
             if (actualLinePosition.Line > 0)
             {
-                Assert.AreEqual(actualLinePosition.Line + 1,
-                                expected.Line,
+                Assert.AreEqual(expected.Line,
+                                actualLinePosition.Line + 1,
                                 $"Expected diagnostic to be on line \"{expected.Line}\" was actually on line \"{actualLinePosition.Line + 1}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, diagnostic)}{Environment.NewLine}");
             }
 
             // Only check column position if there is an actual column position in the real diagnostic
             if (actualLinePosition.Character > 0)
             {
-                Assert.AreEqual(actualLinePosition.Character + 1,
-                                expected.Column,
+                Assert.AreEqual(expected.Column,
+                                actualLinePosition.Character + 1,
                                 $"Expected diagnostic to start at column \"{expected.Column}\" was actually at column \"{actualLinePosition.Character + 1}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, diagnostic)}{Environment.NewLine}");
             }
         }
