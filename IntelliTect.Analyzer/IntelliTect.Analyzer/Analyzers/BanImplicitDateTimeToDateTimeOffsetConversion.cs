@@ -28,11 +28,12 @@ namespace IntelliTect.Analyzer.Analyzers
 
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
-            context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Conversion);
+            context.RegisterOperationAction(AnalyzeConversion, OperationKind.Conversion);
             context.RegisterOperationAction(AnalyzeObjectCreation, OperationKind.ObjectCreation);
         }
 
-        private void AnalyzeInvocation(OperationAnalysisContext context)
+
+        private void AnalyzeConversion(OperationAnalysisContext context)
         {
             if (context.Operation is not IConversionOperation conversionOperation)
             {
