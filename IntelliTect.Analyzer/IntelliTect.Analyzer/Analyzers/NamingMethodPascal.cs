@@ -95,9 +95,39 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
+            // Skip test methods - they commonly use underscores for readability (e.g., "Method_Scenario_ExpectedResult")
+            if (IsTestMethod(namedTypeSymbol))
+            {
+                return;
+            }
+
             Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], name);
 
             context.ReportDiagnostic(diagnostic);
+        }
+
+        private static bool IsTestMethod(IMethodSymbol methodSymbol)
+        {
+            // Common test framework attributes
+            string[] testAttributeNames = 
+            [
+                "TestMethod",      // MSTest
+                "TestMethodAttribute",
+                "Fact",            // xUnit
+                "FactAttribute",
+                "Theory",          // xUnit
+                "TheoryAttribute",
+                "Test",            // NUnit
+                "TestAttribute",
+                "TestCase",        // NUnit
+                "TestCaseAttribute",
+                "TestCaseSource",  // NUnit
+                "TestCaseSourceAttribute"
+            ];
+
+            ImmutableArray<AttributeData> attributes = methodSymbol.GetAttributes();
+            return attributes.Any(attribute =>
+                testAttributeNames.Contains(attribute.AttributeClass?.Name));
         }
     }
 }
