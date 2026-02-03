@@ -3,19 +3,14 @@ using System;
 namespace IntelliTect.Analyzer
 {
     [AttributeUsage(AttributeTargets.All)]
-    internal class DescriptionAttribute : Attribute
+    internal class DescriptionAttribute(string description) : Attribute
     {
         public static DescriptionAttribute Default { get; } = new DescriptionAttribute();
 
-        public string Description { get; }
+        public string Description { get; } = description;
 
         public DescriptionAttribute() : this(string.Empty)
         {
-        }
-
-        public DescriptionAttribute(string description)
-        {
-            Description = description;
         }
 
         public override bool Equals(object obj)

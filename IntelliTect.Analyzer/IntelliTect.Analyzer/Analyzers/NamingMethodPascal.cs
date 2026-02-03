@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Xml.Linq;
 using IntelliTect.Analyzer.Naming;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -75,6 +76,12 @@ namespace IntelliTect.Analyzer.Analyzers
                     name = namedTypeSymbol.ExplicitInterfaceImplementations.First().Name;
                     break;
                 default: return;
+            }
+
+            // Common symbols for generated code to use, including the main method for top-level statements.
+            if (name.Contains('<') || name.Contains('>'))
+            {
+                return;
             }
 
             if (Casing.IsPascalCase(name))

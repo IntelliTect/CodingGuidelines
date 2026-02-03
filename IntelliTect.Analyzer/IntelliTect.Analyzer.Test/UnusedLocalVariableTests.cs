@@ -119,10 +119,10 @@ namespace ConsoleApplication1
                 Id = Analyzers.UnusedLocalVariable.DiagnosticId,
                 Message = "Local variable 'foo' should be used",
                 Severity = DiagnosticSeverity.Info,
-                Locations = new[]
-                {
+                Locations =
+                [
                     new DiagnosticResultLocation("Test0.cs", 15, 20)
-                }
+                ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -139,7 +139,7 @@ namespace ConsoleApplication1
             Assert.AreEqual("Local variable '{0}' should be used", diagnostic.MessageFormat);
             Assert.AreEqual("Flow", diagnostic.Category);
             Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
-            Assert.AreEqual(true, diagnostic.IsEnabledByDefault);
+            Assert.IsTrue(diagnostic.IsEnabledByDefault);
             Assert.AreEqual("All local variables should be accessed, or named with underscores to indicate they are unused.", diagnostic.Description);
             Assert.AreEqual("https://github.com/IntelliTect/CodingGuidelines", diagnostic.HelpLinkUri);
         }
@@ -242,9 +242,9 @@ namespace ConsoleApplication1
                 Message = "Local variable 't' should be used",
                 Severity = DiagnosticSeverity.Info,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 10, 17)
-                        }
+                        ]
             };
             VerifyCSharpDiagnostic(test, result);
         }

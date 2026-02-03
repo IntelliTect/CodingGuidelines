@@ -4,8 +4,17 @@ updates:
     directory: "/" # Location of package manifests
     schedule:
       interval: "weekly"
+    groups:
+      microsoft-codeanalysis:
+        patterns:
+          - "Microsoft.CodeAnalysis*"
 
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/" # Location of package manifests
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "bundler"
+    directory: "/docs"
     schedule:
       interval: "weekly"

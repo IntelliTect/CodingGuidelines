@@ -76,7 +76,7 @@ namespace TestHelper
         private static async Task VerifyFix(string language, DiagnosticAnalyzer analyzer, CodeFixProvider codeFixProvider, string oldSource, string newSource, int? codeFixIndex, bool allowNewCompilerDiagnostics)
         {
             Document document = CreateDocument(oldSource, language);
-            Diagnostic[] analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, new[] { document });
+            Diagnostic[] analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, [document]);
             IEnumerable<Diagnostic> compilerDiagnostics = GetCompilerDiagnostics(document);
             int attempts = analyzerDiagnostics.Length;
 
@@ -86,7 +86,7 @@ namespace TestHelper
                 var context = new CodeFixContext(document, analyzerDiagnostics[0], (a, d) => actions.Add(a), CancellationToken.None);
                 codeFixProvider.RegisterCodeFixesAsync(context).Wait();
 
-                if (!actions.Any())
+                if (actions.Count == 0)
                 {
                     break;
                 }
@@ -98,7 +98,7 @@ namespace TestHelper
                 }
 
                 document = await ApplyFix(document, actions.ElementAt(0));
-                analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, new[] { document });
+                analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, [document]);
 
                 IEnumerable<Diagnostic> newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
 
@@ -114,7 +114,7 @@ namespace TestHelper
                 }
 
                 //check if there are analyzer diagnostics left after the code fix
-                if (!analyzerDiagnostics.Any())
+                if (analyzerDiagnostics.Length == 0)
                 {
                     break;
                 }

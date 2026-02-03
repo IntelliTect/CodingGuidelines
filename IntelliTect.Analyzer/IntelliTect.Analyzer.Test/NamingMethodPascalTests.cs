@@ -44,9 +44,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Method 'localMethod' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 17, 24)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -73,6 +73,15 @@ namespace IntelliTect.Analyzer.Tests
             } 
         }
     }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        public void ProperlyNamedMethod_TopLevelStatements_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+Console.WriteLine(""Hello World!"");";
 
             VerifyCSharpDiagnostic(test);
         }
@@ -152,9 +161,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Method 'myMethod' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -187,9 +196,9 @@ namespace IntelliTect.Analyzer.Tests
                 Message = "Method '_MyMethod' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -349,9 +358,9 @@ namespace AspNetCore
                 Message = "Method 'My_Method' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                             new DiagnosticResultLocation("Test0.cs", 13, 27)
-                        }
+                        ]
             };
 
             VerifyCSharpDiagnostic(test, expected);
@@ -416,9 +425,9 @@ namespace AspNetCore
                 Message = "Method 'foo' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                         new DiagnosticResultLocation("Test0.cs", 13, 25)
-                    }
+                    ]
             };
             var expected2 = new DiagnosticResult
             {
@@ -426,9 +435,9 @@ namespace AspNetCore
                 Message = "Method 'foo' should be PascalCase",
                 Severity = DiagnosticSeverity.Warning,
                 Locations =
-                    new[] {
+                    [
                         new DiagnosticResultLocation("Test0.cs", 18, 29)
-                    }
+                    ]
             };
             VerifyCSharpDiagnostic(test, expected1, expected2);
         }
