@@ -108,26 +108,41 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static bool IsTestMethod(IMethodSymbol methodSymbol)
         {
-            // Common test framework attributes
-            string[] testAttributeNames = 
+            // Test framework namespaces - checking namespace is more flexible than specific attribute names
+            string[] testFrameworkNamespaces = 
             [
-                "TestMethod",      // MSTest
-                "TestMethodAttribute",
-                "Fact",            // xUnit
-                "FactAttribute",
-                "Theory",          // xUnit
-                "TheoryAttribute",
-                "Test",            // NUnit
-                "TestAttribute",
-                "TestCase",        // NUnit
-                "TestCaseAttribute",
-                "TestCaseSource",  // NUnit
-                "TestCaseSourceAttribute"
+                "Xunit",                                    // xUnit
+                "NUnit.Framework",                          // NUnit
+                "Microsoft.VisualStudio.TestTools.UnitTesting",  // MSTest
+                "TUnit.Core"                                // TUnit
             ];
 
             ImmutableArray<AttributeData> attributes = methodSymbol.GetAttributes();
             return attributes.Any(attribute =>
-                attribute.AttributeClass?.Name is string name && testAttributeNames.Contains(name));
+            {
+                if (attribute.AttributeClass == null)
+                {
+                    return false;
+                }
+
+                // Check namespace first (more robust for production code)
+                string containingNamespace = attribute.AttributeClass.ContainingNamespace?.ToDisplayString();
+                if (containingNamespace != null && 
+                    testFrameworkNamespaces.Any(ns => containingNamespace.StartsWith(ns, StringComparison.Ordinal)))
+                {
+                    return true;
+                }
+
+                // Fallback: check attribute name for common test attributes
+                // This helps in test environments where namespace metadata may be incomplete
+                string attributeName = attribute.AttributeClass.Name;
+                return attributeName == "TestMethod" || attributeName == "TestMethodAttribute" ||
+                       attributeName == "Fact" || attributeName == "FactAttribute" ||
+                       attributeName == "Theory" || attributeName == "TheoryAttribute" ||
+                       attributeName == "Test" || attributeName == "TestAttribute" ||
+                       attributeName == "TestCase" || attributeName == "TestCaseAttribute" ||
+                       attributeName == "TestCaseSource" || attributeName == "TestCaseSourceAttribute";
+            });
         }
     }
 }
