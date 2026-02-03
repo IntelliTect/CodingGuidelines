@@ -111,10 +111,21 @@ namespace IntelliTect.Analyzer.Analyzers
             // Test framework namespaces - checking namespace is more flexible than specific attribute names
             string[] testFrameworkNamespaces = 
             [
-                "Xunit",                                    // xUnit
+                "Xunit",                                    // xUnit (note: namespace is "Xunit", not "XUnit")
                 "NUnit.Framework",                          // NUnit
                 "Microsoft.VisualStudio.TestTools.UnitTesting",  // MSTest
                 "TUnit.Core"                                // TUnit
+            ];
+
+            // Fallback attribute names for test environments where namespace metadata may be incomplete
+            string[] commonTestAttributeNames =
+            [
+                "TestMethod", "TestMethodAttribute",        // MSTest
+                "Fact", "FactAttribute",                    // xUnit
+                "Theory", "TheoryAttribute",                // xUnit
+                "Test", "TestAttribute",                    // NUnit
+                "TestCase", "TestCaseAttribute",            // NUnit
+                "TestCaseSource", "TestCaseSourceAttribute" // NUnit
             ];
 
             ImmutableArray<AttributeData> attributes = methodSymbol.GetAttributes();
@@ -134,14 +145,8 @@ namespace IntelliTect.Analyzer.Analyzers
                 }
 
                 // Fallback: check attribute name for common test attributes
-                // This helps in test environments where namespace metadata may be incomplete
                 string attributeName = attribute.AttributeClass.Name;
-                return attributeName == "TestMethod" || attributeName == "TestMethodAttribute" ||
-                       attributeName == "Fact" || attributeName == "FactAttribute" ||
-                       attributeName == "Theory" || attributeName == "TheoryAttribute" ||
-                       attributeName == "Test" || attributeName == "TestAttribute" ||
-                       attributeName == "TestCase" || attributeName == "TestCaseAttribute" ||
-                       attributeName == "TestCaseSource" || attributeName == "TestCaseSourceAttribute";
+                return commonTestAttributeNames.Contains(attributeName);
             });
         }
     }
