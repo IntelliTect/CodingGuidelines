@@ -29,6 +29,7 @@ namespace IntelliTect.Analyzer.Analyzers
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
             context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Conversion);
+            context.RegisterOperationAction(AnalyzeObjectCreation, OperationKind.ObjectCreation);
         }
 
         private void AnalyzeInvocation(OperationAnalysisContext context)
@@ -51,11 +52,43 @@ namespace IntelliTect.Analyzer.Analyzers
 
         }
 
+        private void AnalyzeObjectCreation(OperationAnalysisContext context)
+        {
+            if (context.Operation is not IObjectCreationOperation objectCreation)
+            {
+                return;
+            }
+
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
+            
+            if (dateTimeOffsetType is null || dateTimeType is null)
+            {
+                return;
+            }
+
+            // Check if we're creating a DateTimeOffset
+            if (!SymbolEqualityComparer.Default.Equals(objectCreation.Type, dateTimeOffsetType))
+            {
+                return;
+            }
+
+            // Check if the constructor has exactly one parameter and it's a DateTime
+            if (objectCreation.Constructor?.Parameters.Length == 1)
+            {
+                IParameterSymbol parameter = objectCreation.Constructor.Parameters[0];
+                if (SymbolEqualityComparer.Default.Equals(parameter.Type, dateTimeType))
+                {
+                    context.ReportDiagnostic(Diagnostic.Create(_Rule202, objectCreation.Syntax.GetLocation()));
+                }
+            }
+        }
+
         private static class Rule202
         {
             internal const string DiagnosticId = "INTL0202";
             internal const string Title = "Do not use implicit conversion from `DateTime` to `DateTimeOffset`";
-            internal const string MessageFormat = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior";
+            internal const string MessageFormat = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
