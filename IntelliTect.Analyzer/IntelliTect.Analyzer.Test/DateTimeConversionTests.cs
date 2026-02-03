@@ -240,7 +240,7 @@ namespace ConsoleApp48
             var list = new List<DateTimeOffset>();
             DateTime dt = DateTime.Now;
             
-            var query1 = list.Where(item => item < dt);
+            _ = list.Where(item => item < dt);
         }
     }
 }";
