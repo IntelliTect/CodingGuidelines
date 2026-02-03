@@ -176,7 +176,3 @@ dotnet_diagnostic.RCS1213.severity = warning
 # This rule is suppressed because our analyzer and code fix providers are in the same assembly,
 # which is a common pattern. The code fix providers require Microsoft.CodeAnalysis.Workspaces.
 dotnet_diagnostic.RS1038.severity = none
-
-# MSTEST0037: Use 'Assert.IsTrue' instead of 'Assert.AreEqual'
-# Enforced to maintain consistent assertion style
-dotnet_diagnostic.MSTEST0037.severity = warning
