@@ -22,6 +22,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\IntelliTect.Analyzer\IntelliTect.Analyzer.csproj" />
+    <ProjectReference Include="..\IntelliTect.Analyzer.CodeFixes\IntelliTect.Analyzer.CodeFixes.csproj" />
   </ItemGroup>
 
 </Project>
