@@ -108,7 +108,8 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static bool IsTestMethod(IMethodSymbol methodSymbol)
         {
-            // Test framework namespaces - checking namespace is more flexible than specific attribute names
+            // Test framework namespaces - any method decorated with an attribute from these namespaces
+            // is considered a test method and exempt from PascalCase validation
             string[] testFrameworkNamespaces = 
             [
                 "Xunit",                                    // xUnit (note: namespace is "Xunit", not "XUnit")
@@ -117,7 +118,8 @@ namespace IntelliTect.Analyzer.Analyzers
                 "TUnit.Core"                                // TUnit
             ];
 
-            // Fallback attribute names for test environments where namespace metadata may be incomplete
+            // Fallback attribute names - needed because our test infrastructure (DiagnosticVerifier)
+            // doesn't add references to test framework assemblies, so ContainingNamespace would be null
             string[] commonTestAttributeNames =
             [
                 "TestMethod", "TestMethodAttribute",        // MSTest
@@ -136,7 +138,7 @@ namespace IntelliTect.Analyzer.Analyzers
                     return false;
                 }
 
-                // Check namespace first (more robust for production code)
+                // Check namespace first (works in production with proper assembly references)
                 string containingNamespace = attribute.AttributeClass.ContainingNamespace?.ToDisplayString();
                 if (containingNamespace != null && 
                     testFrameworkNamespaces.Any(ns => containingNamespace.StartsWith(ns, StringComparison.Ordinal)))
@@ -144,7 +146,7 @@ namespace IntelliTect.Analyzer.Analyzers
                     return true;
                 }
 
-                // Fallback: check attribute name for common test attributes
+                // Fallback: check attribute name (needed for test environment)
                 string attributeName = attribute.AttributeClass.Name;
                 return commonTestAttributeNames.Contains(attributeName);
             });
