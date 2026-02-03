@@ -245,7 +245,8 @@ namespace ConsoleApp48
     }
 }";
 
-            // Currently no warnings (this is the known limitation)
+            // Currently no warnings - this documents the known limitation
+            // Explicitly expecting zero diagnostics
             VerifyCSharpDiagnostic(source);
         }
 
