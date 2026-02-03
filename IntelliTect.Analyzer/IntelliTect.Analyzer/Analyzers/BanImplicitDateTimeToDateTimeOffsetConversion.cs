@@ -100,9 +100,18 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
+            // Unwrap nullable types if present
+            ITypeSymbol operandType = operand.Type is INamedTypeSymbol { IsValueType: true, OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable
+                ? nullable.TypeArguments[0]
+                : operand.Type;
+
+            ITypeSymbol otherType = otherOperand.Type is INamedTypeSymbol { IsValueType: true, OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } otherNullable
+                ? otherNullable.TypeArguments[0]
+                : otherOperand.Type;
+
             // Check if operand is DateTime and other operand is DateTimeOffset
-            bool isDateTimeOperand = SymbolEqualityComparer.Default.Equals(operand.Type, dateTimeType);
-            bool isDateTimeOffsetOtherOperand = SymbolEqualityComparer.Default.Equals(otherOperand.Type, dateTimeOffsetType);
+            bool isDateTimeOperand = SymbolEqualityComparer.Default.Equals(operandType, dateTimeType);
+            bool isDateTimeOffsetOtherOperand = SymbolEqualityComparer.Default.Equals(otherType, dateTimeOffsetType);
 
             if (isDateTimeOperand && isDateTimeOffsetOtherOperand)
             {
