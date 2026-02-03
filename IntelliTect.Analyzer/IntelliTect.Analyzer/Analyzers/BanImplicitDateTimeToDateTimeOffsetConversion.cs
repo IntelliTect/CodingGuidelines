@@ -2,6 +2,7 @@
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Operations;
 
@@ -30,6 +31,7 @@ namespace IntelliTect.Analyzer.Analyzers
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
             context.RegisterOperationAction(AnalyzeConversion, OperationKind.Conversion);
+            context.RegisterOperationAction(AnalyzeBinaryOperation, OperationKind.Binary);
         }
 
         private void AnalyzeConversion(OperationAnalysisContext context)
@@ -39,30 +41,74 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
+            ITypeSymbol sourceType = conversionOperation.Operand.Type;
+            ITypeSymbol targetType = conversionOperation.Type;
+
+            if (sourceType is null || targetType is null)
             {
-                INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
-                if (IsDateTimeOffsetSymbol(context, containingType))
-                {
-                    context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
-                }
+                return;
             }
-            else
+
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+
+            if (dateTimeType is null || dateTimeOffsetType is null)
             {
-                IOperation implicitDateTimeOffsetOp = conversionOperation.Operand.ChildOperations
-                    .Where(op => op.Kind == OperationKind.Argument && IsDateTimeOffsetSymbol(context, ((IArgumentOperation)op).Value.Type))
-                    .FirstOrDefault();
-                if (implicitDateTimeOffsetOp != default)
-                {
-                    context.ReportDiagnostic(Diagnostic.Create(_Rule202, implicitDateTimeOffsetOp.Syntax.GetLocation()));
-                }
+                return;
+            }
+
+            // Check if source is DateTime and target is DateTimeOffset
+            if (SymbolEqualityComparer.Default.Equals(sourceType, dateTimeType) && 
+                SymbolEqualityComparer.Default.Equals(targetType, dateTimeOffsetType))
+            {
+                // Report the diagnostic at the operand's location (the DateTime expression being converted)
+                context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Operand.Syntax.GetLocation()));
             }
         }
 
-        private static bool IsDateTimeOffsetSymbol(OperationAnalysisContext context, ITypeSymbol symbol)
+        private void AnalyzeBinaryOperation(OperationAnalysisContext context)
         {
+            if (context.Operation is not IBinaryOperation binaryOperation)
+            {
+                return;
+            }
+
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
             INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-            return SymbolEqualityComparer.Default.Equals(symbol, dateTimeOffsetType);
+
+            if (dateTimeType is null || dateTimeOffsetType is null)
+            {
+                return;
+            }
+
+            // For binary operations, check if either operand is DateTime and the other is DateTimeOffset
+            // This catches cases where IConversionOperation nodes are not created (e.g., property access)
+            CheckBinaryOperandPair(context, binaryOperation.LeftOperand, binaryOperation.RightOperand, dateTimeType, dateTimeOffsetType);
+            CheckBinaryOperandPair(context, binaryOperation.RightOperand, binaryOperation.LeftOperand, dateTimeType, dateTimeOffsetType);
+        }
+
+        private void CheckBinaryOperandPair(OperationAnalysisContext context, IOperation operand, IOperation otherOperand, INamedTypeSymbol dateTimeType, INamedTypeSymbol dateTimeOffsetType)
+        {
+            if (operand is null || operand.Type is null || otherOperand is null || otherOperand.Type is null)
+            {
+                return;
+            }
+
+            // Skip if we don't have a syntax location to report
+            if (operand.Syntax is null)
+            {
+                return;
+            }
+
+            // Check if operand is DateTime and other operand is DateTimeOffset
+            bool isDateTimeOperand = SymbolEqualityComparer.Default.Equals(operand.Type, dateTimeType);
+            bool isDateTimeOffsetOtherOperand = SymbolEqualityComparer.Default.Equals(otherOperand.Type, dateTimeOffsetType);
+
+            if (isDateTimeOperand && isDateTimeOffsetOtherOperand)
+            {
+                // DateTime will be implicitly converted to DateTimeOffset in the comparison
+                context.ReportDiagnostic(Diagnostic.Create(_Rule202, operand.Syntax.GetLocation()));
+            }
         }
 
         private static class Rule202

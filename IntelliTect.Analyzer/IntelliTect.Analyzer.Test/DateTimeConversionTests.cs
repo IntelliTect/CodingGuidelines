@@ -262,6 +262,51 @@ namespace ConsoleApp43
 
         }
 
+        [TestMethod]
+        public void UsageInLambdaWithDateProperty_ProducesWarningMessage()
+        {
+            // This test matches the original issue scenario
+            string source = @"
+using System;
+using System.Linq;
+
+namespace Test
+{
+    public class TimeEntry
+    {
+        public DateTimeOffset EndDate { get; set; }
+        public DateTimeOffset StartDate { get; set; }
+    }
+
+    public class DataSource
+    {
+        public IQueryable<TimeEntry> GetQuery(DateTime startDate, DateTime endDate)
+        {
+            return Enumerable.Empty<TimeEntry>().AsQueryable()
+                .Where(te =>
+                    te.EndDate <= endDate.Date.AddDays(1).AddTicks(-1) &&
+                    te.StartDate >= startDate.Date);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                new DiagnosticResult
+                {
+                    Id = "INTL0202",
+                    Severity = DiagnosticSeverity.Warning,
+                    Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                    Locations = [new DiagnosticResultLocation("Test0.cs", 18, 35)]
+                },
+                new DiagnosticResult
+                {
+                    Id = "INTL0202",
+                    Severity = DiagnosticSeverity.Warning,
+                    Message = "Using the symbol 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                    Locations = [new DiagnosticResultLocation("Test0.cs", 19, 38)]
+                });
+        }
+
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
             return new Analyzers.BanImplicitDateTimeToDateTimeOffsetConversion();
