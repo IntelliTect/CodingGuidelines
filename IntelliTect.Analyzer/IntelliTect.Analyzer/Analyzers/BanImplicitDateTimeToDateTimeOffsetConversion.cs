@@ -59,13 +59,10 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
-
-            if (dateTimeOffsetType is null || dateTimeType is null)
-            {
-                return;
-            }
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
+                ?? throw new InvalidOperationException("Unable to find DateTimeOffset type");
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
+                ?? throw new InvalidOperationException("Unable to find DateTime type");
 
             // Check if we're creating a DateTimeOffset
             if (!SymbolEqualityComparer.Default.Equals(objectCreation.Type, dateTimeOffsetType))
