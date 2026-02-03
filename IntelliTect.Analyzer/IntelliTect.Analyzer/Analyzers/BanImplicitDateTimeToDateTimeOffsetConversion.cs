@@ -61,7 +61,7 @@ namespace IntelliTect.Analyzer.Analyzers
 
             INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
             INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
-            
+
             if (dateTimeOffsetType is null || dateTimeType is null)
             {
                 return;
