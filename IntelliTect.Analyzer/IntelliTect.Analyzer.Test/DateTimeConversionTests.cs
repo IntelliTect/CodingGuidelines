@@ -206,7 +206,7 @@ namespace ConsoleApp47
         }
 
         [TestMethod]
-        public void UsageOfDateTimeInWhereLambda_CurrentlyNotDetected()
+        public void UsageOfDateTimeInWhereLambda_DoesNotTriggerWarning_KnownLimitation()
         {
             // NOTE: This test documents a known limitation of the Roslyn operation-based analyzer.
             // INTL0202 currently does NOT trigger for implicit conversions in LINQ extension method lambdas

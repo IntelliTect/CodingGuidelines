@@ -28,12 +28,28 @@ namespace IntelliTect.Analyzer.Analyzers
 
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
-            context.RegisterOperationAction(AnalyzeConversion, OperationKind.Conversion);
-            context.RegisterOperationAction(AnalyzeObjectCreation, OperationKind.ObjectCreation);
+            
+            context.RegisterCompilationStartAction(compilationContext =>
+            {
+                INamedTypeSymbol dateTimeOffsetType = compilationContext.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+                INamedTypeSymbol dateTimeType = compilationContext.Compilation.GetTypeByMetadataName("System.DateTime");
+                
+                if (dateTimeOffsetType is null || dateTimeType is null)
+                {
+                    return;
+                }
+                
+                compilationContext.RegisterOperationAction(
+                    operationContext => AnalyzeConversion(operationContext, dateTimeOffsetType, dateTimeType), 
+                    OperationKind.Conversion);
+                compilationContext.RegisterOperationAction(
+                    operationContext => AnalyzeObjectCreation(operationContext, dateTimeOffsetType, dateTimeType), 
+                    OperationKind.ObjectCreation);
+            });
         }
 
 
-        private void AnalyzeConversion(OperationAnalysisContext context)
+        private void AnalyzeConversion(OperationAnalysisContext context, INamedTypeSymbol dateTimeOffsetType, INamedTypeSymbol dateTimeType)
         {
             if (context.Operation is not IConversionOperation conversionOperation)
             {
@@ -41,14 +57,6 @@ namespace IntelliTect.Analyzer.Analyzers
             }
 
             if (!conversionOperation.Conversion.IsImplicit)
-            {
-                return;
-            }
-
-            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
-
-            if (dateTimeOffsetType is null || dateTimeType is null)
             {
                 return;
             }
@@ -74,17 +82,12 @@ namespace IntelliTect.Analyzer.Analyzers
             }
         }
 
-        private void AnalyzeObjectCreation(OperationAnalysisContext context)
+        private void AnalyzeObjectCreation(OperationAnalysisContext context, INamedTypeSymbol dateTimeOffsetType, INamedTypeSymbol dateTimeType)
         {
             if (context.Operation is not IObjectCreationOperation objectCreation)
             {
                 return;
             }
-
-            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
-                ?? throw new InvalidOperationException("Unable to find DateTimeOffset type");
-            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
-                ?? throw new InvalidOperationException("Unable to find DateTime type");
 
             // Check if we're creating a DateTimeOffset
             if (!SymbolEqualityComparer.Default.Equals(objectCreation.Type, dateTimeOffsetType))
