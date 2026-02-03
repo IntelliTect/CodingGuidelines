@@ -172,7 +172,15 @@ dotnet_diagnostic.RCS1213.severity = warning
 ############################### 
 # Analyzer Package Suppressions
 ###############################
-# RS1038: Compiler extensions should be implemented in assemblies with compiler-provided references
+# RS1038: Compiler extensions should not be implemented in assemblies with compiler-provided references
 # This rule is suppressed because our analyzer and code fix providers are in the same assembly,
 # which is a common pattern. The code fix providers require Microsoft.CodeAnalysis.Workspaces.
 dotnet_diagnostic.RS1038.severity = none
+
+# MSTEST0001: Explicitly enable or disable tests parallelization
+# We don't need parallelization for our tests
+dotnet_diagnostic.MSTEST0001.severity = none
+
+# MSTEST0037: Use 'Assert.IsTrue' instead of 'Assert.AreEqual'
+# This is a style preference, not a correctness issue
+dotnet_diagnostic.MSTEST0037.severity = suggestion
