@@ -49,13 +49,10 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
-            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-
-            if (dateTimeType is null || dateTimeOffsetType is null)
-            {
-                return;
-            }
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
+                ?? throw new InvalidOperationException("System.DateTime type not found in compilation.");
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
+                ?? throw new InvalidOperationException("System.DateTimeOffset type not found in compilation.");
 
             // Check if source is DateTime and target is DateTimeOffset
             if (SymbolEqualityComparer.Default.Equals(sourceType, dateTimeType) && 
@@ -73,13 +70,10 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
-            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-
-            if (dateTimeType is null || dateTimeOffsetType is null)
-            {
-                return;
-            }
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
+                ?? throw new InvalidOperationException("System.DateTime type not found in compilation.");
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
+                ?? throw new InvalidOperationException("System.DateTimeOffset type not found in compilation.");
 
             // For binary operations, check if either operand is DateTime and the other is DateTimeOffset
             // This catches cases where IConversionOperation nodes are not created (e.g., property access)
