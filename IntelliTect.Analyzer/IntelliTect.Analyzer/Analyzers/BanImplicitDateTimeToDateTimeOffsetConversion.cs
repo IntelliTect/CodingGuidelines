@@ -39,17 +39,38 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (conversionOperation.Conversion.IsImplicit && conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
+            if (!conversionOperation.Conversion.IsImplicit)
+            {
+                return;
+            }
+
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
+
+            if (dateTimeOffsetType is null || dateTimeType is null)
+            {
+                return;
+            }
+
+            // Check via method symbol (original logic)
+            if (conversionOperation.Conversion.MethodSymbol is object && 
+                conversionOperation.Conversion.MethodSymbol.ContainingType is object)
             {
                 INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
-                INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
                 if (SymbolEqualityComparer.Default.Equals(containingType, dateTimeOffsetType))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
+                    return;
                 }
             }
 
-
+            // Fallback: Check via operand and type information
+            // This handles cases where MethodSymbol might not be populated (e.g., in some lambda contexts)
+            if (SymbolEqualityComparer.Default.Equals(conversionOperation.Operand?.Type, dateTimeType) &&
+                SymbolEqualityComparer.Default.Equals(conversionOperation.Type, dateTimeOffsetType))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
+            }
         }
 
         private void AnalyzeObjectCreation(OperationAnalysisContext context)

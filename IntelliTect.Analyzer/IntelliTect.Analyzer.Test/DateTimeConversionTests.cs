@@ -205,6 +205,154 @@ namespace ConsoleApp47
 
         }
 
+        [TestMethod]
+        public void UsageOfDateTimeInWhereLambda_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ConsoleApp48
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var list = new List<DateTimeOffset>();
+            DateTime dt = DateTime.Now;
+            
+            var query1 = list.Where(item => item < dt);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 14, 43)
+                                   ]
+                           });
+
+        }
+
+        [TestMethod]
+        public void UsageOfDateTimeInRemoveAllLambda_ProducesWarningMessage()
+        {
+            // This test shows that RemoveAll lambda DOES trigger warning
+            string source = @"
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp48a
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var list = new List<DateTimeOffset>();
+            DateTime dt = DateTime.Now;
+            
+            list.RemoveAll(item => item < dt);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 14, 43)
+                                   ]
+                           });
+
+        }
+
+        [TestMethod]
+        public void UsageOfDateTimeInLocalFunction_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+using System.Linq;
+using System.Collections.Generic;
+
+namespace ConsoleApp49
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var list = new List<DateTimeOffset>();
+            DateTime dt = DateTime.Now;
+            
+            bool Compare(DateTimeOffset item)
+            {
+                return item < dt;
+            }
+            
+            var query = list.Where(Compare);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 17, 31)
+                                   ]
+                           });
+
+        }
+
+        [TestMethod]
+        public void UsageOfDateTimePropertyInSimpleLambda_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+using System.Collections.Generic;
+
+namespace ConsoleApp49
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            var list = new List<DateTimeOffset>();
+            DateTime dt = DateTime.Now;
+            
+            list.RemoveAll(item => item < dt);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 14, 43)
+                                   ]
+                           });
+
+        }
+
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
             return new Analyzers.BanImplicitDateTimeToDateTimeOffsetConversion();
