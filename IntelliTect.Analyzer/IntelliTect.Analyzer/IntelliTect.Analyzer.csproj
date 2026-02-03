@@ -23,7 +23,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" PrivateAssets="all" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" PrivateAssets="all" />
     <PackageReference Include="Microsoft.CodeAnalysis.NetAnalyzers">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -36,9 +36,14 @@
     <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
 
+  <Target Name="EnsureCodeFixesProjectBuilt" BeforeTargets="GenerateNuspec">
+    <MSBuild Projects="..\IntelliTect.Analyzer.CodeFixes\IntelliTect.Analyzer.CodeFixes.csproj" Targets="Build" Properties="Configuration=$(Configuration)" />
+  </Target>
+
   <ItemGroup>
     <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
     <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    <None Include="..\IntelliTect.Analyzer.CodeFixes\bin\$(Configuration)\$(TargetFramework)\IntelliTect.Analyzer.CodeFixes.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     <None Include="..\..\intellitect-avatar.png" Pack="true" PackagePath="" />
     <None Include="..\..\README.md" Pack="true" PackagePath="" />
   </ItemGroup>
