@@ -127,7 +127,7 @@ namespace IntelliTect.Analyzer.Analyzers
 
             ImmutableArray<AttributeData> attributes = methodSymbol.GetAttributes();
             return attributes.Any(attribute =>
-                testAttributeNames.Contains(attribute.AttributeClass?.Name));
+                attribute.AttributeClass?.Name is string name && testAttributeNames.Contains(name));
         }
     }
 }
