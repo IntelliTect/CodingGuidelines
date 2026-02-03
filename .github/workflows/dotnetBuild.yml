@@ -52,11 +52,3 @@ jobs:
         trx-file-path: './TestResults/*.trx'
         test-outcomes: 'Failed'
         artifact-name: 'failed-tests-playlist'
-    
-    - name: Create All Tests Playlist
-      if: always()
-      uses: BenjaminMichaelis/trx-to-vsplaylist@v2
-      with:
-        trx-file-path: './TestResults/*.trx'
-        test-outcomes: 'Passed,Failed,NotExecuted,Inconclusive,Timeout,Pending'
-        artifact-name: 'all-tests-playlist'
