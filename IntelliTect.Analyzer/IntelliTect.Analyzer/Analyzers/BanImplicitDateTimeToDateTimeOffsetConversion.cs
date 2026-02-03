@@ -89,7 +89,7 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private void CheckBinaryOperandPair(OperationAnalysisContext context, IOperation operand, IOperation otherOperand, INamedTypeSymbol dateTimeType, INamedTypeSymbol dateTimeOffsetType)
         {
-            if (operand is null || operand.Type is null || otherOperand is null || otherOperand.Type is null)
+            if (operand?.Type is null || otherOperand?.Type is null)
             {
                 return;
             }
