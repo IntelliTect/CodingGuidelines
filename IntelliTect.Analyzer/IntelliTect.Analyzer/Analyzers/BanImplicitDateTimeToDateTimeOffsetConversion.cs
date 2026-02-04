@@ -28,41 +28,66 @@ namespace IntelliTect.Analyzer.Analyzers
 
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
             context.EnableConcurrentExecution();
-            context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Conversion);
-            context.RegisterOperationAction(AnalyzeObjectCreation, OperationKind.ObjectCreation);
+            
+            context.RegisterCompilationStartAction(compilationContext =>
+            {
+                INamedTypeSymbol dateTimeOffsetType = compilationContext.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+                INamedTypeSymbol dateTimeType = compilationContext.Compilation.GetTypeByMetadataName("System.DateTime");
+                
+                if (dateTimeOffsetType is null || dateTimeType is null)
+                {
+                    return;
+                }
+                
+                compilationContext.RegisterOperationAction(
+                    operationContext => AnalyzeConversion(operationContext, dateTimeOffsetType, dateTimeType), 
+                    OperationKind.Conversion);
+                compilationContext.RegisterOperationAction(
+                    operationContext => AnalyzeObjectCreation(operationContext, dateTimeOffsetType, dateTimeType), 
+                    OperationKind.ObjectCreation);
+            });
         }
 
-        private void AnalyzeInvocation(OperationAnalysisContext context)
+
+        private void AnalyzeConversion(OperationAnalysisContext context, INamedTypeSymbol dateTimeOffsetType, INamedTypeSymbol dateTimeType)
         {
             if (context.Operation is not IConversionOperation conversionOperation)
             {
                 return;
             }
 
-            if (conversionOperation.Conversion.IsImplicit && conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
+            if (!conversionOperation.Conversion.IsImplicit)
+            {
+                return;
+            }
+
+            // Check via method symbol (original logic)
+            if (conversionOperation.Conversion.MethodSymbol is object && 
+                conversionOperation.Conversion.MethodSymbol.ContainingType is object)
             {
                 INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
-                INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
                 if (SymbolEqualityComparer.Default.Equals(containingType, dateTimeOffsetType))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
+                    return;
                 }
             }
 
-
+            // Fallback: Check via operand and type information
+            // This handles cases where MethodSymbol might not be populated (e.g., in some lambda contexts)
+            if (SymbolEqualityComparer.Default.Equals(conversionOperation.Operand?.Type, dateTimeType) &&
+                SymbolEqualityComparer.Default.Equals(conversionOperation.Type, dateTimeOffsetType))
+            {
+                context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
+            }
         }
 
-        private void AnalyzeObjectCreation(OperationAnalysisContext context)
+        private void AnalyzeObjectCreation(OperationAnalysisContext context, INamedTypeSymbol dateTimeOffsetType, INamedTypeSymbol dateTimeType)
         {
             if (context.Operation is not IObjectCreationOperation objectCreation)
             {
                 return;
             }
-
-            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
-                ?? throw new InvalidOperationException("Unable to find DateTimeOffset type");
-            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
-                ?? throw new InvalidOperationException("Unable to find DateTime type");
 
             // Check if we're creating a DateTimeOffset
             if (!SymbolEqualityComparer.Default.Equals(objectCreation.Type, dateTimeOffsetType))
