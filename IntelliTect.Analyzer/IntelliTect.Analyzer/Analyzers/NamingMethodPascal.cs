@@ -95,9 +95,61 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
+            // Skip test methods - they commonly use underscores for readability (e.g., "Method_Scenario_ExpectedResult")
+            if (IsTestMethod(namedTypeSymbol))
+            {
+                return;
+            }
+
             Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], name);
 
             context.ReportDiagnostic(diagnostic);
+        }
+
+        private static bool IsTestMethod(IMethodSymbol methodSymbol)
+        {
+            // Test framework namespaces - any method decorated with an attribute from these namespaces
+            // is considered a test method and exempt from PascalCase validation
+            string[] testFrameworkNamespaces = 
+            [
+                "Xunit",                                    // xUnit (note: namespace is "Xunit", not "XUnit")
+                "NUnit.Framework",                          // NUnit
+                "Microsoft.VisualStudio.TestTools.UnitTesting",  // MSTest
+                "TUnit.Core"                                // TUnit
+            ];
+
+            // Fallback attribute names - needed because our test infrastructure (DiagnosticVerifier)
+            // doesn't add references to test framework assemblies, so ContainingNamespace would be null
+            string[] commonTestAttributeNames =
+            [
+                "TestMethod", "TestMethodAttribute",        // MSTest
+                "Fact", "FactAttribute",                    // xUnit
+                "Theory", "TheoryAttribute",                // xUnit
+                "Test", "TestAttribute",                    // NUnit
+                "TestCase", "TestCaseAttribute",            // NUnit
+                "TestCaseSource", "TestCaseSourceAttribute" // NUnit
+            ];
+
+            ImmutableArray<AttributeData> attributes = methodSymbol.GetAttributes();
+            return attributes.Any(attribute =>
+            {
+                if (attribute.AttributeClass == null)
+                {
+                    return false;
+                }
+
+                // Check namespace first (works in production with proper assembly references)
+                string containingNamespace = attribute.AttributeClass.ContainingNamespace?.ToDisplayString();
+                if (containingNamespace != null && 
+                    testFrameworkNamespaces.Any(ns => containingNamespace.StartsWith(ns, StringComparison.Ordinal)))
+                {
+                    return true;
+                }
+
+                // Fallback: check attribute name (needed for test environment)
+                string attributeName = attribute.AttributeClass.Name;
+                return commonTestAttributeNames.Contains(attributeName);
+            });
         }
     }
 }

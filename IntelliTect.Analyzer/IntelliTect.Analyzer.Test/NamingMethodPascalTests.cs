@@ -442,6 +442,99 @@ namespace AspNetCore
             VerifyCSharpDiagnostic(test, expected1, expected2);
         }
 
+        [TestMethod]
+        [Description("Test method with underscores should not trigger INTL0003")]
+        public void TestMethodWithUnderscores_MSTest_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    namespace ConsoleApplication1
+    {
+        [TestClass]
+        public class TypeName
+        {   
+            [TestMethod]
+            public void FooThing_IsFooThing_HasFooThing() 
+            {
+                Assert.IsTrue(true);
+            } 
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        [Description("Test method with underscores should not trigger INTL0003 - xUnit Fact")]
+        public void TestMethodWithUnderscores_XunitFact_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using Xunit;
+
+    namespace ConsoleApplication1
+    {
+        public class TypeName
+        {   
+            [Fact]
+            public void FooThing_IsFooThing_HasFooThing() 
+            {
+                Assert.True(true);
+            } 
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        [Description("Test method with underscores should not trigger INTL0003 - xUnit Theory")]
+        public void TestMethodWithUnderscores_XunitTheory_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using Xunit;
+
+    namespace ConsoleApplication1
+    {
+        public class TypeName
+        {   
+            [Theory]
+            public void FooThing_IsFooThing_HasFooThing() 
+            {
+                Assert.True(true);
+            } 
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
+        [TestMethod]
+        [Description("Test method with underscores should not trigger INTL0003 - NUnit Test")]
+        public void TestMethodWithUnderscores_NUnitTest_NoDiagnosticInformationReturned()
+        {
+            string test = @"
+    using System;
+    using NUnit.Framework;
+
+    namespace ConsoleApplication1
+    {
+        public class TypeName
+        {   
+            [Test]
+            public void FooThing_IsFooThing_HasFooThing() 
+            {
+                Assert.That(true, Is.True);
+            } 
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
