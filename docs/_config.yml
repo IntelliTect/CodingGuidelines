@@ -18,6 +18,7 @@ title: IntelliTect Guidelines
 description: IntelliTect's guidelines for coding and architecture. Documentation for IntelliTect's .NET Compiler Platform (Roslyn) Analyzers.
 baseurl: "/CodingGuidelines" # the subpath of your site, e.g. /blog
 url: "https://intellitect.github.io/" # the base hostname & protocol for your site, e.g. http://example.com
+repository: IntelliTect/CodingGuidelines
 
 # Build settings
 markdown: kramdown
