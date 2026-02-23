@@ -20,7 +20,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: fastify/github-action-merge-dependabot@v3.10.1
+      - uses: fastify/github-action-merge-dependabot@v3.11.2
         with:
             use-github-auto-merge: true
 
@@ -29,10 +29,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
+      uses: actions/checkout@v6
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v4
+      uses: actions/setup-dotnet@v5
       with:
         global-json-file: "./global.json"
 
@@ -43,4 +43,12 @@ jobs:
       run: dotnet build -p:ContinuousIntegrationBuild=True --no-restore --configuration Release
 
     - name: Test
-      run: dotnet test --no-build --configuration Release --verbosity normal
+      run: dotnet test --no-build --configuration Release --verbosity normal --logger trx --results-directory ./TestResults
+    
+    - name: Create Failed Tests Playlist
+      if: always()
+      uses: BenjaminMichaelis/trx-to-vsplaylist@v3
+      with:
+        trx-file-path: './TestResults/*.trx'
+        test-outcomes: 'Failed'
+        artifact-name: 'failed-tests-playlist'
