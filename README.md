@@ -7,7 +7,7 @@
 [Coding Snippets Extension](https://marketplace.visualstudio.com/items?itemName=IntelliTect.intellitectsnippets)
 
 # Coding Guidelines / Design Guidelines
-A repository to contain IntelliTect's tools for coding conventions. ~~[https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingGuidelines/)~~ 
+~~A repository to contain IntelliTect's tools for coding conventions. [https://intellitect.github.io/CodingGuidelines/](https://intellitect.github.io/CodingGuidelines/)~~ 
 
 Coding Guidelines are now generated and hosted at: https://essentialcsharp.com/guidelines
 
