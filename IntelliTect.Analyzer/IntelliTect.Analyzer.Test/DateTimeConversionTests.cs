@@ -205,6 +205,140 @@ namespace ConsoleApp47
 
         }
 
+        [TestMethod]
+        public void ImplicitConversionInPropertyComparisonInsideLambda_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+
+namespace ConsoleApp53
+{
+    class TimeEntry
+    {
+        public DateTimeOffset EndDate { get; set; }
+    }
+
+    class Program
+    {
+        static DateTimeOffset EndDate { get; set; }
+
+        static void Main(string[] args)
+        {
+            TimeEntry entry = new TimeEntry();
+            Func<bool> check = () => entry.EndDate <= EndDate.Date.AddDays(1).AddTicks(-1);
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 18, 55)
+                                   ]
+                           });
+        }
+
+        [TestMethod]
+        public void ImplicitConversionInExpressionTreeLambda_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+using System.Linq.Expressions;
+
+namespace ConsoleApp54
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Expression<Func<DateTimeOffset, bool>> expr = dto => dto > DateTime.Now;
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 11, 72)
+                                   ]
+                           });
+        }
+
+        [TestMethod]
+        public void NullableDateTimeToNullableDateTimeOffsetAssignment_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+
+namespace ConsoleApp55
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            DateTime? dt = DateTime.Now;
+            DateTimeOffset? dto = dt;
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 11, 35)
+                                   ]
+                           });
+        }
+
+        [TestMethod]
+        public void ImplicitConversionInMethodReturnStatement_ProducesWarningMessage()
+        {
+            string source = @"
+using System;
+
+namespace ConsoleApp57
+{
+    class Program
+    {
+        static DateTimeOffset GetDateTimeOffset()
+        {
+            return DateTime.Now;
+        }
+
+        static void Main(string[] args)
+        {
+        }
+    }
+}";
+
+            VerifyCSharpDiagnostic(source,
+                           new DiagnosticResult
+                           {
+                               Id = "INTL0202",
+                               Severity = DiagnosticSeverity.Warning,
+                               Message = "Using 'DateTimeOffset.implicit operator DateTimeOffset(DateTime)' or 'new DateTimeOffset(DateTime)' can result in unpredictable behavior",
+                               Locations =
+                                   [
+                            new DiagnosticResultLocation("Test0.cs", 10, 20)
+                                   ]
+                           });
+        }
+
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
             return new Analyzers.BanImplicitDateTimeToDateTimeOffsetConversion();

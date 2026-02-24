@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Linq.Expressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -19,6 +20,7 @@ namespace TestHelper
         private static readonly MetadataReference _SystemCoreReference = MetadataReference.CreateFromFile(typeof(Enumerable).Assembly.Location);
         private static readonly MetadataReference _CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
         private static readonly MetadataReference _CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
+        private static readonly MetadataReference _LinqExpressionsReference = MetadataReference.CreateFromFile(typeof(Expression<>).Assembly.Location);
 
         internal static string DefaultFilePathPrefix = "Test";
         internal static string CSharpDefaultFileExt = "cs";
@@ -158,7 +160,8 @@ namespace TestHelper
                     .AddMetadataReference(projectId, _CorlibReference)
                     .AddMetadataReference(projectId, _SystemCoreReference)
                     .AddMetadataReference(projectId, _CSharpSymbolsReference)
-                    .AddMetadataReference(projectId, _CodeAnalysisReference);
+                    .AddMetadataReference(projectId, _CodeAnalysisReference)
+                    .AddMetadataReference(projectId, _LinqExpressionsReference);
             }
 
             int count = 0;
