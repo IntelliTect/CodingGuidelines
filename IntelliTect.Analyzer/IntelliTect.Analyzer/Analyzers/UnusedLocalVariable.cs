@@ -39,7 +39,11 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             if (context.Node is MethodDeclarationSyntax method && method.Body != null)
             {
-                DataFlowAnalysis dataFlow = context.SemanticModel.AnalyzeDataFlow(method.Body);
+                DataFlowAnalysis? dataFlow = context.SemanticModel.AnalyzeDataFlow(method.Body);
+                if (dataFlow is null)
+                {
+                    return;
+                }
 
                 ImmutableArray<ISymbol> variablesDeclared = dataFlow.VariablesDeclared;
                 IEnumerable<ISymbol> variablesRead = dataFlow.ReadInside.Union(dataFlow.ReadOutside,

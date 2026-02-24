@@ -61,7 +61,9 @@ namespace TestHelper
             var diagnostics = new List<Diagnostic>();
             foreach (Project project in projects)
             {
-                CompilationWithAnalyzers compilationWithAnalyzers = project.GetCompilationAsync().Result.WithAnalyzers(ImmutableArray.Create(analyzer));
+                CompilationWithAnalyzers compilationWithAnalyzers = (project.GetCompilationAsync().Result
+                    ?? throw new InvalidOperationException("Could not get compilation"))
+                    .WithAnalyzers(ImmutableArray.Create(analyzer));
                 ImmutableArray<Diagnostic> diags = compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().Result;
                 foreach (Diagnostic diag in diags)
                 {
@@ -74,7 +76,7 @@ namespace TestHelper
                         for (int i = 0; i < documents.Length; i++)
                         {
                             Document document = documents[i];
-                            SyntaxTree tree = document.GetSyntaxTreeAsync().Result;
+                            SyntaxTree? tree = document.GetSyntaxTreeAsync().Result;
                             if (tree == diag.Location.SourceTree)
                             {
                                 diagnostics.Add(diag);
@@ -173,7 +175,8 @@ namespace TestHelper
                 count++;
             }
 
-            return solution.GetProject(projectId);
+            return solution.GetProject(projectId)
+                ?? throw new InvalidOperationException("Could not get project from solution");
         }
         #endregion
     }

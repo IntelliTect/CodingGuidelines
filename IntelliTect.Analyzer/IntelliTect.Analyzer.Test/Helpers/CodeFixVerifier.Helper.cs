@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
@@ -26,7 +27,8 @@ namespace TestHelper
         {
             System.Collections.Immutable.ImmutableArray<CodeActionOperation> operations = await codeAction.GetOperationsAsync(CancellationToken.None);
             Solution solution = operations.OfType<ApplyChangesOperation>().Single().ChangedSolution;
-            return solution.GetDocument(document.Id);
+            return solution.GetDocument(document.Id)
+                ?? throw new InvalidOperationException("Could not get document from solution");
         }
 
         /// <summary>
@@ -66,7 +68,8 @@ namespace TestHelper
         /// <returns>The compiler diagnostics that were found in the code</returns>
         private static IEnumerable<Diagnostic> GetCompilerDiagnostics(Document document)
         {
-            return document.GetSemanticModelAsync().Result.GetDiagnostics();
+            return (document.GetSemanticModelAsync().Result
+                ?? throw new InvalidOperationException("Could not get semantic model")).GetDiagnostics();
         }
 
         /// <summary>
@@ -77,7 +80,8 @@ namespace TestHelper
         private static string GetStringFromDocument(Document document)
         {
             Document simplifiedDoc = Simplifier.ReduceAsync(document, Simplifier.Annotation).Result;
-            SyntaxNode root = simplifiedDoc.GetSyntaxRootAsync().Result;
+            SyntaxNode root = simplifiedDoc.GetSyntaxRootAsync().Result
+                ?? throw new InvalidOperationException("Could not get syntax root");
             root = Formatter.Format(root, Formatter.Annotation, simplifiedDoc.Project.Solution.Workspace);
             return root.GetText().ToString();
         }

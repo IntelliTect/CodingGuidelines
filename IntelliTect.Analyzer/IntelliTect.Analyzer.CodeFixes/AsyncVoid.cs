@@ -26,13 +26,21 @@ namespace IntelliTect.Analyzer.CodeFixes
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            if (root is null)
+            {
+                return;
+            }
 
             Diagnostic diagnostic = context.Diagnostics.First();
             Microsoft.CodeAnalysis.Text.TextSpan diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the type declaration identified by the diagnostic.
             var declaration = root.FindToken(diagnosticSpan.Start).Parent as MethodDeclarationSyntax;
+            if (declaration is null)
+            {
+                return;
+            }
 
             // Register a code action that will invoke the fix.
             context.RegisterCodeFix(
@@ -45,7 +53,8 @@ namespace IntelliTect.Analyzer.CodeFixes
 
         private static async Task<Document> MakeReturnTask(Document document, MethodDeclarationSyntax declaration, CancellationToken cancellationToken)
         {
-            SyntaxNode root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+            SyntaxNode root = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false)
+                ?? throw new System.InvalidOperationException("Could not get syntax root");
             SyntaxNode newRoot = root.ReplaceNode(declaration.ReturnType, SyntaxFactory.ParseTypeName(typeof(Task).Name).WithTrailingTrivia(SyntaxFactory.Space));
             return document.WithSyntaxRoot(newRoot);
         }
