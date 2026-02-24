@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Threading.Tasks;
+using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TestHelper;
@@ -74,7 +76,199 @@ namespace ConsoleApp5
             return new Analyzers.FavorDirectoryEnumerationCalls();
         }
 
+        protected override CodeFixProvider GetCSharpCodeFixProvider()
+        {
+            return new CodeFixes.FavorDirectoryEnumerationCalls();
+        }
 
+        [TestMethod]
+        public async Task GetFiles_AssignedToStringArray_CodeFix_WrapsWithToArray()
+        {
+            string source = @"using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
+
+            foreach (string file in files)
+            {
+                Console.WriteLine($""File found: ${file}"");
+            }
+        }
+    }
+}";
+            string fixedSource = @"using System;
+using System.IO;
+using System.Linq;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] files = Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory).ToArray();
+
+            foreach (string file in files)
+            {
+                Console.WriteLine($""File found: ${file}"");
+            }
+        }
+    }
+}";
+            await VerifyCSharpFix(source, fixedSource);
+        }
+
+        [TestMethod]
+        public async Task GetFiles_UsedInForeach_CodeFix_SimpleRename()
+        {
+            string source = @"using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            foreach (string file in Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Console.WriteLine(file);
+            }
+        }
+    }
+}";
+            string fixedSource = @"using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            foreach (string file in Directory.EnumerateFiles(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Console.WriteLine(file);
+            }
+        }
+    }
+}";
+            await VerifyCSharpFix(source, fixedSource);
+        }
+
+        [TestMethod]
+        public async Task GetDirectories_AssignedToStringArray_CodeFix_WrapsWithToArray()
+        {
+            string source = @"using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] dirs = Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
+
+            foreach (string dir in dirs)
+            {
+                Console.WriteLine($""Directory found: ${dir}"");
+            }
+        }
+    }
+}";
+            string fixedSource = @"using System;
+using System.IO;
+using System.Linq;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string[] dirs = Directory.EnumerateDirectories(AppDomain.CurrentDomain.BaseDirectory).ToArray();
+
+            foreach (string dir in dirs)
+            {
+                Console.WriteLine($""Directory found: ${dir}"");
+            }
+        }
+    }
+}";
+            await VerifyCSharpFix(source, fixedSource);
+        }
+
+        [TestMethod]
+        public async Task GetDirectories_UsedInForeach_CodeFix_SimpleRename()
+        {
+            string source = @"using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            foreach (string dir in Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Console.WriteLine(dir);
+            }
+        }
+    }
+}";
+            string fixedSource = @"using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            foreach (string dir in Directory.EnumerateDirectories(AppDomain.CurrentDomain.BaseDirectory))
+            {
+                Console.WriteLine(dir);
+            }
+        }
+    }
+}";
+            await VerifyCSharpFix(source, fixedSource);
+        }
+
+        [TestMethod]
+        public async Task GetFiles_ExpressionBodiedMethod_CodeFix_WrapsWithToArray()
+        {
+            string source = @"using System;
+using System.IO;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static string[] GetAllFiles(string path) => Directory.GetFiles(path);
+    }
+}";
+            string fixedSource = @"using System;
+using System.IO;
+using System.Linq;
+
+namespace ConsoleApp5
+{
+    class Program
+    {
+        static string[] GetAllFiles(string path) => Directory.EnumerateFiles(path).ToArray();
+    }
+}";
+            await VerifyCSharpFix(source, fixedSource);
+        }
 
         [TestMethod]
         public void UsageOfDirectoryGetDirectories_ProducesInfoMessage()
