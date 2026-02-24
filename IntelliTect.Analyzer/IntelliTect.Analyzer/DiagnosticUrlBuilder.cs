@@ -3,9 +3,10 @@ using System.Text.RegularExpressions;
 
 namespace IntelliTect.Analyzer
 {
-    public static partial class DiagnosticUrlBuilder
+    public static class DiagnosticUrlBuilder
     {
         private const string BaseUrl = "https://github.com/IntelliTect/CodingGuidelines";
+        private static readonly Regex _HyphenateRegex = new(@"\s+", RegexOptions.Compiled);
 
         /// <summary>
         /// Get the full diagnostic help url
@@ -21,12 +22,9 @@ namespace IntelliTect.Analyzer
             if (string.IsNullOrWhiteSpace(diagnosticId))
                 throw new System.ArgumentException("diagnostic ID cannot be empty", nameof(diagnosticId));
 
-            string hyphenatedTitle = HyphenateRegex().Replace(title, "-");
+            string hyphenatedTitle = _HyphenateRegex.Replace(title, "-");
 
             return BaseUrl + $"#{diagnosticId.ToUpperInvariant()}" + $"---{hyphenatedTitle.ToUpperInvariant()}";
         }
-
-        [GeneratedRegex(@"\s", RegexOptions.Compiled)]
-        private static partial Regex HyphenateRegex();
     }
 }

@@ -87,10 +87,7 @@ namespace IntelliTect.Analyzer.Analyzers
             // For fully-qualified expressions like 'System.IO.Directory'
             if (expression is MemberAccessExpressionSyntax)
             {
-                ISymbol resolvedSymbol = symbolInfo.Symbol
-                    ?? (symbolInfo.CandidateSymbols.Length > 0 ? symbolInfo.CandidateSymbols[0] : null);
-
-                if (resolvedSymbol is INamedTypeSymbol namedType)
+                if (symbolInfo.Symbol is INamedTypeSymbol namedType)
                 {
                     return namedType.OriginalDefinition
                         .ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory";

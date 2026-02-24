@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
@@ -453,11 +452,9 @@ namespace IntelliTect.Analyzer.Tests
         }
 
         [TestMethod]
-        [Description("GeneratedCodeAttribute is checked by Name only, not full type — custom attribute with same name suppresses incorrectly")]
+        [Description("Custom GeneratedCodeAttribute in different namespace should not suppress diagnostics")]
         public void FieldWithNamingViolation_CustomGeneratedCodeAttribute_ShouldStillWarn()
         {
-            // A user-defined GeneratedCodeAttribute (different namespace) should NOT
-            // suppress the naming diagnostic, but the current code checks by Name only.
             string test = @"
     using System;
 

@@ -213,11 +213,8 @@ namespace ConsoleApp
         }
 
         [TestMethod]
-        [Description("Identifier comparison should use OrdinalIgnoreCase, not CurrentCultureIgnoreCase")]
         public void DirectoryIdentifier_CaseInsensitiveOrdinal_ProducesInfoMessage()
         {
-            // Verifies that an oddly-cased but valid Directory.GetFiles call is still caught.
-            // CurrentCultureIgnoreCase could fail in Turkish locale for identifiers with 'I'.
             string source = @"
 using System;
 using System.IO;
@@ -246,11 +243,9 @@ namespace ConsoleApp
         }
 
         [TestMethod]
-        [Description("Analyzer misses fully-qualified System.IO.Directory.GetFiles()")]
+        [Description("Detect fully-qualified System.IO.Directory.GetFiles()")]
         public void FullyQualifiedDirectoryGetFiles_ProducesInfoMessage()
         {
-            // The analyzer only checks IdentifierNameSyntax, so System.IO.Directory.GetFiles()
-            // is missed because the expression is a MemberAccessExpressionSyntax, not IdentifierNameSyntax.
             string source = @"
 using System;
 
@@ -278,7 +273,7 @@ namespace ConsoleApp
         }
 
         [TestMethod]
-        [Description("Analyzer misses fully-qualified System.IO.Directory.GetDirectories()")]
+        [Description("Detect fully-qualified System.IO.Directory.GetDirectories()")]
         public void FullyQualifiedDirectoryGetDirectories_ProducesInfoMessage()
         {
             string source = @"

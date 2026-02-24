@@ -52,8 +52,8 @@ namespace IntelliTect.Analyzer.Tests
         {
             string actual = DiagnosticUrlBuilder.GetUrl("Fields  Multiple\tSpaces", "INTL9999");
 
-            Assert.IsTrue(actual.Contains("FIELDS--MULTIPLE-SPACES", StringComparison.OrdinalIgnoreCase),
-                $"Expected all whitespace replaced with hyphens but got: '{actual}'");
+            Assert.IsTrue(actual.Contains("FIELDS-MULTIPLE-SPACES", StringComparison.OrdinalIgnoreCase),
+                $"Expected consecutive whitespace collapsed to a single hyphen but got: '{actual}'");
         }
     }
 }

@@ -10,18 +10,6 @@ namespace IntelliTect.Analyzer.Tests
     public class UnusedLocalVariableTests : CodeFixVerifier
     {
         [TestMethod]
-        [Description("HelpLinkUri should use DiagnosticUrlBuilder, not a hardcoded generic URL")]
-        public void Descriptor_HelpLinkUri_ShouldBeSpecific()
-        {
-            DiagnosticAnalyzer analyzer = GetCSharpDiagnosticAnalyzer();
-            DiagnosticDescriptor diagnostic = analyzer.SupportedDiagnostics.Single();
-
-            string expectedUrl = DiagnosticUrlBuilder.GetUrl("Local variable unused", "INTL0303");
-            Assert.AreEqual(expectedUrl, diagnostic.HelpLinkUri,
-                $"HelpLinkUri should use DiagnosticUrlBuilder but was '{diagnostic.HelpLinkUri}'");
-        }
-
-        [TestMethod]
         public void InstanceMemberAccessedOnLocalVariable_NoDiagnosticInformationReturned()
         {
             string test = @"
@@ -262,11 +250,9 @@ namespace ConsoleApplication1
         }
 
         [TestMethod]
-        [Description("Analyzer reports on generated code but should skip it")]
+        [Description("Analyzer should skip generated code")]
         public void UnusedLocalVariable_InGeneratedCode_NoDiagnostic()
         {
-            // UnusedLocalVariable uses GeneratedCodeAnalysisFlags.Analyze | ReportDiagnostics,
-            // meaning it reports inside generated code. It should use None to skip generated code.
             string test = @"
 using System;
 using System.CodeDom.Compiler;

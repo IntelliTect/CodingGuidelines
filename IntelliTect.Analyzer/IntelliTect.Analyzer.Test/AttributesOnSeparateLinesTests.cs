@@ -394,8 +394,6 @@ namespace ConsoleApp
         [Description("Analyzer should not report on generated code")]
         public void AttributesOnSameLine_InGeneratedCode_NoDiagnostic()
         {
-            // AttributesOnSeparateLines uses GeneratedCodeAnalysisFlags.Analyze | ReportDiagnostics,
-            // meaning it reports inside generated code. It should skip generated code.
             string test = @"using System;
 using System.CodeDom.Compiler;
 
