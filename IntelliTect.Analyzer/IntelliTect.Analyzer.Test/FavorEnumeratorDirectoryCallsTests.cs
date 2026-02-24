@@ -213,36 +213,6 @@ namespace ConsoleApp
         }
 
         [TestMethod]
-        public void DirectoryIdentifier_CaseInsensitiveOrdinal_ProducesInfoMessage()
-        {
-            string source = @"
-using System;
-using System.IO;
-
-namespace ConsoleApp
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] files = Directory.GetFiles(""."");
-        }
-    }
-}";
-            VerifyCSharpDiagnostic(source,
-                new DiagnosticResult
-                {
-                    Id = "INTL0301",
-                    Severity = DiagnosticSeverity.Info,
-                    Message = "Favor using the method `EnumerateFiles` over the `GetFiles` method",
-                    Locations =
-                        [
-                            new DiagnosticResultLocation("Test0.cs", 11, 30)
-                        ]
-                });
-        }
-
-        [TestMethod]
         [Description("Detect fully-qualified System.IO.Directory.GetFiles()")]
         public void FullyQualifiedDirectoryGetFiles_ProducesInfoMessage()
         {

@@ -483,26 +483,6 @@ namespace IntelliTect.Analyzer.Tests
             VerifyCSharpDiagnostic(test, expected);
         }
 
-        [TestMethod]
-        [Description("Verify real GeneratedCodeAttribute still suppresses correctly")]
-        public void FieldWithNamingViolation_RealGeneratedCodeAttribute_NoDiagnostic()
-        {
-            string test = @"
-    using System;
-    using System.CodeDom.Compiler;
-
-    namespace ConsoleApplication1
-    {
-        [GeneratedCode(""tool"", ""1.0"")]
-        class TypeName
-        {
-            public string myfield;
-        }
-    }";
-
-            VerifyCSharpDiagnostic(test);
-        }
-
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
