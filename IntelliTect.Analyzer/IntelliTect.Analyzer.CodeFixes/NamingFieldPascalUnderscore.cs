@@ -27,7 +27,11 @@ namespace IntelliTect.Analyzer.CodeFixes
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            if (root is null)
+            {
+                return;
+            }
 
             Diagnostic diagnostic = context.Diagnostics.First();
             TextSpan diagnosticSpan = diagnostic.Location.SourceSpan;
@@ -50,8 +54,16 @@ namespace IntelliTect.Analyzer.CodeFixes
             string nameWithoutUnderscore = nameOfField.TrimStart('_');
             string newName = "_" + char.ToUpper(nameWithoutUnderscore.First()) + nameWithoutUnderscore.Substring(1);
 
-            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
-            ISymbol symbol = semanticModel.GetDeclaredSymbol(declaration.Parent, cancellationToken);
+            SemanticModel? semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+            if (semanticModel is null || declaration.Parent is null)
+            {
+                return document.Project.Solution;
+            }
+            ISymbol? symbol = semanticModel.GetDeclaredSymbol(declaration.Parent, cancellationToken);
+            if (symbol is null)
+            {
+                return document.Project.Solution;
+            }
             Solution solution = document.Project.Solution;
             SymbolRenameOptions options = new()
             {

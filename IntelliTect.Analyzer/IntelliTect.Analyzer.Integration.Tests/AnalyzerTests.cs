@@ -34,7 +34,9 @@ namespace IntelliTect.Analyzer.Integration.Tests
             using var workspace = MSBuildWorkspace.Create();
             Project project = await workspace.OpenProjectAsync(projectFile.FullName).ConfigureAwait(false);
 
-            CompilationWithAnalyzers compilationWithAnalyzers = (await project.GetCompilationAsync().ConfigureAwait(false))
+            Compilation compilation = await project.GetCompilationAsync().ConfigureAwait(false)
+                ?? throw new InvalidOperationException("Could not get compilation");
+            CompilationWithAnalyzers compilationWithAnalyzers = compilation
                 .WithAnalyzers(ImmutableArray.Create(GetAnalyzers().ToArray()));
 
             ImmutableArray<Diagnostic> diags = await compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().ConfigureAwait(false);

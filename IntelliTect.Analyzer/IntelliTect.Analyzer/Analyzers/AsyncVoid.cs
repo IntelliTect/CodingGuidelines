@@ -35,7 +35,10 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static void AnalyzeSymbol(SymbolAnalysisContext context)
         {
-            var methodSymbol = context.Symbol as IMethodSymbol;
+            if (context.Symbol is not IMethodSymbol methodSymbol)
+            {
+                return;
+            }
 
             if (methodSymbol.IsAsync && methodSymbol.ReturnsVoid)
             {
