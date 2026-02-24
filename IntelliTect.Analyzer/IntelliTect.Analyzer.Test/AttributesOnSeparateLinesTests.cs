@@ -390,6 +390,33 @@ namespace ConsoleApp
             await VerifyCSharpFix(test, fixTest);
         }
 
+        [TestMethod]
+        [Description("Analyzer should not report on generated code")]
+        public void AttributesOnSameLine_InGeneratedCode_NoDiagnostic()
+        {
+            // AttributesOnSeparateLines uses GeneratedCodeAnalysisFlags.Analyze | ReportDiagnostics,
+            // meaning it reports inside generated code. It should skip generated code.
+            string test = @"using System;
+using System.CodeDom.Compiler;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute { }
+    class BAttribute : Attribute { }
+
+    [GeneratedCode(""tool"", ""1.0"")]
+    class Program
+    {
+        [A][B]
+        static void Main()
+        {
+        }
+    }
+}";
+            // Should NOT produce a diagnostic for attributes on same line inside generated code
+            VerifyCSharpDiagnostic(test);
+        }
+
         private static DiagnosticResult GetExpectedDiagnosticResult(int line, int col)
         {
             return new DiagnosticResult

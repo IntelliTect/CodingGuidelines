@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
@@ -449,6 +450,60 @@ namespace IntelliTect.Analyzer.Tests
             };
 
             VerifyCSharpDiagnostic(test, expected);
+        }
+
+        [TestMethod]
+        [Description("GeneratedCodeAttribute is checked by Name only, not full type — custom attribute with same name suppresses incorrectly")]
+        public void FieldWithNamingViolation_CustomGeneratedCodeAttribute_ShouldStillWarn()
+        {
+            // A user-defined GeneratedCodeAttribute (different namespace) should NOT
+            // suppress the naming diagnostic, but the current code checks by Name only.
+            string test = @"
+    using System;
+
+    namespace MyNamespace
+    {
+        class GeneratedCodeAttribute : Attribute { }
+
+        [GeneratedCode]
+        class TypeName
+        {
+            public string myfield;
+        }
+    }";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0001",
+                Message = "Field 'myfield' should be named _PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    [
+                        new DiagnosticResultLocation("Test0.cs", 11, 27)
+                    ]
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
+        [TestMethod]
+        [Description("Verify real GeneratedCodeAttribute still suppresses correctly")]
+        public void FieldWithNamingViolation_RealGeneratedCodeAttribute_NoDiagnostic()
+        {
+            string test = @"
+    using System;
+    using System.CodeDom.Compiler;
+
+    namespace ConsoleApplication1
+    {
+        [GeneratedCode(""tool"", ""1.0"")]
+        class TypeName
+        {
+            public string myfield;
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
         }
 
 

@@ -101,6 +101,28 @@ namespace IntelliTect.Analyzer.Tests
             await VerifyCSharpFix(test, fixTest, allowNewCompilerDiagnostics: true);
         }
 
+        [TestMethod]
+        [Description("Analyzer should not crash when encountering non-async non-void methods")]
+        public void NonAsyncNonVoidMethod_NoDiagnosticAndNoCrash()
+        {
+            // The analyzer uses 'as IMethodSymbol' then dereferences without null check.
+            // This test ensures it handles the method symbol safely.
+            string test = @"
+    using System;
+
+    namespace ConsoleApplication1
+    {
+        class TypeName
+        {
+            public void SyncMethod() { }
+            public int GetValue() => 42;
+            public static void StaticMethod() { }
+        }
+    }";
+
+            VerifyCSharpDiagnostic(test);
+        }
+
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
             return new CodeFixes.AsyncVoid();

@@ -10,6 +10,18 @@ namespace IntelliTect.Analyzer.Tests
     public class UnusedLocalVariableTests : CodeFixVerifier
     {
         [TestMethod]
+        [Description("HelpLinkUri should use DiagnosticUrlBuilder, not a hardcoded generic URL")]
+        public void Descriptor_HelpLinkUri_ShouldBeSpecific()
+        {
+            DiagnosticAnalyzer analyzer = GetCSharpDiagnosticAnalyzer();
+            DiagnosticDescriptor diagnostic = analyzer.SupportedDiagnostics.Single();
+
+            string expectedUrl = DiagnosticUrlBuilder.GetUrl("Local variable unused", "INTL0303");
+            Assert.AreEqual(expectedUrl, diagnostic.HelpLinkUri,
+                $"HelpLinkUri should use DiagnosticUrlBuilder but was '{diagnostic.HelpLinkUri}'");
+        }
+
+        [TestMethod]
         public void InstanceMemberAccessedOnLocalVariable_NoDiagnosticInformationReturned()
         {
             string test = @"
@@ -141,7 +153,7 @@ namespace ConsoleApplication1
             Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
             Assert.IsTrue(diagnostic.IsEnabledByDefault);
             Assert.AreEqual("All local variables should be accessed, or named with underscores to indicate they are unused.", diagnostic.Description);
-            Assert.AreEqual("https://github.com/IntelliTect/CodingGuidelines", diagnostic.HelpLinkUri);
+            Assert.AreEqual(DiagnosticUrlBuilder.GetUrl("Local variable unused", "INTL0303"), diagnostic.HelpLinkUri);
         }
 
         [TestMethod]
@@ -247,6 +259,31 @@ namespace ConsoleApplication1
                         ]
             };
             VerifyCSharpDiagnostic(test, result);
+        }
+
+        [TestMethod]
+        [Description("Analyzer reports on generated code but should skip it")]
+        public void UnusedLocalVariable_InGeneratedCode_NoDiagnostic()
+        {
+            // UnusedLocalVariable uses GeneratedCodeAnalysisFlags.Analyze | ReportDiagnostics,
+            // meaning it reports inside generated code. It should use None to skip generated code.
+            string test = @"
+using System;
+using System.CodeDom.Compiler;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {
+        [GeneratedCode(""tool"", ""1.0"")]
+        public void GeneratedMethod()
+        {
+            object foo = new object();
+        }
+    }
+}";
+            // Should NOT produce a diagnostic for unused variable inside generated code
+            VerifyCSharpDiagnostic(test);
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

@@ -339,6 +339,31 @@ namespace ConsoleApp57
                            });
         }
 
+        [TestMethod]
+        [Description("Analyzer should not throw when DateTimeOffset/DateTime types are unresolvable")]
+        public void AnyDateTimeOffsetConstructorWithUnresolvableTypes_DoesNotThrow()
+        {
+            // AnalyzeObjectCreation throws InvalidOperationException if GetTypeByMetadataName returns null.
+            // Analyzer callbacks must never throw. This test uses code that won't resolve System types.
+            string source = @"
+namespace ConsoleApp
+{
+    class DateTimeOffset
+    {
+        public DateTimeOffset(object arg) { }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            var dto = new DateTimeOffset(null);
+        }
+    }
+}";
+            VerifyCSharpDiagnostic(source);
+        }
+
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()
         {
             return new Analyzers.BanImplicitDateTimeToDateTimeOffsetConversion();

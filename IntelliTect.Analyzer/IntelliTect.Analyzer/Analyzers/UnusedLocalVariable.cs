@@ -16,10 +16,10 @@ namespace IntelliTect.Analyzer.Analyzers
         private const string MessageFormat = "Local variable '{0}' should be used";
         private const string Description = "All local variables should be accessed, or named with underscores to indicate they are unused.";
         private const string Category = "Flow";
-        private const string HelpLinkUri = "https://github.com/IntelliTect/CodingGuidelines";
+        private static readonly string _HelpLinkUri = DiagnosticUrlBuilder.GetUrl(Title, DiagnosticId);
 
         private static readonly DiagnosticDescriptor _Rule = new(DiagnosticId, Title, MessageFormat,
-            Category, DiagnosticSeverity.Info, isEnabledByDefault: true, description: Description, HelpLinkUri);
+            Category, DiagnosticSeverity.Info, isEnabledByDefault: true, description: Description, _HelpLinkUri);
 
         public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(_Rule);
 
@@ -30,7 +30,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 throw new System.ArgumentNullException(nameof(context));
             }
 
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
             context.RegisterSyntaxNodeAction(AnalyzeMethod, SyntaxKind.MethodDeclaration);
         }
