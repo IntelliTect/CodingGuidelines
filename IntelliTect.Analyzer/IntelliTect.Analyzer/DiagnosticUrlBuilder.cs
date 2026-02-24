@@ -6,6 +6,7 @@ namespace IntelliTect.Analyzer
     public static class DiagnosticUrlBuilder
     {
         private const string BaseUrl = "https://github.com/IntelliTect/CodingGuidelines";
+        private static readonly Regex _HyphenateRegex = new(@"\s+", RegexOptions.Compiled);
 
         /// <summary>
         /// Get the full diagnostic help url
@@ -21,8 +22,7 @@ namespace IntelliTect.Analyzer
             if (string.IsNullOrWhiteSpace(diagnosticId))
                 throw new System.ArgumentException("diagnostic ID cannot be empty", nameof(diagnosticId));
 
-            Regex hyphenateRegex = new Regex(@"\s");
-            string hyphenatedTitle = hyphenateRegex.Replace(title, "-");
+            string hyphenatedTitle = _HyphenateRegex.Replace(title, "-");
 
             return BaseUrl + $"#{diagnosticId.ToUpperInvariant()}" + $"---{hyphenatedTitle.ToUpperInvariant()}";
         }

@@ -451,6 +451,38 @@ namespace IntelliTect.Analyzer.Tests
             VerifyCSharpDiagnostic(test, expected);
         }
 
+        [TestMethod]
+        [Description("Custom GeneratedCodeAttribute in different namespace should not suppress diagnostics")]
+        public void FieldWithNamingViolation_CustomGeneratedCodeAttribute_ShouldStillWarn()
+        {
+            string test = @"
+    using System;
+
+    namespace MyNamespace
+    {
+        class GeneratedCodeAttribute : Attribute { }
+
+        [GeneratedCode]
+        class TypeName
+        {
+            public string myfield;
+        }
+    }";
+
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0001",
+                Message = "Field 'myfield' should be named _PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    [
+                        new DiagnosticResultLocation("Test0.cs", 11, 27)
+                    ]
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
+        }
+
 
         protected override CodeFixProvider GetCSharpCodeFixProvider()
         {
