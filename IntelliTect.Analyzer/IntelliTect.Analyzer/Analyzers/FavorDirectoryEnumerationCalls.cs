@@ -11,6 +11,9 @@ namespace IntelliTect.Analyzer.Analyzers
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class FavorDirectoryEnumerationCalls : DiagnosticAnalyzer
     {
+        public const string DiagnosticId301 = "INTL0301";
+        public const string DiagnosticId302 = "INTL0302";
+
         private const string Category = "Performance";
 
         private static readonly DiagnosticDescriptor _Rule301 = new(Rule301.DiagnosticId,
@@ -84,13 +87,13 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static class Rule301
         {
-            internal const string DiagnosticId = "INTL0301";
+            internal const string DiagnosticId = FavorDirectoryEnumerationCalls.DiagnosticId301;
             internal const string Title = "Favor using EnumerateFiles";
             internal const string MessageFormat = "Favor using the method `EnumerateFiles` over the `GetFiles` method";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
-#pragma warning restore INTL0001 
+#pragma warning restore INTL0001
 
             internal const string Description =
                 "When you use EnumerateFiles, you can start enumerating the collection of names before the whole collection is returned; when you use GetFiles, you must wait for the whole array of names to be returned before you can access the array. Therefore, when you are working with many files and directories, EnumerateFiles can be more efficient.";
@@ -98,13 +101,13 @@ namespace IntelliTect.Analyzer.Analyzers
 
         private static class Rule302
         {
-            internal const string DiagnosticId = "INTL0302";
+            internal const string DiagnosticId = FavorDirectoryEnumerationCalls.DiagnosticId302;
             internal const string Title = "Favor using EnumerateDirectories";
             internal const string MessageFormat = "Favor using the method `EnumerateDirectories` over the `GetDirectories` method";
 #pragma warning disable INTL0001 // Allow field to not be prefixed with an underscore to match the style
             internal static readonly string HelpMessageUri = DiagnosticUrlBuilder.GetUrl(Title,
                 DiagnosticId);
-#pragma warning restore INTL0001 
+#pragma warning restore INTL0001
 
             internal const string Description =
                 "When you use EnumerateDirectories, you can start enumerating the collection of names before the whole collection is returned; when you use GetDirectories, you must wait for the whole array of names to be returned before you can access the array. Therefore, when you are working with many files and directories, EnumerateDirectories can be more efficient.";
