@@ -29,7 +29,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 throw new System.ArgumentNullException(nameof(context));
             }
 
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
             context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.Property, SymbolKind.NamedType, SymbolKind.Method, SymbolKind.Field);
         }
