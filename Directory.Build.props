@@ -2,5 +2,6 @@
   <PropertyGroup>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <LangVersion>14.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>

@@ -22,7 +22,7 @@ namespace TestHelper
         /// Returns the codefix being tested (C#) - to be implemented in non-abstract class
         /// </summary>
         /// <returns>The CodeFixProvider to be used for CSharp code</returns>
-        protected virtual CodeFixProvider GetCSharpCodeFixProvider()
+        protected virtual CodeFixProvider? GetCSharpCodeFixProvider()
         {
             return null;
         }
@@ -31,7 +31,7 @@ namespace TestHelper
         /// Returns the codefix being tested (VB) - to be implemented in non-abstract class
         /// </summary>
         /// <returns>The CodeFixProvider to be used for VisualBasic code</returns>
-        protected virtual CodeFixProvider GetBasicCodeFixProvider()
+        protected virtual CodeFixProvider? GetBasicCodeFixProvider()
         {
             return null;
         }
@@ -73,8 +73,10 @@ namespace TestHelper
         /// <param name="newSource">A class in the form of a string after the CodeFix was applied to it</param>
         /// <param name="codeFixIndex">Index determining which codefix to apply if there are multiple</param>
         /// <param name="allowNewCompilerDiagnostics">A bool controlling whether or not the test will fail if the CodeFix introduces other warnings after being applied</param>
-        private static async Task VerifyFix(string language, DiagnosticAnalyzer analyzer, CodeFixProvider codeFixProvider, string oldSource, string newSource, int? codeFixIndex, bool allowNewCompilerDiagnostics)
+        private static async Task VerifyFix(string language, DiagnosticAnalyzer? analyzer, CodeFixProvider? codeFixProvider, string oldSource, string newSource, int? codeFixIndex, bool allowNewCompilerDiagnostics)
         {
+            ArgumentNullException.ThrowIfNull(analyzer);
+            ArgumentNullException.ThrowIfNull(codeFixProvider);
             Document document = CreateDocument(oldSource, language);
             Diagnostic[] analyzerDiagnostics = GetSortedDiagnosticsFromDocuments(analyzer, [document]);
             IEnumerable<Diagnostic> compilerDiagnostics = GetCompilerDiagnostics(document);
@@ -106,11 +108,11 @@ namespace TestHelper
                 if (!allowNewCompilerDiagnostics && newCompilerDiagnostics.Any())
                 {
                     // Format and get the compiler diagnostics again so that the locations make sense in the output
-                    document = document.WithSyntaxRoot(Formatter.Format(document.GetSyntaxRootAsync().Result, Formatter.Annotation, document.Project.Solution.Workspace));
+                    document = document.WithSyntaxRoot(Formatter.Format(document.GetSyntaxRootAsync().Result!, Formatter.Annotation, document.Project.Solution.Workspace));
                     newCompilerDiagnostics = GetNewDiagnostics(compilerDiagnostics, GetCompilerDiagnostics(document));
 
                     Assert.Fail($"Fix introduced new compiler diagnostics:{string.Join(Environment.NewLine, newCompilerDiagnostics.Select(d => d.ToString()))}" +
-                        $"{Environment.NewLine}{Environment.NewLine}New document:{Environment.NewLine}{document.GetSyntaxRootAsync().Result.ToFullString()}{Environment.NewLine}");
+                        $"{Environment.NewLine}{Environment.NewLine}New document:{Environment.NewLine}{document.GetSyntaxRootAsync().Result!.ToFullString()}{Environment.NewLine}");
                 }
 
                 //check if there are analyzer diagnostics left after the code fix

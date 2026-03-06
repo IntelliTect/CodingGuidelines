@@ -43,7 +43,11 @@ namespace IntelliTect.Analyzer.Analyzers
                 Dictionary<int, AttributeData> lineDictionary = [];
                 foreach (AttributeData attribute in namedTypeSymbol.GetAttributes())
                 {
-                    SyntaxReference applicationSyntaxReference = attribute.ApplicationSyntaxReference;
+                    SyntaxReference? applicationSyntaxReference = attribute.ApplicationSyntaxReference;
+                    if (applicationSyntaxReference is null)
+                    {
+                        continue;
+                    }
                     Microsoft.CodeAnalysis.Text.TextSpan textSpan = applicationSyntaxReference.Span;
                     SyntaxTree syntaxTree = applicationSyntaxReference.SyntaxTree;
                     FileLinePositionSpan lineSpan = syntaxTree.GetLineSpan(textSpan);
@@ -56,7 +60,7 @@ namespace IntelliTect.Analyzer.Analyzers
                     if (lineDictionary.ContainsKey(attributeLineNo) || symbolLineNumbers.Contains(attributeLineNo))
                     {
                         Location location = syntaxTree.GetLocation(textSpan);
-                        Diagnostic diagnostic = Diagnostic.Create(_Rule, location, attribute.AttributeClass.Name);
+                        Diagnostic diagnostic = Diagnostic.Create(_Rule, location, attribute.AttributeClass?.Name);
 
                         context.ReportDiagnostic(diagnostic);
                     }
