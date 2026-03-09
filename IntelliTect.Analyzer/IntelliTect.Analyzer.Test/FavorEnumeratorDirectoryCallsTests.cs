@@ -11,25 +11,27 @@ namespace IntelliTect.Analyzer.Tests
         [TestMethod]
         public void UsageOfDirectoryGetFiles_ProducesInfoMessage()
         {
-            string source = @"using System;
-using System.Diagnostics;
-using System.IO;
+            string source = """
+                using System;
+                using System.Diagnostics;
+                using System.IO;
 
-namespace ConsoleApp5
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
+                namespace ConsoleApp5
+                {
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
 
-            foreach (string file in files)
-            {
-                Console.WriteLine($""File found: ${file}"");
-            }
-        }
-    }
-}";
+                            foreach (string file in files)
+                            {
+                                Console.WriteLine($"File found: ${file}");
+                            }
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
@@ -46,26 +48,28 @@ namespace ConsoleApp5
         [TestMethod]
         public void DeclarationOfOtherDirectoryGetFiles_ProducesNothing()
         {
-            string source = @"using System;
-using System.Diagnostics;
-using System.IO;
+            string source = """
+                using System;
+                using System.Diagnostics;
+                using System.IO;
 
-namespace ConsoleApp5
-{
-    public static class Directory {
-        public static string[] GetFiles(string path) => Array.Empty<string>();
-    }
+                namespace ConsoleApp5
+                {
+                    public static class Directory {
+                        public static string[] GetFiles(string path) => Array.Empty<string>();
+                    }
 
 
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            string[] files = Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
 
-        }
-    }
-}";
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source);
         }
 
@@ -79,25 +83,27 @@ namespace ConsoleApp5
         [TestMethod]
         public void UsageOfDirectoryGetDirectories_ProducesInfoMessage()
         {
-            string source = @"using System;
-using System.Diagnostics;
-using System.IO;
+            string source = """
+                using System;
+                using System.Diagnostics;
+                using System.IO;
 
-namespace ConsoleApp5
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] files = Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
+                namespace ConsoleApp5
+                {
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            string[] files = Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
 
-            foreach (string file in files)
-            {
-                Console.WriteLine($""File found: ${file}"");
-            }
-        }
-    }
-}";
+                            foreach (string file in files)
+                            {
+                                Console.WriteLine($"File found: ${file}");
+                            }
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
@@ -114,26 +120,28 @@ namespace ConsoleApp5
         [TestMethod]
         public void DeclarationOfOtherDirectoryGetDirectories_ProducesNothing()
         {
-            string source = @"using System;
-using System.Diagnostics;
-using System.IO;
+            string source = """
+                using System;
+                using System.Diagnostics;
+                using System.IO;
 
-namespace ConsoleApp5
-{
-    public static class Directory {
-        public static string[] GetDirectories(string path) => Array.Empty<string>();
-    }
+                namespace ConsoleApp5
+                {
+                    public static class Directory {
+                        public static string[] GetDirectories(string path) => Array.Empty<string>();
+                    }
 
 
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] files = Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            string[] files = Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
 
-        }
-    }
-}";
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source);
         }
 
@@ -141,24 +149,25 @@ namespace ConsoleApp5
         [Description("Issue 53")]
         public void Diagnostic_HandlesMemberAccess()
         {
-            string source = @"
-using System;
+            string source = """
 
-namespace Namespace
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            int selection;
-            if (!int.TryParse(Console.ReadLine(), out selection))
-            {
-                selection = 0;
-            }
-        }
-    }
-}
-";
+                using System;
+
+                namespace Namespace
+                {
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            int selection;
+                            if (!int.TryParse(Console.ReadLine(), out selection))
+                            {
+                                selection = 0;
+                            }
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source);
         }
 
@@ -169,25 +178,27 @@ namespace Namespace
             // memberAccess.ChildNodes().Cast<IdentifierNameSyntax>() will throw
             // if any child node is not IdentifierNameSyntax (e.g. GenericNameSyntax).
             // This test uses a generic method call on a class named Directory.
-            string source = @"
-using System;
-using System.Collections.Generic;
+            string source = """
 
-namespace ConsoleApp
-{
-    public static class Directory
-    {
-        public static List<T> GetItems<T>() => new List<T>();
-    }
+                using System;
+                using System.Collections.Generic;
 
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var items = Directory.GetItems<string>();
-        }
-    }
-}";
+                namespace ConsoleApp
+                {
+                    public static class Directory
+                    {
+                        public static List<T> GetItems<T>() => new List<T>();
+                    }
+
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            var items = Directory.GetItems<string>();
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source);
         }
 
@@ -197,17 +208,19 @@ namespace ConsoleApp
         {
             // When symbol.Symbol is null it means the code has a compile error,
             // not that it's System.IO.Directory. Should not produce a false positive.
-            string source = @"
-namespace ConsoleApp
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            var files = Directory.GetFiles(""."");
-        }
-    }
-}";
+            string source = """
+
+                namespace ConsoleApp
+                {
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            var files = Directory.GetFiles(".");
+                        }
+                    }
+                }
+                """;
             // No 'using System.IO' so Directory is unresolvable — should NOT produce diagnostic
             VerifyCSharpDiagnostic(source);
         }
@@ -216,19 +229,21 @@ namespace ConsoleApp
         [Description("Detect fully-qualified System.IO.Directory.GetFiles()")]
         public void FullyQualifiedDirectoryGetFiles_ProducesInfoMessage()
         {
-            string source = @"
-using System;
+            string source = """
 
-namespace ConsoleApp
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] files = System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
-        }
-    }
-}";
+                using System;
+
+                namespace ConsoleApp
+                {
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            string[] files = System.IO.Directory.GetFiles(AppDomain.CurrentDomain.BaseDirectory);
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
@@ -246,19 +261,21 @@ namespace ConsoleApp
         [Description("Detect fully-qualified System.IO.Directory.GetDirectories()")]
         public void FullyQualifiedDirectoryGetDirectories_ProducesInfoMessage()
         {
-            string source = @"
-using System;
+            string source = """
 
-namespace ConsoleApp
-{
-    class Program
-    {
-        static void Main(string[] args)
-        {
-            string[] dirs = System.IO.Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
-        }
-    }
-}";
+                using System;
+
+                namespace ConsoleApp
+                {
+                    class Program
+                    {
+                        static void Main(string[] args)
+                        {
+                            string[] dirs = System.IO.Directory.GetDirectories(AppDomain.CurrentDomain.BaseDirectory);
+                        }
+                    }
+                }
+                """;
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
