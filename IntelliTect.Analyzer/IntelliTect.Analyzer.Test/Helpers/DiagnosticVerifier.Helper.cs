@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.CodeAnalysis;
@@ -21,6 +22,20 @@ namespace TestHelper
         private static readonly MetadataReference _CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
         private static readonly MetadataReference _CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
         private static readonly MetadataReference _LinqExpressionsReference = MetadataReference.CreateFromFile(typeof(Expression<>).Assembly.Location);
+        private static readonly MetadataReference _SystemRuntimeReference = GetSystemRuntimeReference();
+
+        private static MetadataReference GetSystemRuntimeReference()
+        {
+            string runtimeDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
+            if (string.IsNullOrEmpty(runtimeDir))
+            {
+                return null;
+            }
+            string systemRuntimePath = Path.Join(runtimeDir, "System.Runtime.dll");
+            return File.Exists(systemRuntimePath)
+                ? MetadataReference.CreateFromFile(systemRuntimePath)
+                : null;
+        }
 
         internal static string DefaultFilePathPrefix = "Test";
         internal static string CSharpDefaultFileExt = "cs";
@@ -162,6 +177,11 @@ namespace TestHelper
                     .AddMetadataReference(projectId, _CSharpSymbolsReference)
                     .AddMetadataReference(projectId, _CodeAnalysisReference)
                     .AddMetadataReference(projectId, _LinqExpressionsReference);
+
+                if (_SystemRuntimeReference != null)
+                {
+                    solution = solution.AddMetadataReference(projectId, _SystemRuntimeReference);
+                }
             }
 
             int count = 0;
