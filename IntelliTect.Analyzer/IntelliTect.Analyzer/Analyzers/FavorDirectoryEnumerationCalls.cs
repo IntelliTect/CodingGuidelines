@@ -40,7 +40,7 @@ namespace IntelliTect.Analyzer.Analyzers
             context.RegisterSyntaxNodeAction(AnalyzeInvocation, SyntaxKind.InvocationExpression);
         }
 
-        private void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
+        private static void AnalyzeInvocation(SyntaxNodeAnalysisContext context)
         {
             var expression = (InvocationExpressionSyntax)context.Node;
 
@@ -49,37 +49,52 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (memberAccess.Expression is not IdentifierNameSyntax nameSyntax)
+            string methodName = memberAccess.Name.Identifier.Text;
+
+            if (!IsDirectoryExpression(memberAccess.Expression, context))
             {
                 return;
             }
 
-            if (string.Equals(nameSyntax.Identifier.Text, "Directory", StringComparison.CurrentCultureIgnoreCase))
+            if (string.Equals(methodName, "GetFiles", StringComparison.OrdinalIgnoreCase))
             {
-                if (memberAccess.ChildNodes().Cast<IdentifierNameSyntax>().Any(x =>
-                        string.Equals(x.Identifier.Text, "GetFiles", StringComparison.CurrentCultureIgnoreCase)))
+                Location loc = memberAccess.GetLocation();
+                context.ReportDiagnostic(Diagnostic.Create(_Rule301, loc, memberAccess.Name));
+            }
+            else if (string.Equals(methodName, "GetDirectories", StringComparison.OrdinalIgnoreCase))
+            {
+                Location loc = memberAccess.GetLocation();
+                context.ReportDiagnostic(Diagnostic.Create(_Rule302, loc, memberAccess.Name));
+            }
+        }
+
+        private static bool IsDirectoryExpression(ExpressionSyntax expression, SyntaxNodeAnalysisContext context)
+        {
+            SymbolInfo symbolInfo = context.SemanticModel.GetSymbolInfo(expression);
+
+            // For simple identifiers like 'Directory'
+            if (expression is IdentifierNameSyntax)
+            {
+                if (symbolInfo.Symbol is null)
                 {
-                    // Unsure if this is the best way to determine if member was defined in the project.
-                    SymbolInfo symbol = context.SemanticModel.GetSymbolInfo(nameSyntax);
-                    if (symbol.Symbol == null || symbol.Symbol.OriginalDefinition.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory")
-                    {
-                        Location loc = memberAccess.GetLocation();
-                        context.ReportDiagnostic(Diagnostic.Create(_Rule301, loc, memberAccess.Name));
-                    }
+                    return false;
                 }
 
-                if (memberAccess.ChildNodes().Cast<IdentifierNameSyntax>().Any(x =>
-                    string.Equals(x.Identifier.Text, "GetDirectories", StringComparison.CurrentCultureIgnoreCase)))
+                return symbolInfo.Symbol.OriginalDefinition
+                    .ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory";
+            }
+
+            // For fully-qualified expressions like 'System.IO.Directory'
+            if (expression is MemberAccessExpressionSyntax)
+            {
+                if (symbolInfo.Symbol is INamedTypeSymbol namedType)
                 {
-                    // Unsure if this is the best way to determine if member was defined in the project.
-                    SymbolInfo symbol = context.SemanticModel.GetSymbolInfo(nameSyntax);
-                    if (symbol.Symbol is null || symbol.Symbol.OriginalDefinition.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory")
-                    {
-                        Location loc = memberAccess.GetLocation();
-                        context.ReportDiagnostic(Diagnostic.Create(_Rule302, loc, memberAccess.Name));
-                    }
+                    return namedType.OriginalDefinition
+                        .ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) == "global::System.IO.Directory";
                 }
             }
+
+            return false;
         }
 
         private static class Rule301

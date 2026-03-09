@@ -39,8 +39,7 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             var namedTypeSymbol = (IPropertySymbol)context.Symbol;
 
-            ImmutableArray<AttributeData> attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
-            if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
+            if (namedTypeSymbol.HasGeneratedCodeAttribute(context.Compilation))
             {
                 return;
             }
