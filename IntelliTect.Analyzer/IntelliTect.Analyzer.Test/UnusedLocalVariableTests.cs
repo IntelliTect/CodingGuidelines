@@ -141,7 +141,7 @@ namespace ConsoleApplication1
             Assert.AreEqual(DiagnosticSeverity.Info, diagnostic.DefaultSeverity);
             Assert.IsTrue(diagnostic.IsEnabledByDefault);
             Assert.AreEqual("All local variables should be accessed, or named with underscores to indicate they are unused.", diagnostic.Description);
-            Assert.AreEqual("https://github.com/IntelliTect/CodingGuidelines", diagnostic.HelpLinkUri);
+            Assert.AreEqual(DiagnosticUrlBuilder.GetUrl("Local variable unused", "INTL0303"), diagnostic.HelpLinkUri);
         }
 
         [TestMethod]
@@ -247,6 +247,29 @@ namespace ConsoleApplication1
                         ]
             };
             VerifyCSharpDiagnostic(test, result);
+        }
+
+        [TestMethod]
+        [Description("Analyzer should skip generated code")]
+        public void UnusedLocalVariable_InGeneratedCode_NoDiagnostic()
+        {
+            string test = @"
+using System;
+using System.CodeDom.Compiler;
+
+namespace ConsoleApplication1
+{
+    class TypeName
+    {
+        [GeneratedCode(""tool"", ""1.0"")]
+        public void GeneratedMethod()
+        {
+            object foo = new object();
+        }
+    }
+}";
+            // Should NOT produce a diagnostic for unused variable inside generated code
+            VerifyCSharpDiagnostic(test);
         }
 
         protected override DiagnosticAnalyzer GetCSharpDiagnosticAnalyzer()

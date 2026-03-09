@@ -39,9 +39,7 @@ namespace IntelliTect.Analyzer.Analyzers
         {
             ISymbol namedTypeSymbol = context.Symbol;
 
-            // ignore GeneratedCodeAttribute on field and first containing type
-            ImmutableArray<AttributeData> attributes = namedTypeSymbol.GetAttributes().AddRange(namedTypeSymbol.ContainingType.GetAttributes());
-            if (attributes.Any(attribute => attribute.AttributeClass?.Name == nameof(System.CodeDom.Compiler.GeneratedCodeAttribute)))
+            if (namedTypeSymbol.HasGeneratedCodeAttribute(context.Compilation))
             {
                 return;
             }
