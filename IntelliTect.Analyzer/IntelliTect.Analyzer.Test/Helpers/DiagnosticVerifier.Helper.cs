@@ -22,11 +22,11 @@ namespace TestHelper
         private static readonly MetadataReference _CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
         private static readonly MetadataReference _CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
         private static readonly MetadataReference _LinqExpressionsReference = MetadataReference.CreateFromFile(typeof(Expression<>).Assembly.Location);
-        private static readonly MetadataReference _SystemRuntimeReference = GetSystemRuntimeReference();
+        private static readonly MetadataReference? _SystemRuntimeReference = GetSystemRuntimeReference();
 
-        private static MetadataReference GetSystemRuntimeReference()
+        private static MetadataReference? GetSystemRuntimeReference()
         {
-            string runtimeDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
+            string? runtimeDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
             if (string.IsNullOrEmpty(runtimeDir))
             {
                 return null;
@@ -76,7 +76,9 @@ namespace TestHelper
             var diagnostics = new List<Diagnostic>();
             foreach (Project project in projects)
             {
-                CompilationWithAnalyzers compilationWithAnalyzers = project.GetCompilationAsync().Result.WithAnalyzers(ImmutableArray.Create(analyzer));
+                CompilationWithAnalyzers compilationWithAnalyzers = (project.GetCompilationAsync().Result
+                    ?? throw new InvalidOperationException("Could not get compilation"))
+                    .WithAnalyzers(ImmutableArray.Create(analyzer));
                 ImmutableArray<Diagnostic> diags = compilationWithAnalyzers.GetAnalyzerDiagnosticsAsync().Result;
                 foreach (Diagnostic diag in diags)
                 {
@@ -89,7 +91,7 @@ namespace TestHelper
                         for (int i = 0; i < documents.Length; i++)
                         {
                             Document document = documents[i];
-                            SyntaxTree tree = document.GetSyntaxTreeAsync().Result;
+                            SyntaxTree? tree = document.GetSyntaxTreeAsync().Result;
                             if (tree == diag.Location.SourceTree)
                             {
                                 diagnostics.Add(diag);
@@ -193,7 +195,8 @@ namespace TestHelper
                 count++;
             }
 
-            return solution.GetProject(projectId);
+            return solution.GetProject(projectId)
+                ?? throw new InvalidOperationException("Could not get project from solution");
         }
         #endregion
     }

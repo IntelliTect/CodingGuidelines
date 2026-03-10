@@ -18,7 +18,7 @@ namespace IntelliTect.Analyzer
         /// </summary>
         public static bool HasGeneratedCodeAttribute(this ISymbol symbol, Compilation compilation)
         {
-            INamedTypeSymbol generatedCodeAttribute = compilation
+            INamedTypeSymbol? generatedCodeAttribute = compilation
                 .GetTypeByMetadataName("System.CodeDom.Compiler.GeneratedCodeAttribute");
             if (generatedCodeAttribute is null) return false;
 

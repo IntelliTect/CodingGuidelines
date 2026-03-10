@@ -42,7 +42,11 @@ namespace IntelliTect.Analyzer.Analyzers
             if (conversionOperation.Conversion.IsImplicit && conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
             {
                 INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
-                INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+                INamedTypeSymbol? dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+                if (dateTimeOffsetType is null)
+                {
+                    return;
+                }
                 if (SymbolEqualityComparer.Default.Equals(containingType, dateTimeOffsetType))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
@@ -59,10 +63,12 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
-                ?? throw new InvalidOperationException("Unable to find DateTimeOffset type");
-            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
-                ?? throw new InvalidOperationException("Unable to find DateTime type");
+            INamedTypeSymbol? dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
+            INamedTypeSymbol? dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
+            if (dateTimeOffsetType is null || dateTimeType is null)
+            {
+                return;
+            }
 
             // Check if we're creating a DateTimeOffset
             if (!SymbolEqualityComparer.Default.Equals(objectCreation.Type, dateTimeOffsetType))

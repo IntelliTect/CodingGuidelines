@@ -30,16 +30,24 @@ namespace IntelliTect.Analyzer.CodeFixes
 
         public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
         {
-            SyntaxNode root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            SyntaxNode? root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
+            if (root is null)
+            {
+                return;
+            }
 
             Diagnostic diagnostic = context.Diagnostics.First();
             TextSpan diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // The diagnostic span covers the full invocation expression (Directory.GetFiles(...))
-            InvocationExpressionSyntax invocation = root.FindToken(diagnosticSpan.Start)
-                .Parent.AncestorsAndSelf()
+            InvocationExpressionSyntax? invocation = root.FindToken(diagnosticSpan.Start)
+                .Parent?.AncestorsAndSelf()
                 .OfType<InvocationExpressionSyntax>()
-                .First();
+                .FirstOrDefault();
+            if (invocation is null)
+            {
+                return;
+            }
 
             bool isGetFiles = diagnostic.Id == Analyzers.FavorDirectoryEnumerationCalls.DiagnosticId301;
             string title = isGetFiles ? TitleGetFiles : TitleGetDirectories;
@@ -61,7 +69,7 @@ namespace IntelliTect.Analyzer.CodeFixes
         {
             var memberAccess = (MemberAccessExpressionSyntax)invocation.Expression;
 
-            SemanticModel semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
+            SemanticModel? semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
 
             // Rename: Directory.GetFiles(...) → Directory.EnumerateFiles(...)
             InvocationExpressionSyntax renamedInvocation = invocation.WithExpression(
@@ -76,7 +84,8 @@ namespace IntelliTect.Analyzer.CodeFixes
                         SyntaxFactory.IdentifierName("ToArray")))
                 : renamedInvocation;
 
-            SyntaxNode oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false);
+            SyntaxNode oldRoot = await document.GetSyntaxRootAsync(cancellationToken).ConfigureAwait(false)
+                ?? throw new System.InvalidOperationException("Could not get syntax root");
             SyntaxNode newRoot = oldRoot.ReplaceNode(invocation, replacement.WithAdditionalAnnotations(Formatter.Annotation));
 
             if (replacement != renamedInvocation && newRoot is CompilationUnitSyntax compilationUnit)
@@ -89,10 +98,14 @@ namespace IntelliTect.Analyzer.CodeFixes
 
         private static bool NeedsToArrayWrapper(
             InvocationExpressionSyntax invocation,
-            SemanticModel semanticModel,
+            SemanticModel? semanticModel,
             CancellationToken ct)
         {
-            SyntaxNode parent = invocation.Parent;
+            if (semanticModel is null)
+            {
+                return false;
+            }
+            SyntaxNode? parent = invocation.Parent;
 
             // string[] files = Directory.GetFiles(...)  or field/property initializer
             if (parent is EqualsValueClauseSyntax equalsValue)
@@ -123,7 +136,7 @@ namespace IntelliTect.Analyzer.CodeFixes
             // return Directory.GetFiles(...)  in a method or local function returning string[]
             if (parent is ReturnStatementSyntax)
             {
-                TypeSyntax returnType = invocation.Ancestors()
+                TypeSyntax? returnType = invocation.Ancestors()
                     .Select(a => a switch
                     {
                         MethodDeclarationSyntax m => m.ReturnType,
@@ -141,7 +154,7 @@ namespace IntelliTect.Analyzer.CodeFixes
             // Expression-bodied members: string[] GetFiles() => Directory.GetFiles(...)
             if (parent is ArrowExpressionClauseSyntax arrow)
             {
-                TypeSyntax returnType = arrow.Parent switch
+                TypeSyntax? returnType = arrow.Parent switch
                 {
                     MethodDeclarationSyntax m => m.ReturnType,
                     LocalFunctionStatementSyntax lf => lf.ReturnType,
@@ -160,7 +173,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                 && argumentList.Parent is InvocationExpressionSyntax outerInvocation
                 && semanticModel.GetSymbolInfo(outerInvocation, ct).Symbol is IMethodSymbol outerMethod)
             {
-                IParameterSymbol targetParam;
+                IParameterSymbol? targetParam;
 
                 // Named argument: SomeMethod(param: Directory.GetFiles(...))
                 if (argument.NameColon != null)
