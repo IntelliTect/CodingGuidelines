@@ -22,11 +22,11 @@ namespace TestHelper
         private static readonly MetadataReference _CSharpSymbolsReference = MetadataReference.CreateFromFile(typeof(CSharpCompilation).Assembly.Location);
         private static readonly MetadataReference _CodeAnalysisReference = MetadataReference.CreateFromFile(typeof(Compilation).Assembly.Location);
         private static readonly MetadataReference _LinqExpressionsReference = MetadataReference.CreateFromFile(typeof(Expression<>).Assembly.Location);
-        private static readonly MetadataReference _SystemRuntimeReference = GetSystemRuntimeReference();
+        private static readonly MetadataReference? _SystemRuntimeReference = GetSystemRuntimeReference();
 
-        private static MetadataReference GetSystemRuntimeReference()
+        private static MetadataReference? GetSystemRuntimeReference()
         {
-            string runtimeDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
+            string? runtimeDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
             if (string.IsNullOrEmpty(runtimeDir))
             {
                 return null;
