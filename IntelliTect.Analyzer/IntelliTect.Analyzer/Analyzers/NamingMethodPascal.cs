@@ -105,27 +105,15 @@ namespace IntelliTect.Analyzer.Analyzers
             context.ReportDiagnostic(diagnostic);
         }
 
-        // Test framework namespaces — any method decorated with an attribute from these namespaces
-        // is considered a test method and exempt from PascalCase validation.
+        // Test framework namespaces — any method decorated with an attribute whose namespace
+        // exactly matches or starts with one of these is exempt from PascalCase validation.
         // To add a new framework, append its root namespace here and update TestFrameworkReferences.cs.
-        private static readonly string[] s_testFrameworkNamespaces =
+        private static readonly string[] _TestFrameworkNamespaces =
         [
             "Xunit",                                         // xUnit (namespace is "Xunit", not "XUnit")
             "NUnit.Framework",                               // NUnit
             "Microsoft.VisualStudio.TestTools.UnitTesting",  // MSTest
             "TUnit.Core"                                     // TUnit
-        ];
-
-        // Fallback attribute names for compilations without framework assembly references.
-        // Only used when the attribute type is unresolved (TypeKind.Error).
-        private static readonly string[] s_commonTestAttributeNames =
-        [
-            "TestMethod", "TestMethodAttribute",         // MSTest
-            "Fact", "FactAttribute",                     // xUnit
-            "Theory", "TheoryAttribute",                 // xUnit
-            "Test", "TestAttribute",                     // NUnit / TUnit
-            "TestCase", "TestCaseAttribute",             // NUnit
-            "TestCaseSource", "TestCaseSourceAttribute"  // NUnit
         ];
 
         private static bool IsTestMethod(IMethodSymbol methodSymbol)
@@ -138,22 +126,11 @@ namespace IntelliTect.Analyzer.Analyzers
                     return false;
                 }
 
-                // Check namespace first — works whenever the compilation includes real framework references.
-                string containingNamespace = attribute.AttributeClass.ContainingNamespace?.ToDisplayString();
-                if (containingNamespace != null &&
-                    s_testFrameworkNamespaces.Any(ns => containingNamespace.StartsWith(ns, StringComparison.Ordinal)))
-                {
-                    return true;
-                }
-
-                // Fallback: check by name only for unresolved types (missing assembly reference in compilation).
-                // Gated on TypeKind.Error to avoid false negatives for user-defined attributes with the same names.
-                if (attribute.AttributeClass.TypeKind == TypeKind.Error)
-                {
-                    return s_commonTestAttributeNames.Contains(attribute.AttributeClass.Name);
-                }
-
-                return false;
+                string? containingNamespace = attribute.AttributeClass.ContainingNamespace?.ToDisplayString();
+                return containingNamespace != null &&
+                    _TestFrameworkNamespaces.Any(ns =>
+                        string.Equals(containingNamespace, ns, StringComparison.Ordinal) ||
+                        containingNamespace.StartsWith(ns + ".", StringComparison.Ordinal));
             });
         }
     }
