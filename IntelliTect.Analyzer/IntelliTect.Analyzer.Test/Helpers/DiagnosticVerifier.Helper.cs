@@ -184,6 +184,11 @@ namespace TestHelper
                 {
                     solution = solution.AddMetadataReference(projectId, _SystemRuntimeReference);
                 }
+
+                foreach (MetadataReference frameworkReference in TestFrameworkReferences.AllReferences)
+                {
+                    solution = solution.AddMetadataReference(projectId, frameworkReference);
+                }
             }
 
             int count = 0;

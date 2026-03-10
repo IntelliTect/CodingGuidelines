@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeFixes;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -442,33 +444,35 @@ namespace AspNetCore
             VerifyCSharpDiagnostic(test, expected1, expected2);
         }
 
+        public static IEnumerable<object[]> TestFrameworks =>
+            TestFrameworkReferences.All.Select(f => new object[] { f.Name, f.TestAttribute, f.UsingDirective });
+
         [TestMethod]
-        [Description("Test method with underscores should not trigger INTL0003")]
-        public void TestMethodWithUnderscores_MSTest_NoDiagnosticInformationReturned()
+        [DynamicData(nameof(TestFrameworks))]
+        [Description("Issue 371 - Test method with underscores should not trigger INTL0003 for any supported framework")]
+        public void TestMethodWithUnderscores_TestFrameworkAttribute_NoDiagnosticInformationReturned(
+            string frameworkName, string testAttribute, string usingDirective)
         {
-            string test = @"
+            _ = frameworkName; // parameter used for test identification in output
+            string test = $@"
     using System;
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    {usingDirective}
 
     namespace ConsoleApplication1
-    {
-        [TestClass]
+    {{
         public class TypeName
-        {   
-            [TestMethod]
-            public void FooThing_IsFooThing_HasFooThing() 
-            {
-                Assert.IsTrue(true);
-            } 
-        }
-    }";
+        {{
+            {testAttribute}
+            public void FooThing_IsFooThing_HasFooThing() {{ }}
+        }}
+    }}";
 
             VerifyCSharpDiagnostic(test);
         }
 
         [TestMethod]
-        [Description("Test method with underscores should not trigger INTL0003 - xUnit Fact")]
-        public void TestMethodWithUnderscores_XunitFact_NoDiagnosticInformationReturned()
+        [Description("Issue 371 - Non-test method with underscores in a test class should still trigger INTL0003")]
+        public void NonTestMethodWithUnderscores_InTestClass_DiagnosticReturned()
         {
             string test = @"
     using System;
@@ -477,62 +481,61 @@ namespace AspNetCore
     namespace ConsoleApplication1
     {
         public class TypeName
-        {   
+        {
             [Fact]
-            public void FooThing_IsFooThing_HasFooThing() 
-            {
-                Assert.True(true);
-            } 
+            public void FooThing_IsFooThing_HasFooThing() { }
+
+            public void helper_setup() { }
         }
     }";
 
-            VerifyCSharpDiagnostic(test);
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0003",
+                Message = "Method 'helper_setup' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    [
+                        new DiagnosticResultLocation("Test0.cs", 12, 25)
+                    ]
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
         }
 
         [TestMethod]
-        [Description("Test method with underscores should not trigger INTL0003 - xUnit Theory")]
-        public void TestMethodWithUnderscores_XunitTheory_NoDiagnosticInformationReturned()
+        [Description("Issue 371 - User-defined attribute named 'Test' in a non-framework namespace must not suppress INTL0003")]
+        public void MethodWithUnderscores_UserDefinedTestAttribute_DiagnosticReturned()
         {
             string test = @"
     using System;
-    using Xunit;
+
+    namespace MyApp
+    {
+        public class TestAttribute : System.Attribute { }
+    }
 
     namespace ConsoleApplication1
     {
         public class TypeName
-        {   
-            [Theory]
-            public void FooThing_IsFooThing_HasFooThing() 
-            {
-                Assert.True(true);
-            } 
-        }
-    }";
-
-            VerifyCSharpDiagnostic(test);
-        }
-
-        [TestMethod]
-        [Description("Test method with underscores should not trigger INTL0003 - NUnit Test")]
-        public void TestMethodWithUnderscores_NUnitTest_NoDiagnosticInformationReturned()
         {
-            string test = @"
-    using System;
-    using NUnit.Framework;
-
-    namespace ConsoleApplication1
-    {
-        public class TypeName
-        {   
-            [Test]
-            public void FooThing_IsFooThing_HasFooThing() 
-            {
-                Assert.That(true, Is.True);
-            } 
+            [MyApp.Test]
+            public void FooThing_IsFooThing_HasFooThing() { }
         }
     }";
 
-            VerifyCSharpDiagnostic(test);
+            var expected = new DiagnosticResult
+            {
+                Id = "INTL0003",
+                Message = "Method 'FooThing_IsFooThing_HasFooThing' should be PascalCase",
+                Severity = DiagnosticSeverity.Warning,
+                Locations =
+                    [
+                        new DiagnosticResultLocation("Test0.cs", 14, 25)
+                    ]
+            };
+
+            VerifyCSharpDiagnostic(test, expected);
         }
 
 
