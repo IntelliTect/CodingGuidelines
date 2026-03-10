@@ -30,6 +30,7 @@ namespace IntelliTect.Analyzer.Analyzers
             context.EnableConcurrentExecution();
             context.RegisterOperationAction(AnalyzeInvocation, OperationKind.Conversion);
             context.RegisterOperationAction(AnalyzeObjectCreation, OperationKind.ObjectCreation);
+            context.RegisterOperationAction(AnalyzeBinaryOperation, OperationKind.Binary);
         }
 
         private void AnalyzeInvocation(OperationAnalysisContext context)
@@ -42,11 +43,8 @@ namespace IntelliTect.Analyzer.Analyzers
             if (conversionOperation.Conversion.IsImplicit && conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
             {
                 INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
-                INamedTypeSymbol? dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-                if (dateTimeOffsetType is null)
-                {
-                    return;
-                }
+                INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
+                    ?? throw new InvalidOperationException("System.DateTimeOffset type not found in compilation");
                 if (SymbolEqualityComparer.Default.Equals(containingType, dateTimeOffsetType))
                 {
                     context.ReportDiagnostic(Diagnostic.Create(_Rule202, conversionOperation.Syntax.GetLocation()));
@@ -63,12 +61,10 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            INamedTypeSymbol? dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset");
-            INamedTypeSymbol? dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime");
-            if (dateTimeOffsetType is null || dateTimeType is null)
-            {
-                return;
-            }
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
+                ?? throw new InvalidOperationException("System.DateTimeOffset type not found in compilation");
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
+                ?? throw new InvalidOperationException("System.DateTime type not found in compilation");
 
             // Check if we're creating a DateTimeOffset
             if (!SymbolEqualityComparer.Default.Equals(objectCreation.Type, dateTimeOffsetType))
@@ -84,6 +80,58 @@ namespace IntelliTect.Analyzer.Analyzers
                 {
                     context.ReportDiagnostic(Diagnostic.Create(_Rule202, objectCreation.Syntax.GetLocation()));
                 }
+            }
+        }
+
+        private void AnalyzeBinaryOperation(OperationAnalysisContext context)
+        {
+            if (context.Operation is not IBinaryOperation binaryOperation)
+            {
+                return;
+            }
+
+            INamedTypeSymbol dateTimeType = context.Compilation.GetTypeByMetadataName("System.DateTime")
+                ?? throw new InvalidOperationException("System.DateTime type not found in compilation");
+            INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")
+                ?? throw new InvalidOperationException("System.DateTimeOffset type not found in compilation");
+
+            CheckBinaryOperandPair(context, binaryOperation.LeftOperand, binaryOperation.RightOperand, dateTimeType, dateTimeOffsetType);
+            CheckBinaryOperandPair(context, binaryOperation.RightOperand, binaryOperation.LeftOperand, dateTimeType, dateTimeOffsetType);
+        }
+
+        private static void CheckBinaryOperandPair(OperationAnalysisContext context, IOperation operand, IOperation otherOperand, INamedTypeSymbol dateTimeType, INamedTypeSymbol dateTimeOffsetType)
+        {
+            if (operand?.Type is null || otherOperand?.Type is null)
+            {
+                return;
+            }
+
+            if (operand.Syntax is null)
+            {
+                return;
+            }
+
+            // Skip if the operand is already a conversion — the conversion handler catches those
+            if (operand is IConversionOperation)
+            {
+                return;
+            }
+
+            // Unwrap nullable types if present
+            ITypeSymbol operandType = operand.Type is INamedTypeSymbol { IsValueType: true, OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } nullable
+                ? nullable.TypeArguments[0]
+                : operand.Type;
+
+            ITypeSymbol otherType = otherOperand.Type is INamedTypeSymbol { IsValueType: true, OriginalDefinition.SpecialType: SpecialType.System_Nullable_T } otherNullable
+                ? otherNullable.TypeArguments[0]
+                : otherOperand.Type;
+
+            bool isDateTimeOperand = SymbolEqualityComparer.Default.Equals(operandType, dateTimeType);
+            bool isDateTimeOffsetOtherOperand = SymbolEqualityComparer.Default.Equals(otherType, dateTimeOffsetType);
+
+            if (isDateTimeOperand && isDateTimeOffsetOtherOperand)
+            {
+                context.ReportDiagnostic(Diagnostic.Create(_Rule202, operand.Syntax.GetLocation()));
             }
         }
 
