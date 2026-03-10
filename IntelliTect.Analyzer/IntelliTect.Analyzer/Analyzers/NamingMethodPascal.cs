@@ -94,9 +94,44 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
+            // Skip test methods - they commonly use underscores for readability (e.g., "Method_Scenario_ExpectedResult")
+            if (IsTestMethod(namedTypeSymbol))
+            {
+                return;
+            }
+
             Diagnostic diagnostic = Diagnostic.Create(_Rule, namedTypeSymbol.Locations[0], name);
 
             context.ReportDiagnostic(diagnostic);
+        }
+
+        // Test framework namespaces — any method decorated with an attribute whose namespace
+        // exactly matches or starts with one of these is exempt from PascalCase validation.
+        // To add a new framework, append its root namespace here and update TestFrameworkReferences.cs.
+        private static readonly string[] _TestFrameworkNamespaces =
+        [
+            "Xunit",                                         // xUnit (namespace is "Xunit", not "XUnit")
+            "NUnit.Framework",                               // NUnit
+            "Microsoft.VisualStudio.TestTools.UnitTesting",  // MSTest
+            "TUnit.Core"                                     // TUnit
+        ];
+
+        private static bool IsTestMethod(IMethodSymbol methodSymbol)
+        {
+            ImmutableArray<AttributeData> attributes = methodSymbol.GetAttributes();
+            return attributes.Any(attribute =>
+            {
+                if (attribute.AttributeClass == null)
+                {
+                    return false;
+                }
+
+                string? containingNamespace = attribute.AttributeClass.ContainingNamespace?.ToDisplayString();
+                return containingNamespace != null &&
+                    _TestFrameworkNamespaces.Any(ns =>
+                        string.Equals(containingNamespace, ns, StringComparison.Ordinal) ||
+                        containingNamespace.StartsWith(ns + ".", StringComparison.Ordinal));
+            });
         }
     }
 }

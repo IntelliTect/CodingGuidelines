@@ -16,5 +16,9 @@
     <PackageVersion Include="MSTest.TestAdapter" Version="4.1.0" />
     <PackageVersion Include="MSTest.TestFramework" Version="4.1.0" />
     <PackageVersion Include="System.CommandLine.DragonFruit" Version="0.4.0-alpha.23407.1" />
+    <!-- Reference-only packages for test framework namespace resolution in analyzer tests -->
+    <PackageVersion Include="xunit.v3.core" Version="3.2.2" />
+    <PackageVersion Include="NUnit" Version="4.5.1" />
+    <PackageVersion Include="TUnit.Core" Version="1.19.22" />
   </ItemGroup>
 </Project>
