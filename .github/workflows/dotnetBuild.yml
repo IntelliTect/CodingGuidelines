@@ -46,7 +46,7 @@ jobs:
       run: dotnet test --no-build --configuration Release --verbosity normal --logger trx --results-directory ./TestResults
     
     - name: Create Failed Tests Playlist
-      if: always()
+      if: failure()
       uses: BenjaminMichaelis/trx-to-vsplaylist@v3
       with:
         trx-file-path: './TestResults/*.trx'
