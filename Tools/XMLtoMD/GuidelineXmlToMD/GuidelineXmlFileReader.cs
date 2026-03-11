@@ -19,14 +19,17 @@ namespace GuidelineXmlToMD
 
             HashSet<Guideline> guidelines = [];
 
+            if (previousGuidelines.Root is null)
+                return guidelines;
+
             foreach (XElement guidelineFromXml in previousGuidelines.Root.DescendantNodes().OfType<XElement>())
             {
                 Guideline guideline = new Guideline(
-                    Key: guidelineFromXml.Attribute(_Key)?.Value,
-                    Text: guidelineFromXml?.Value,
-                    Severity: guidelineFromXml.Attribute(_Severity)?.Value,
-                    Section: guidelineFromXml.Attribute(_Section)?.Value,
-                    Subsection: guidelineFromXml.Attribute(_Subsection)?.Value
+                    Key: guidelineFromXml.Attribute(_Key)?.Value ?? string.Empty,
+                    Text: guidelineFromXml.Value,
+                    Severity: guidelineFromXml.Attribute(_Severity)?.Value ?? string.Empty,
+                    Section: guidelineFromXml.Attribute(_Section)?.Value ?? string.Empty,
+                    Subsection: guidelineFromXml.Attribute(_Subsection)?.Value ?? string.Empty
                 );
                 guidelines.Add(guideline);
             }

@@ -34,7 +34,7 @@
             }
 
             if (!firstOnly) {
-                return str?.Replace(substring, MdText.Style(substring, style), System.StringComparison.Ordinal);
+                return str.Replace(substring, MdText.Style(substring, style), System.StringComparison.Ordinal);
             }
             int pos = str.IndexOf(substring, System.StringComparison.Ordinal);
             if (pos < 0) {

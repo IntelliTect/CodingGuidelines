@@ -13,7 +13,7 @@ namespace GuidelineXmlToMD.Test
         public void ReadExisitingGuidelinesFile_ExistingFile_ReadsGuidlines()
         {
             // Arrange
-            var projectPath = Directory.GetParent(Environment.CurrentDirectory).Parent.Parent.FullName;
+            var projectPath = Directory.GetParent(Environment.CurrentDirectory)!.Parent!.Parent!.FullName;
             var testPath = Path.Combine(projectPath, @"Data\", "TestGuidelines.xml");
 
             // Act

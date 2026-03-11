@@ -159,7 +159,7 @@ namespace MarkdownOut {
 
         public static string RemoveInvalidMDLinkCharacters(object text)
         {
-            return Regex.Replace(text.ToString(), "[^A-Za-z]", "");
+            return Regex.Replace(text.ToString() ?? string.Empty, "[^A-Za-z]", "");
         }
 
         /// <summary>
