@@ -21,20 +21,9 @@ namespace GuidelineXmlToMD
         /// <param name="console">Injected by System.CommandLine</param>
         static void Main(FileInfo xmlInputFile, FileInfo markdownOutputFile, IConsole console)
         {
-            if (xmlInputFile is null)
-            {
-                throw new ArgumentNullException(nameof(xmlInputFile));
-            }
-
-            if (markdownOutputFile is null)
-            {
-                throw new ArgumentNullException(nameof(markdownOutputFile));
-            }
-
-            if (console is null)
-            {
-                throw new ArgumentNullException(nameof(console));
-            }
+            ArgumentNullException.ThrowIfNull(xmlInputFile);
+            ArgumentNullException.ThrowIfNull(markdownOutputFile);
+            ArgumentNullException.ThrowIfNull(console);
 
 
             if (!xmlInputFile.Exists)
@@ -86,7 +75,7 @@ namespace GuidelineXmlToMD
 
                         foreach (Guideline guideline in guidelinesInSubsection)
                         {
-                            mdWriter.WriteUnorderedListItem(GetGuidelineEmoji(guideline) + " " + guideline.Text.Trim('"'), listIndent: 0);
+                            mdWriter.WriteUnorderedListItem($"{GetGuidelineEmoji(guideline)} {guideline.Text.Trim('"')}", listIndent: 0);
                         }
                     }
                     mdWriter.WriteLine("", numNewLines: 1);
@@ -95,29 +84,15 @@ namespace GuidelineXmlToMD
             }
         }
 
-        private static string GetGuidelineEmoji(Guideline guideline)
-        {
-            string emoji = "";
-            switch (guideline.Severity)
+        private static string GetGuidelineEmoji(Guideline guideline) =>
+            guideline.Severity switch
             {
-                case "AVOID":
-                    emoji = ":no_entry:";
-                    break;
-                case "DO NOT":
-                    emoji = ":x:";
-                    break;
-                case "DO":
-                    emoji = ":heavy_check_mark:";
-                    break;
-                case "CONSIDER":
-                    emoji = ":grey_question:";
-                    break;
-
-                default:
-                    break;
-            }
-            return emoji;
-        }
+                "AVOID" => ":no_entry:",
+                "DO NOT" => ":x:",
+                "DO" => ":heavy_check_mark:",
+                "CONSIDER" => ":grey_question:",
+                _ => "",
+            };
 
         private static void PrintSections(
             ICollection<Guideline> guidelines,
@@ -126,7 +101,7 @@ namespace GuidelineXmlToMD
         {
             mdWriter.WriteLine("Sections", format: MdFormat.Heading2);
 
-            List<string> subSections = new List<string>();
+            List<string> subSections = [];
 
             List<string> sections = GetSections(guidelines);
             foreach (string section in sections)

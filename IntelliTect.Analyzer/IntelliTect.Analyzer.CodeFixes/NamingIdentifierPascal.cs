@@ -51,7 +51,7 @@ namespace IntelliTect.Analyzer.CodeFixes
         private static async Task<Solution> MakePascal(Document document, SyntaxToken declaration, CancellationToken cancellationToken)
         {
             string nameOfField = declaration.ValueText;
-            string newName = char.ToUpper(nameOfField.First()) + nameOfField.Substring(1);
+            string newName = $"{char.ToUpper(nameOfField[0])}{nameOfField.Substring(1)}";
 
             SemanticModel? semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
             if (semanticModel is null || declaration.Parent is null)

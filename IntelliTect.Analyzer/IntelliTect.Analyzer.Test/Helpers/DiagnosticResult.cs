@@ -35,22 +35,12 @@ namespace TestHelper
     /// </summary>
     public struct DiagnosticResult
     {
-        private DiagnosticResultLocation[] _Locations;
-
 #pragma warning disable CA1819 // Properties should not return arrays
 
         public DiagnosticResultLocation[] Locations
         {
-            get
-            {
-                _Locations ??= [];
-                return _Locations;
-            }
-
-            set
-            {
-                _Locations = value;
-            }
+            get { field ??= []; return field; }
+            set;
         }
 
 #pragma warning restore CA1819 // Properties should not return arrays

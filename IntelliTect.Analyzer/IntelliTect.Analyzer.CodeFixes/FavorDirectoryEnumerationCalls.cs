@@ -143,8 +143,8 @@ namespace IntelliTect.Analyzer.CodeFixes
                         LocalFunctionStatementSyntax lf => lf.ReturnType,
                         _ => null
                     })
-                    .FirstOrDefault(t => t != null);
-                if (returnType != null
+                    .FirstOrDefault(t => t is not null);
+                if (returnType is not null
                     && semanticModel.GetTypeInfo(returnType, ct).Type is IArrayTypeSymbol)
                 {
                     return true;
@@ -161,7 +161,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                     PropertyDeclarationSyntax p => p.Type,
                     _ => null
                 };
-                if (returnType != null && semanticModel.GetTypeInfo(returnType, ct).Type is IArrayTypeSymbol)
+                if (returnType is not null && semanticModel.GetTypeInfo(returnType, ct).Type is IArrayTypeSymbol)
                 {
                     return true;
                 }
@@ -176,7 +176,7 @@ namespace IntelliTect.Analyzer.CodeFixes
                 IParameterSymbol? targetParam;
 
                 // Named argument: SomeMethod(param: Directory.GetFiles(...))
-                if (argument.NameColon != null)
+                if (argument.NameColon is not null)
                 {
                     string paramName = argument.NameColon.Name.Identifier.Text;
                     targetParam = outerMethod.Parameters.FirstOrDefault(p => p.Name == paramName);

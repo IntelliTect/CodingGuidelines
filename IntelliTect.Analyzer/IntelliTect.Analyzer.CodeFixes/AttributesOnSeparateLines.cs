@@ -73,11 +73,10 @@ namespace IntelliTect.Analyzer.CodeFixes
                 attributeLists = attributeLists.Add(
                     SyntaxFactory.AttributeList(
                         SyntaxFactory.SeparatedList(
-                            new[] {
-                                    SyntaxFactory.Attribute(
+                            [SyntaxFactory.Attribute(
                                         attribute.Name,
-                                        attribute.ArgumentList)
-                            })));
+                                        attribute.ArgumentList)])))
+;
             }
 
             // the formatter-annotation will wrap every attribute on a separate line

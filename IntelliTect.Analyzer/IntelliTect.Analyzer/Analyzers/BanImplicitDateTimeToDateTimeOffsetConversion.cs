@@ -40,7 +40,7 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            if (conversionOperation.Conversion.IsImplicit && conversionOperation.Conversion.MethodSymbol is object && conversionOperation.Conversion.MethodSymbol.ContainingType is object)
+            if (conversionOperation.Conversion.IsImplicit && conversionOperation.Conversion.MethodSymbol is not null && conversionOperation.Conversion.MethodSymbol.ContainingType is not null)
             {
                 INamedTypeSymbol containingType = conversionOperation.Conversion.MethodSymbol.ContainingType;
                 INamedTypeSymbol dateTimeOffsetType = context.Compilation.GetTypeByMetadataName("System.DateTimeOffset")

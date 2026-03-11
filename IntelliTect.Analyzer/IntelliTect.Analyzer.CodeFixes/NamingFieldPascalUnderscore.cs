@@ -52,7 +52,7 @@ namespace IntelliTect.Analyzer.CodeFixes
         {
             string nameOfField = declaration.ValueText;
             string nameWithoutUnderscore = nameOfField.TrimStart('_');
-            string newName = "_" + char.ToUpper(nameWithoutUnderscore.First()) + nameWithoutUnderscore.Substring(1);
+            string newName = $"_{char.ToUpper(nameWithoutUnderscore[0])}{nameWithoutUnderscore.Substring(1)}";
 
             SemanticModel? semanticModel = await document.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
             if (semanticModel is null || declaration.Parent is null)

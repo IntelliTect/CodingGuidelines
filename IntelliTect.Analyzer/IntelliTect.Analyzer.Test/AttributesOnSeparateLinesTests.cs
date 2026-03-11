@@ -94,8 +94,8 @@ namespace ConsoleApp
 }";
             //Testing both here because the order the files are loaded changes
             //the order that location information from the Program symbol is returned.
-            VerifyCSharpDiagnostic(new[] { test2, test });
-            VerifyCSharpDiagnostic(new[] { test, test2 });
+            VerifyCSharpDiagnostic([test2, test]);
+            VerifyCSharpDiagnostic([test, test2]);
         }
 
         [TestMethod]

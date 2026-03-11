@@ -84,7 +84,7 @@ namespace TestHelper
 
             for (int i = 0; i < attempts; ++i)
             {
-                var actions = new List<CodeAction>();
+                List<CodeAction> actions = [];
                 var context = new CodeFixContext(document, analyzerDiagnostics[0], (a, d) => actions.Add(a), CancellationToken.None);
                 codeFixProvider.RegisterCodeFixesAsync(context).Wait();
 
@@ -93,7 +93,7 @@ namespace TestHelper
                     break;
                 }
 
-                if (codeFixIndex != null)
+                if (codeFixIndex is not null)
                 {
                     document = await ApplyFix(document, actions.ElementAt((int)codeFixIndex));
                     break;

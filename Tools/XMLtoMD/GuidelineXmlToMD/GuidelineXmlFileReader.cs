@@ -17,7 +17,7 @@ namespace GuidelineXmlToMD
 
             XDocument previousGuidelines = XDocument.Load(pathToExistingGuidelinesXml);
 
-            HashSet<Guideline> guidelines = new HashSet<Guideline>();
+            HashSet<Guideline> guidelines = [];
 
             foreach (XElement guidelineFromXml in previousGuidelines.Root.DescendantNodes().OfType<XElement>())
             {

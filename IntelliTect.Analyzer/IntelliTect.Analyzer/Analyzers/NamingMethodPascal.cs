@@ -63,20 +63,15 @@ namespace IntelliTect.Analyzer.Analyzers
                 return;
             }
 
-            string name;
-            switch (namedTypeSymbol.MethodKind)
+            var name = namedTypeSymbol.MethodKind switch
             {
-                case MethodKind.DeclareMethod:
-                case MethodKind.LocalFunction:
-                case MethodKind.Ordinary:
-                case MethodKind.ReducedExtension:
-                    name = namedTypeSymbol.Name;
-                    break;
-                case MethodKind.ExplicitInterfaceImplementation:
-                    name = namedTypeSymbol.ExplicitInterfaceImplementations.First().Name;
-                    break;
-                default: return;
-            }
+                MethodKind.DeclareMethod or MethodKind.LocalFunction or MethodKind.Ordinary or MethodKind.ReducedExtension
+                    => namedTypeSymbol.Name,
+                MethodKind.ExplicitInterfaceImplementation
+                    => namedTypeSymbol.ExplicitInterfaceImplementations.First().Name,
+                _ => (string?)null
+            };
+            if (name is null) return;
 
             // Common symbols for generated code to use, including the main method for top-level statements.
             if (name.Contains('<') || name.Contains('>'))
@@ -121,13 +116,13 @@ namespace IntelliTect.Analyzer.Analyzers
             ImmutableArray<AttributeData> attributes = methodSymbol.GetAttributes();
             return attributes.Any(attribute =>
             {
-                if (attribute.AttributeClass == null)
+                if (attribute.AttributeClass is null)
                 {
                     return false;
                 }
 
                 string? containingNamespace = attribute.AttributeClass.ContainingNamespace?.ToDisplayString();
-                return containingNamespace != null &&
+                return containingNamespace is not null &&
                     _TestFrameworkNamespaces.Any(ns =>
                         string.Equals(containingNamespace, ns, StringComparison.Ordinal) ||
                         containingNamespace.StartsWith(ns + ".", StringComparison.Ordinal));

@@ -24,7 +24,7 @@ namespace IntelliTect.Analyzer
 
             string hyphenatedTitle = _HyphenateRegex.Replace(title, "-");
 
-            return BaseUrl + $"#{diagnosticId.ToUpperInvariant()}" + $"---{hyphenatedTitle.ToUpperInvariant()}";
+            return $"{BaseUrl}#{diagnosticId.ToUpperInvariant()}---{hyphenatedTitle.ToUpperInvariant()}";
         }
     }
 }

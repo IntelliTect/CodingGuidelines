@@ -67,13 +67,13 @@ namespace TestHelper
         {
             ArgumentNullException.ThrowIfNull(documents);
 
-            var projects = new HashSet<Project>();
+            HashSet<Project> projects = [];
             foreach (Document document in documents)
             {
                 projects.Add(document.Project);
             }
 
-            var diagnostics = new List<Diagnostic>();
+            List<Diagnostic> diagnostics = [];
             foreach (Project project in projects)
             {
                 CompilationWithAnalyzers compilationWithAnalyzers = (project.GetCompilationAsync().Result
@@ -194,7 +194,7 @@ namespace TestHelper
             int count = 0;
             foreach (string source in sources)
             {
-                string newFileName = fileNamePrefix + count + "." + fileExt;
+                string newFileName = $"{fileNamePrefix}{count}.{fileExt}";
                 var documentId = DocumentId.CreateNewId(projectId, debugName: newFileName);
                 solution = solution.AddDocument(documentId, newFileName, SourceText.From(source));
                 count++;

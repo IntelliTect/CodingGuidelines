@@ -117,7 +117,7 @@ namespace TestHelper
                 {
                     Assert.AreEqual(actual.Location,
                                     Location.None,
-                                    string.Format($"Expected:{Environment.NewLine}A project diagnostic with No location{Environment.NewLine}Actual:{Environment.NewLine}{FormatDiagnostics(analyzer, actual)}"));
+                                    $"Expected:{Environment.NewLine}A project diagnostic with No location{Environment.NewLine}Actual:{Environment.NewLine}{FormatDiagnostics(analyzer, actual)}");
                 }
                 else
                 {
@@ -158,7 +158,7 @@ namespace TestHelper
         {
             FileLinePositionSpan actualSpan = actual.GetLineSpan();
 
-            Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path != null
+            Assert.IsTrue(actualSpan.Path == expected.Path || (actualSpan.Path is not null
                                                                && actualSpan.Path.Contains("Test0.", StringComparison.Ordinal)
                                                                && expected.Path.Contains("Test.", StringComparison.Ordinal)),
                 $"Expected diagnostic to be in file \"{expected.Path}\" was actually in file \"{actualSpan.Path}\"{Environment.NewLine}{Environment.NewLine}Diagnostic:{Environment.NewLine}    {FormatDiagnostics(analyzer, diagnostic)}{Environment.NewLine}");
@@ -195,19 +195,19 @@ namespace TestHelper
             var builder = new StringBuilder();
             for (int i = 0; i < diagnostics.Length; ++i)
             {
-                builder.AppendLine("// " + diagnostics[i].ToString());
+                builder.AppendLine($"// {diagnostics[i]}");
 
                 Type analyzerType = analyzer.GetType();
                 System.Collections.Immutable.ImmutableArray<DiagnosticDescriptor> rules = analyzer.SupportedDiagnostics;
 
                 foreach (DiagnosticDescriptor rule in rules)
                 {
-                    if (rule != null && rule.Id == diagnostics[i].Id)
+                    if (rule is not null && rule.Id == diagnostics[i].Id)
                     {
                         Location location = diagnostics[i].Location;
                         if (location == Location.None)
                         {
-                            builder.AppendFormat("GetGlobalResult({0}.{1})", analyzerType.Name, rule.Id);
+                            builder.Append($"GetGlobalResult({analyzerType.Name}.{rule.Id})");
                         }
                         else
                         {
@@ -217,12 +217,7 @@ namespace TestHelper
                             string resultMethodName = diagnostics[i].Location.SourceTree!.FilePath.EndsWith(".cs", StringComparison.Ordinal) ? "GetCSharpResultAt" : "GetBasicResultAt";
                             Microsoft.CodeAnalysis.Text.LinePosition linePosition = diagnostics[i].Location.GetLineSpan().StartLinePosition;
 
-                            builder.AppendFormat("{0}({1}, {2}, {3}.{4})",
-                                resultMethodName,
-                                linePosition.Line + 1,
-                                linePosition.Character + 1,
-                                analyzerType.Name,
-                                rule.Id);
+                            builder.Append($"{resultMethodName}({linePosition.Line + 1}, {linePosition.Character + 1}, {analyzerType.Name}.{rule.Id})");
                         }
 
                         if (i != diagnostics.Length - 1)
