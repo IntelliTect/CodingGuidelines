@@ -35,6 +35,9 @@ jobs:
       uses: actions/setup-dotnet@v5
       with:
         global-json-file: "./global.json"
+        dotnet-version: |
+          8.x
+          9.x
 
     - name: Restore dependencies
       run: dotnet restore
@@ -52,3 +55,48 @@ jobs:
         trx-file-path: './TestResults/*.trx'
         test-outcomes: 'Failed'
         artifact-name: 'failed-tests-playlist'
+
+    - name: Pack Analyzer
+      run: dotnet pack IntelliTect.Analyzer/IntelliTect.Analyzer/IntelliTect.Analyzer.csproj --configuration Release --no-build --output ./nupkg
+
+    - name: Upload NuGet Package
+      uses: actions/upload-artifact@v4
+      with:
+        name: analyzer-nupkg
+        path: ./nupkg/*.nupkg
+
+  analyzer-compat:
+    name: Analyzer SDK Compat (${{ matrix.sdk }})
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    strategy:
+      matrix:
+        sdk: ['8.0.x', '9.0.x']
+    steps:
+    - name: Setup .NET ${{ matrix.sdk }}
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: ${{ matrix.sdk }}
+
+    - name: Download NuGet Package
+      uses: actions/download-artifact@v4
+      with:
+        name: analyzer-nupkg
+        path: ./nupkg
+
+    - name: Verify analyzer loads without CS9057
+      run: |
+        mkdir test-project && cd test-project
+        dotnet new console
+        # Add local package source and install the just-built analyzer
+        dotnet nuget add source (Resolve-Path ../nupkg) --name local
+        $pkg = Get-ChildItem ../nupkg/*.nupkg | Select-Object -First 1
+        $version = [regex]::Match($pkg.Name, '(\d+\.\d+\.\d+.*)\.nupkg$').Groups[1].Value
+        dotnet add package IntelliTect.Analyzers --version $version --source local
+        # Build and check for CS9057 (analyzer references newer compiler than SDK provides)
+        $output = dotnet build 2>&1
+        $output | Write-Output
+        if ($output -match 'CS9057') {
+          Write-Error "CS9057 detected: Analyzer references a Roslyn version newer than this SDK supports"
+          exit 1
+        }
