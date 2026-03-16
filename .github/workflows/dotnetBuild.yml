@@ -96,6 +96,10 @@ jobs:
         # Build and check for CS9057 (analyzer references newer compiler than SDK provides)
         $output = dotnet build 2>&1
         $output | Write-Output
+        if ($LASTEXITCODE -ne 0) {
+          Write-Error "Build failed (exit code $LASTEXITCODE)"
+          exit $LASTEXITCODE
+        }
         if ($output -match 'CS9057') {
           Write-Error "CS9057 detected: Analyzer references a Roslyn version newer than this SDK supports"
           exit 1
