@@ -36,7 +36,7 @@
     <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
   </ItemGroup>
 
-  <Target Name="EnsureCodeFixesProjectBuilt" BeforeTargets="GenerateNuspec">
+  <Target Name="EnsureCodeFixesProjectBuilt" BeforeTargets="GenerateNuspec" Condition="'$(NoBuild)' != 'true'">
     <MSBuild Projects="..\IntelliTect.Analyzer.CodeFixes\IntelliTect.Analyzer.CodeFixes.csproj" Targets="Build" Properties="Configuration=$(Configuration)" />
   </Target>
 
