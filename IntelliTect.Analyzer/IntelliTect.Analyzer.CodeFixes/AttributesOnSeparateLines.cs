@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
@@ -48,8 +47,8 @@ namespace IntelliTect.Analyzer.CodeFixes
                 attributeList = attributeList.Parent;
             }
 
-            // Get the class, method or property adjacent to the AttributeList
-            if (attributeList?.Parent is not SyntaxNode parentDeclaration)
+            // Get the member declaration adjacent to the AttributeList
+            if (attributeList?.Parent is not MemberDeclarationSyntax parentDeclaration)
             {
                 return;
             }
@@ -63,12 +62,12 @@ namespace IntelliTect.Analyzer.CodeFixes
                 diagnostic);
         }
 
-        private static async Task<Document> PutOnSeparateLine(Document document, SyntaxNode parentDeclaration, CancellationToken cancellationToken)
+        private static async Task<Document> PutOnSeparateLine(Document document, MemberDeclarationSyntax parentDeclaration, CancellationToken cancellationToken)
         {
             var attributeLists = new SyntaxList<AttributeListSyntax>();
 
             // put every attribute into it's own attributelist eg.: [A,B,C] => [A][B][C]
-            foreach (AttributeSyntax attribute in GetAttributeListSyntaxes(parentDeclaration).SelectMany(l => l.Attributes))
+            foreach (AttributeSyntax attribute in parentDeclaration.AttributeLists.SelectMany(l => l.Attributes))
             {
                 attributeLists = attributeLists.Add(
                     SyntaxFactory.AttributeList(
@@ -80,7 +79,7 @@ namespace IntelliTect.Analyzer.CodeFixes
             }
 
             // the formatter-annotation will wrap every attribute on a separate line
-            SyntaxNode newNode = BuildNodeWithAttributeLists(parentDeclaration, attributeLists)
+            MemberDeclarationSyntax newNode = parentDeclaration.WithAttributeLists(attributeLists)
                 .WithAdditionalAnnotations(Formatter.Annotation);
 
             // Replace the old local declaration with the new local declaration.
@@ -89,30 +88,6 @@ namespace IntelliTect.Analyzer.CodeFixes
             SyntaxNode newRoot = oldRoot.ReplaceNode(parentDeclaration, newNode);
 
             return document.WithSyntaxRoot(newRoot);
-        }
-
-        private static IEnumerable<AttributeListSyntax> GetAttributeListSyntaxes(SyntaxNode node)
-        {
-            return node switch
-            {
-                ClassDeclarationSyntax c => c.AttributeLists,
-                MethodDeclarationSyntax m => m.AttributeLists,
-                PropertyDeclarationSyntax p => p.AttributeLists,
-                FieldDeclarationSyntax f => f.AttributeLists,
-                _ => throw new NotImplementedException(),
-            };
-        }
-
-        private static SyntaxNode BuildNodeWithAttributeLists(SyntaxNode node, SyntaxList<AttributeListSyntax> attributeLists)
-        {
-            return node switch
-            {
-                ClassDeclarationSyntax c => c.WithAttributeLists(attributeLists),
-                MethodDeclarationSyntax m => m.WithAttributeLists(attributeLists),
-                PropertyDeclarationSyntax p => p.WithAttributeLists(attributeLists),
-                FieldDeclarationSyntax f => f.WithAttributeLists(attributeLists),
-                _ => throw new NotImplementedException(),
-            };
         }
     }
 }

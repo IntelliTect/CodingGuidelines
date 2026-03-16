@@ -391,6 +391,312 @@ namespace ConsoleApp
         }
 
         [TestMethod]
+        public async Task StructAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoAttributesOnSeparateLines()
+        {
+            string test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A][B]
+    struct MyStruct
+    {
+    }
+}";
+
+            string fixTest = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A]
+    [B]
+    struct MyStruct
+    {
+    }
+}";
+            await VerifyCSharpFix(test, fixTest);
+        }
+
+        [TestMethod]
+        public async Task RecordAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoAttributesOnSeparateLines()
+        {
+            string test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A][B]
+    record MyRecord
+    {
+    }
+}";
+
+            string fixTest = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A]
+    [B]
+    record MyRecord
+    {
+    }
+}";
+            await VerifyCSharpFix(test, fixTest);
+        }
+
+        [TestMethod]
+        public async Task InterfaceAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoAttributesOnSeparateLines()
+        {
+            string test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A][B]
+    interface IMyInterface
+    {
+    }
+}";
+
+            string fixTest = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A]
+    [B]
+    interface IMyInterface
+    {
+    }
+}";
+            await VerifyCSharpFix(test, fixTest);
+        }
+
+        [TestMethod]
+        public async Task EnumAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoAttributesOnSeparateLines()
+        {
+            string test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A][B]
+    enum MyEnum
+    {
+        Foo
+    }
+}";
+
+            string fixTest = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    [A]
+    [B]
+    enum MyEnum
+    {
+        Foo
+    }
+}";
+            await VerifyCSharpFix(test, fixTest);
+        }
+
+        [TestMethod]
+        public async Task ConstructorAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoAttributesOnSeparateLines()
+        {
+            string test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    class Program
+    {
+        [A][B]
+        Program()
+        {
+        }
+    }
+}";
+
+            string fixTest = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    class Program
+    {
+        [A]
+        [B]
+        Program()
+        {
+        }
+    }
+}";
+            await VerifyCSharpFix(test, fixTest);
+        }
+
+        [TestMethod]
+        public async Task EnumMemberAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoAttributesOnSeparateLines()
+        {
+            string test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    enum MyEnum
+    {
+        [A][B]
+        Bar
+    }
+}";
+
+            string fixTest = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    enum MyEnum
+    {
+        [A]
+        [B]
+        Bar
+    }
+}";
+            await VerifyCSharpFix(test, fixTest);
+        }
+
+        [TestMethod]
+        public async Task IndexerAttributeLineViolation_CodeFix_TwoAttributesOnSameLine_TwoAttributesOnSeparateLines()
+        {
+            string test = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    class Program
+    {
+        [A][B]
+        int this[int i] { get => 0; }
+    }
+}";
+
+            string fixTest = @"using System;
+
+namespace ConsoleApp
+{
+    class AAttribute : Attribute
+    {
+    }
+
+    class BAttribute : Attribute
+    {
+    }
+
+    class Program
+    {
+        [A]
+        [B]
+        int this[int i] { get => 0; }
+    }
+}";
+            await VerifyCSharpFix(test, fixTest);
+        }
+
+        [TestMethod]
         [Description("Analyzer should not report on generated code")]
         public void AttributesOnSameLine_InGeneratedCode_NoDiagnostic()
         {
