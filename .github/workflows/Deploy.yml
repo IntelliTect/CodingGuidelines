@@ -60,6 +60,6 @@ jobs:
       - name: Push NuGet
         run: |
           $tagVersion = "${{ github.ref }}".substring(11)
-          echo "::set-output name=TAG_VERSION::$tagVersion"
+          echo "TAG_VERSION=$tagVersion" >> $env:GITHUB_OUTPUT
           dotnet nuget push IntelliTect.Analyzers.$tagVersion.nupkg --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} --skip-duplicate
         id: tag-version
