@@ -9,6 +9,7 @@
     <PackageId>IntelliTect.Analyzers</PackageId>
     <Authors>IntelliTect</Authors>
     <RepositoryUrl>https://github.com/IntelliTect/CodingGuidelines</RepositoryUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <Description>Analyzer aiding the implementation of IntelliTect internal coding guidelines</Description>
     <Copyright>Copyright 2021</Copyright>
