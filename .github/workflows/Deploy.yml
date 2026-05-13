@@ -53,6 +53,7 @@ jobs:
     permissions:
       id-token: write  # Required for NuGet trusted publishing (OIDC)
       contents: read
+      actions: read    # Required for actions/download-artifact
 
     steps:
       - name: Download artifact from build job
