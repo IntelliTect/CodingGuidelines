@@ -12,3 +12,4 @@
 ## Performance INTL03XX
 - [INTL0301 Favor EnumerateFiles]({{ site.baseurl }}{% link analyzers/03XX.Performance.md %}#intl0301)
 - [INTL0302 Favor EnumerateDirectories]({{ site.baseurl }}{% link analyzers/03XX.Performance.md %}#intl0302)
+- [INTL0304 Task.Delay(0) can be Task.CompletedTask]({{ site.baseurl }}{% link analyzers/03XX.Performance.md %}#intl0304)
