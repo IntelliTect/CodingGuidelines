@@ -73,7 +73,7 @@ namespace IntelliTect.Analyzer.CodeFixes
 
         private static ExpressionSyntax? CreateReplacementExpression(IInvocationOperation invocation)
         {
-            if (!IsTaskDelayWithIntMilliseconds(invocation.TargetMethod))
+            if (!IntelliTect.Analyzer.Analyzers.TaskDelayZero.IsTaskDelayWithIntMilliseconds(invocation.TargetMethod))
             {
                 return null;
             }
@@ -141,24 +141,6 @@ namespace IntelliTect.Analyzer.CodeFixes
                          == "global::System.Threading.CancellationToken" => true,
                 _ => false
             };
-        }
-
-        private static bool IsTaskDelayWithIntMilliseconds(IMethodSymbol methodSymbol)
-        {
-            if (methodSymbol.Name != "Delay")
-            {
-                return false;
-            }
-
-            if (methodSymbol.ContainingType.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat)
-                != "global::System.Threading.Tasks.Task")
-            {
-                return false;
-            }
-
-            return methodSymbol.Parameters.Length >= 1
-                && methodSymbol.Parameters[0].Name == "millisecondsDelay"
-                && methodSymbol.Parameters[0].Type.SpecialType == SpecialType.System_Int32;
         }
 
         private static async Task<Document> ReplaceInvocationAsync(

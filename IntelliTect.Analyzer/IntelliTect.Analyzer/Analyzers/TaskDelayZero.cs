@@ -64,7 +64,7 @@ namespace IntelliTect.Analyzer.Analyzers
             }
         }
 
-        internal static bool IsTaskDelayWithIntMilliseconds(IMethodSymbol methodSymbol)
+        public static bool IsTaskDelayWithIntMilliseconds(IMethodSymbol methodSymbol)
         {
             if (!string.Equals(methodSymbol.Name, "Delay", StringComparison.Ordinal))
             {

@@ -10,6 +10,8 @@ namespace IntelliTect.Analyzer.Tests
     [TestClass]
     public class TaskDelayZeroTests : CodeFixVerifier
     {
+        private const string DiagnosticId = Analyzers.TaskDelayZero.DiagnosticId;
+        private const string DiagnosticMessage = "Replace Task.Delay(0) with Task.CompletedTask";
         [TestMethod]
         public void TaskDelayZero_ProducesInfoMessage()
         {
@@ -28,9 +30,9 @@ namespace IntelliTect.Analyzer.Tests
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
-                    Id = "INTL0304",
+                    Id = DiagnosticId,
                     Severity = DiagnosticSeverity.Info,
-                    Message = "Replace Task.Delay(0) with Task.CompletedTask",
+                    Message = DiagnosticMessage,
                     Locations =
                         [
                             new DiagnosticResultLocation("Test0.cs", 7, 9)
@@ -57,9 +59,9 @@ namespace IntelliTect.Analyzer.Tests
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
-                    Id = "INTL0304",
+                    Id = DiagnosticId,
                     Severity = DiagnosticSeverity.Info,
-                    Message = "Replace Task.Delay(0) with Task.CompletedTask",
+                    Message = DiagnosticMessage,
                     Locations =
                         [
                             new DiagnosticResultLocation("Test0.cs", 8, 9)
@@ -300,9 +302,9 @@ namespace IntelliTect.Analyzer.Tests
             VerifyCSharpDiagnostic(source,
                 new DiagnosticResult
                 {
-                    Id = "INTL0304",
+                    Id = DiagnosticId,
                     Severity = DiagnosticSeverity.Info,
-                    Message = "Replace Task.Delay(0) with Task.CompletedTask",
+                    Message = DiagnosticMessage,
                     Locations =
                         [
                             new DiagnosticResultLocation("Test0.cs", 8, 9)
