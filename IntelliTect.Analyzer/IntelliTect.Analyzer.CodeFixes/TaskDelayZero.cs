@@ -10,6 +10,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Formatting;
 using Microsoft.CodeAnalysis.Operations;
+using Microsoft.CodeAnalysis.Simplification;
 using Microsoft.CodeAnalysis.Text;
 
 namespace IntelliTect.Analyzer.CodeFixes
@@ -86,11 +87,18 @@ namespace IntelliTect.Analyzer.CodeFixes
                 return null;
             }
 
+            // Task.Delay overloads that include a TimeProvider cannot be safely rewritten to
+            // Task.CompletedTask/Task.FromCanceled without changing observable behavior.
+            if (invocation.Arguments.Any(a => a.Parameter?.Name == "timeProvider"))
+            {
+                return null;
+            }
+
             IArgumentOperation? cancellationTokenArgument = invocation.Arguments
                 .FirstOrDefault(a => a.Parameter?.Name == "cancellationToken");
             if (cancellationTokenArgument is null)
             {
-                return SyntaxFactory.ParseExpression("global::System.Threading.Tasks.Task.CompletedTask");
+                return CreateTaskCompletedTaskExpression();
             }
 
             if (cancellationTokenArgument.Value.Syntax is not ExpressionSyntax cancellationTokenExpression)
@@ -104,13 +112,40 @@ namespace IntelliTect.Analyzer.CodeFixes
             }
 
             string tokenExpressionText = NormalizeCancellationTokenExpression(cancellationTokenExpression);
+            ExpressionSyntax normalizedTokenExpression = SyntaxFactory.ParseExpression(tokenExpressionText)
+                .WithAdditionalAnnotations(Simplifier.Annotation);
 
             // Runtime behavior reference:
             // https://github.com/dotnet/runtime/blob/1acc89c305165239a5a824567a3176b6b3342790/src/libraries/System.Private.CoreLib/src/System/Threading/Tasks/Task.cs#L5907-L5911
             // Task.Delay(0, token) maps to:
             // token.IsCancellationRequested ? Task.FromCanceled(token) : Task.CompletedTask
-            return SyntaxFactory.ParseExpression(
-                $"({tokenExpressionText}.IsCancellationRequested ? global::System.Threading.Tasks.Task.FromCanceled({tokenExpressionText}) : global::System.Threading.Tasks.Task.CompletedTask)");
+            return SyntaxFactory.ConditionalExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression,
+                    normalizedTokenExpression,
+                    SyntaxFactory.IdentifierName("IsCancellationRequested")),
+                CreateTaskFromCanceledExpression(normalizedTokenExpression),
+                CreateTaskCompletedTaskExpression());
+        }
+
+        private static ExpressionSyntax CreateTaskCompletedTaskExpression()
+        {
+            return SyntaxFactory.MemberAccessExpression(
+                SyntaxKind.SimpleMemberAccessExpression,
+                SyntaxFactory.ParseName("global::System.Threading.Tasks.Task").WithAdditionalAnnotations(Simplifier.Annotation),
+                SyntaxFactory.IdentifierName("CompletedTask"));
+        }
+
+        private static InvocationExpressionSyntax CreateTaskFromCanceledExpression(ExpressionSyntax cancellationTokenExpression)
+        {
+            return SyntaxFactory.InvocationExpression(
+                SyntaxFactory.MemberAccessExpression(
+                    SyntaxKind.SimpleMemberAccessExpression,
+                    SyntaxFactory.ParseName("global::System.Threading.Tasks.Task").WithAdditionalAnnotations(Simplifier.Annotation),
+                    SyntaxFactory.IdentifierName("FromCanceled")),
+                SyntaxFactory.ArgumentList(
+                    SyntaxFactory.SingletonSeparatedList(
+                        SyntaxFactory.Argument(cancellationTokenExpression))));
         }
 
         private static string NormalizeCancellationTokenExpression(ExpressionSyntax cancellationTokenExpression)
@@ -154,7 +189,7 @@ namespace IntelliTect.Analyzer.CodeFixes
 
             ExpressionSyntax replacementExpression = replacement
                 .WithTriviaFrom(invocation)
-                .WithAdditionalAnnotations(Formatter.Annotation);
+                .WithAdditionalAnnotations(Formatter.Annotation, Simplifier.Annotation);
 
             SyntaxNode newRoot = oldRoot.ReplaceNode(invocation, replacementExpression);
             return document.WithSyntaxRoot(newRoot);

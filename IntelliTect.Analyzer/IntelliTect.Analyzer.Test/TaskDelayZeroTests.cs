@@ -109,7 +109,7 @@ namespace IntelliTect.Analyzer.Tests
                 {
                     Task M()
                     {
-                        return global::System.Threading.Tasks.Task.CompletedTask;
+                        return Task.CompletedTask;
                     }
                 }
                 """;
@@ -141,7 +141,7 @@ namespace IntelliTect.Analyzer.Tests
                 {
                     Task M(CancellationToken token)
                     {
-                        return (token.IsCancellationRequested ? global::System.Threading.Tasks.Task.FromCanceled(token) : global::System.Threading.Tasks.Task.CompletedTask);
+                        return token.IsCancellationRequested ? Task.FromCanceled(token) : Task.CompletedTask;
                     }
                 }
                 """;
@@ -171,7 +171,7 @@ namespace IntelliTect.Analyzer.Tests
                 {
                     Task M()
                     {
-                        return (default(global::System.Threading.CancellationToken).IsCancellationRequested ? global::System.Threading.Tasks.Task.FromCanceled(default(global::System.Threading.CancellationToken)) : global::System.Threading.Tasks.Task.CompletedTask);
+                        return default(global::System.Threading.CancellationToken).IsCancellationRequested ? Task.FromCanceled(default) : Task.CompletedTask;
                     }
                 }
                 """;
@@ -245,12 +245,51 @@ namespace IntelliTect.Analyzer.Tests
                 {
                     Task M()
                     {
-                        return (CancellationToken.None.IsCancellationRequested ? global::System.Threading.Tasks.Task.FromCanceled(CancellationToken.None) : global::System.Threading.Tasks.Task.CompletedTask);
+                        return CancellationToken.None.IsCancellationRequested ? Task.FromCanceled(CancellationToken.None) : Task.CompletedTask;
                     }
                 }
                 """;
 
             await VerifyCSharpFix(source, fixedSource);
+        }
+
+        [TestMethod]
+        public async Task TaskDelayZeroWithTimeProvider_NoCodeFix()
+        {
+            string source = """
+                using System;
+                using System.Threading.Tasks;
+
+                class C
+                {
+                    Task M()
+                    {
+                        return Task.Delay(0, TimeProvider.System);
+                    }
+                }
+                """;
+
+            await VerifyCSharpFix(source, source);
+        }
+
+        [TestMethod]
+        public async Task TaskDelayZeroWithTimeProviderAndToken_NoCodeFix()
+        {
+            string source = """
+                using System;
+                using System.Threading;
+                using System.Threading.Tasks;
+
+                class C
+                {
+                    Task M(CancellationToken token)
+                    {
+                        return Task.Delay(0, TimeProvider.System, token);
+                    }
+                }
+                """;
+
+            await VerifyCSharpFix(source, source);
         }
 
         [TestMethod]
@@ -275,7 +314,7 @@ namespace IntelliTect.Analyzer.Tests
                 {
                     async Task M()
                     {
-                        await global::System.Threading.Tasks.Task.CompletedTask;
+                        await Task.CompletedTask;
                     }
                 }
                 """;
