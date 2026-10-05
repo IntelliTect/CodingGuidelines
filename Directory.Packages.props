@@ -20,6 +20,6 @@
     <!-- Reference-only packages for test framework namespace resolution in analyzer tests -->
     <PackageVersion Include="xunit.v3.core" Version="4.0.1" />
     <PackageVersion Include="NUnit" Version="5.0.0" />
-    <PackageVersion Include="TUnit.Core" Version="1.68.17" />
+    <PackageVersion Include="TUnit.Core" Version="1.72.16" />
   </ItemGroup>
 </Project>
