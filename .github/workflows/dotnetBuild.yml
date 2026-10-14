@@ -20,7 +20,7 @@ jobs:
       contents: write
 
     steps:
-      - uses: fastify/github-action-merge-dependabot@v3.12.0
+      - uses: fastify/github-action-merge-dependabot@v3.15.0
         with:
             use-github-auto-merge: true
 
@@ -29,10 +29,10 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         global-json-file: "./global.json"
         dotnet-version: |
@@ -51,7 +51,7 @@ jobs:
     
     - name: Create Failed Tests Playlist
       if: failure()
-      uses: BenjaminMichaelis/trx-to-vsplaylist@v3
+      uses: BenjaminMichaelis/trx-to-vsplaylist@v4
       with:
         trx-file-path: './TestResults/*.trx'
         test-outcomes: 'Failed'
@@ -75,7 +75,7 @@ jobs:
         sdk: ['8.0.x', '9.0.x', '10.0.x']
     steps:
     - name: Setup .NET ${{ matrix.sdk }}
-      uses: actions/setup-dotnet@v5
+      uses: actions/setup-dotnet@v6
       with:
         dotnet-version: ${{ matrix.sdk }}
 
