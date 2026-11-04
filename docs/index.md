@@ -6,6 +6,7 @@ Coding Guidelines
 ================
 * [C#](https://essentialcsharp.com/guidelines)
 * [JavaScript]({{ site.baseurl }}{% link coding/javascript.md %})
+* [Python]({{ site.baseurl }}{% link coding/python.md %})
 
 Analyzers
 =========
