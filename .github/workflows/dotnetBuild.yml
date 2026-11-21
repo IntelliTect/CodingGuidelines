@@ -88,12 +88,27 @@ jobs:
     - name: Verify analyzer loads without CS9057
       run: |
         mkdir test-project && cd test-project
+        $sdkPrefix = '${{ matrix.sdk }}'.Replace('x', '')
+        $sdkVersion = dotnet --list-sdks |
+          ForEach-Object { ($_ -split ' ')[0] } |
+          Where-Object { $_.StartsWith($sdkPrefix) } |
+          Sort-Object { [version]$_ } -Descending |
+          Select-Object -First 1
+        if (-not $sdkVersion) {
+          throw "No installed SDK matches $sdkPrefix"
+        }
+        @{ sdk = @{ version = $sdkVersion; rollForward = 'disable' } } |
+          ConvertTo-Json | Set-Content global.json
+        dotnet --version
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         dotnet new console
-        # Add local package source and install the just-built analyzer
-        dotnet nuget add source (Resolve-Path ../nupkg) --name local
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+        $env:NUGET_PACKAGES = Join-Path (Get-Location).Path '.nuget'
+        $packageSource = (Resolve-Path ../nupkg).Path
         $pkg = Get-ChildItem ../nupkg/*.nupkg | Select-Object -First 1
         $version = [regex]::Match($pkg.Name, '(\d+\.\d+\.\d+.*)\.nupkg$').Groups[1].Value
-        dotnet add package IntelliTect.Analyzers --version $version --source local
+        dotnet add package IntelliTect.Analyzers --version $version --source $packageSource
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
         # Build and check for CS9057 (analyzer references newer compiler than SDK provides)
         $output = dotnet build 2>&1
         $output | Write-Output
